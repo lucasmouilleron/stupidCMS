@@ -7,13 +7,20 @@ require_once __DIR__."/config.php";
 session_start();
 date_default_timezone_set("Europe/Paris");
 define("MDS_PATH",__DIR__."/../mds");
+define("IMG_PATH",__DIR__."/../images");
+define("IMG_URL","./images/");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 ///////////////////////////////////////////////////////////////////////////////
-function getSection($sectionName) {
-    return replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath($sectionName))));
+function _section($sectionName) {
+    echo replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function _img($image) {
+    echo IMG_URL."/".clearImageName($image);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,7 +37,34 @@ function createFileIfNotExists($filePath) {
 
 /////////////////////////////////////////////////////////////////////////////
 function getMDFilePath($section) {
-    return MDS_PATH."/".$section.".md";
+    return MDS_PATH."/".clearSectionName($section).".md";
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function getImagePath($image) {
+    return IMG_PATH."/".clearImageName($image);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function clearSectionName($sectionName) {
+	return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function clearImageName($imageName) {
+	return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function getURLCacheKilled($url) {
+    $query = parse_url($url, PHP_URL_QUERY);
+    $ck = "ck=".time();
+    if ($query) {
+        $url .= "&".$ck;
+    } else {
+        $url .= "?".$ck;
+    }
+    return $url;
 }
 
 ?>

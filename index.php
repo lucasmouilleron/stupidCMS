@@ -3,16 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    <title><?php echo GENERAL_COMPANY?> | page 1</title>
+    <title><?php echo GENERAL_COMPANY?> | home</title>
     <meta name="description" content="">
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/img/favicon.png">
     <link rel="stylesheet" href="assets/css/main.css">
-
 </head>
 <body>
 
@@ -22,14 +16,24 @@
         <header>
             <h1><?php echo GENERAL_COMPANY?></h1>
             <nav>
-                <a href="index" class="active">page 1</a> <span class="sep">|</span> <a href="page2">page 2</a>
+                <a href="index" class="active">index</a> <span class="sep">|</span> <a href="other">other page</a>
             </nav>
         </header>
 
-        <div class="about">
-            texte en dur
-            <?php echo getSection("page1-about")?>
+        <div>
+            <h2>Non administrable text</h2>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Certe, nisi voluptatem tanti aestimaretis. Longum est enim ad omnia respondere, quae a te dicta sunt. Odium autem et invidiam facile vitabis. Huius ego nunc auctoritatem sequens idem faciam. Non minor, inquit, voluptas percipitur ex vilissimis rebus quam ex pretiosissimis.
+        </div>
+
+        <div>
+            <h2>Administrable text</h2>
+            <?php _section("page1-about")?>
         </div>        
+
+        <div>
+            <h2>Administrable image</h2>
+            <img src="<?php _img("image1.jpg")?>"/>
+        </div>
 
         <footer>
             <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>

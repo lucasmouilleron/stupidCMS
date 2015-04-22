@@ -1,4 +1,7 @@
 <?php 
+/////////////////////////////////////////////////////////////////////////////
+header("Cache-Control: no-cache");
+header("Pragma: no-cache");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
@@ -7,10 +10,12 @@ require_once __DIR__."/../libs/tools.php";
 $saved = false;
 $itemSaved = "";
 if(isset($_POST["item"])) {
-    for ($i=0; $i < count($contents); $i++) { 
-        if($contents[$i] == $_POST["item"]) {
-            file_put_contents(getMDFilePath($contents[$i]), $_POST["content"]);
-            $itemSaved = $_POST["item"];
+    for ($i=0; $i < count($images); $i++) { 
+        if($images[$i] == $_POST["item"]) {
+            $file = $_FILES["file"];
+            $item = $_POST["item"];
+            move_uploaded_file($file["tmp_name"], getImagePath($item));
+            $itemSaved = $item;
             $saved = true;
             break;
         }
@@ -23,17 +28,11 @@ if(isset($_POST["item"])) {
 <!DOCTYPE html>
 <html>
 <head>
-
     <title><?php echo GENERAL_COMPANY?> | Admininistration</title>
     <meta name="description" content="">
     <meta name="robots" content="noindex">
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width initial-scale=1.0">
-    <link rel="shortcut icon" href="../assets/img/favicon.png">
-    <link rel="stylesheet" href="../assets/css/main.css">
-
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
 
@@ -58,40 +57,43 @@ if(isset($_POST["item"])) {
     <!-- /////////////////////////////////////////////////////////////// -->
     <div class="container">
 
-        <div class="jumbotron">
+        <header>
             <h1>Administration</h1>
-            <p>Don't fuck it up</p>
-        </div>
+            <nav>
+                <a href="admin-contents">Contents</a> <span class="sep">|</span> <a href="admin-images" class="active">Images</a>
+            </nav>
+        </header>
 
         <?php if($saved):?>
             <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
         <?php endif;?>
 
-        <?php sort($contents);?>
-        <?php for ($i=0; $i < count($contents); $i++) :?>
-            <?php $contentName = $contents[$i];?>
-            <?php $contentFilePath = getMDFilePath($contents[$i]);?>
-            <?php createFileIfNotExists($contentFilePath)?>
-            <h2><?php echo $contents[$i]?></h2>
-            <form method="post">
+        <?php sort($images);?>
+        <?php for ($i=0; $i < count($images); $i++) :?>
+            <?php $imageName = $images[$i];?>
+            <h2><?php echo $imageName?></h2>
+            <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <textarea class="form-control" rows="10" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
+                <img src="../<?php _img($imageName)?>" class="admin-image"/>
                 </div>
-                <input type="button" class="btn btn-default preview-modal" value="preview"/>
-                <input type="hidden" name="item" value="<?php echo $contentName?>"/>
-                <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary"/>
+                <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
+                <input type="hidden" name="item" value="<?php echo $imageName?>"/>
+                <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary"/>
             </form>
 
         <?php endfor;?>
 
-    <footer>
-        <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>
-    </footer>
+        <footer>
+            <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>
+        </footer>
 
-</div>
+    </div>
 
-<!-- /////////////////////////////////////////////////////////////// -->
-<script data-main="assets/js/scripts.min" src="assets/js/require.js"></script>
+    <!-- /////////////////////////////////////////////////////////////// -->
+    <script src="./js/jquery-1.11.2.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/Markdown.Converter.js"></script>
+    <script src="./js/main.js"></script>
 
 </body>
 </html>
