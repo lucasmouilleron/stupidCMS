@@ -22,11 +22,12 @@
         <header>
             <h1><?php echo GENERAL_COMPANY?></h1>
             <nav>
-                <a href="page1" class="active">page 1</a> <span class="sep">|</span> <a href="page2">page 2</a>
+                <a href="index" class="active">page 1</a> <span class="sep">|</span> <a href="page2">page 2</a>
             </nav>
         </header>
 
         <div class="about">
+            texte en dur
             <?php echo getSection("page1-about")?>
         </div>        
 

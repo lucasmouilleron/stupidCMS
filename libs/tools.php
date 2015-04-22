@@ -6,14 +6,14 @@ require_once __DIR__."/config.php";
 /////////////////////////////////////////////////////////////////////////////
 session_start();
 date_default_timezone_set("Europe/Paris");
-define("MDS_PATH",__DIR__."/../assets/mds");
+define("MDS_PATH",__DIR__."/../mds");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 ///////////////////////////////////////////////////////////////////////////////
 function getSection($sectionName) {
-    return replaceWithDefines(Markdown::defaultTransform(file_get_contents(getMDFilePath($sectionName))));
+    return replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath($sectionName))));
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -13,4 +13,4 @@ Variabilize pages
 
 Admin
 -----
-- Open `http://site.com/admin123456` in browser
+- Open `http://site.com/admin` in browser

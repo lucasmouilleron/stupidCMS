@@ -22,7 +22,7 @@
         <header>
             <h1><?php echo GENERAL_COMPANY?></h1>
             <nav>
-                <a href="page1">page 1</a> <span class="sep">|</span> <a href="page2" class="active">page 2</a>
+                <a href="index">page 1</a> <span class="sep">|</span> <a href="page2" class="active">page 2</a>
             </nav>
         </header>
 
@@ -31,7 +31,7 @@
         </div>
 
         <div class="services">
-            <?php echo getSection("page2-services")?>
+            <?php echo getSection("page2-more")?>
         </div>
 
         <footer>
