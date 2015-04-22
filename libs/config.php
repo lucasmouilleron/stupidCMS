@@ -5,7 +5,7 @@ $contents = ["page1-about","page2-about","page2-more"];
 $images = ["page1-about","page2-about","page2-more"];
 
 /////////////////////////////////////////////////////////////////////////////
-define("GENERAL_COMPANY","Custom CMS");
+define("GENERAL_COMPANY","stupidCMS");
 define("GENERAL_EMAIL","lucas.mouilleron@me.com");
 
 ?>
