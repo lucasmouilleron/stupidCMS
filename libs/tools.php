@@ -6,12 +6,9 @@ require_once __DIR__."/config.php";
 /////////////////////////////////////////////////////////////////////////////
 session_start();
 date_default_timezone_set("Europe/Paris");
-define("CACHE_PATH",__DIR__."/cache/");
 define("MDS_PATH",__DIR__."/../assets/mds");
 
 /////////////////////////////////////////////////////////////////////////////
-require "SimpleCache.php";
-require_once __DIR__."/vendors/Google/autoload.php";
 require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 ///////////////////////////////////////////////////////////////////////////////
