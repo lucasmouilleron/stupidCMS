@@ -1,5 +1,7 @@
 $(function() {
 
+	autosize($("textarea"));
+
     $(".preview-modal").click(function() {
         $("#preview-modal-content").html();
         var converter = new Markdown.Converter();
