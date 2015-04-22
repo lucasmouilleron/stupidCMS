@@ -3,7 +3,7 @@ stupidCMSBoilerplate
 
 Install
 -------
-Nothing
+Nothing to do
 
 Variabilize pages
 -----------------
