@@ -37,6 +37,7 @@ header h1 {
 header nav {
     text-transform: capitalize;
     font-size:1.3em;
+    height:20px;
 }
 
 header nav .active {

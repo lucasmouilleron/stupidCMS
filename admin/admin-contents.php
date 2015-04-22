@@ -2,6 +2,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
+$contents = getContentsList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -55,9 +56,11 @@ if(isset($_POST["item"])) {
         <header>
             <h1>Administration</h1>
             <nav>
-                <a href="admin-contents" class="active">Contents</a> <span class="sep">|</span> <a href="admin-images">Images</a>
+                <a href="admin-contents" class="active">Contents</a> <span class="sep">|</span> <a href="admin-images">Images</a> <span class="sep">|</span> <a href="scan">Scan pages</a>
             </nav>
         </header>
+
+        <p>Markdown documentation : <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet</a></p>
 
         <?php if($saved):?>
             <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>

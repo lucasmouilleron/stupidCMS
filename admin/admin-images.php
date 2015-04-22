@@ -5,6 +5,7 @@ header("Pragma: no-cache");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
+$images = getImagesList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -60,7 +61,7 @@ if(isset($_POST["item"])) {
         <header>
             <h1>Administration</h1>
             <nav>
-                <a href="admin-contents">Contents</a> <span class="sep">|</span> <a href="admin-images" class="active">Images</a>
+                <a href="admin-contents">Contents</a> <span class="sep">|</span> <a href="admin-images" class="active">Images</a> <span class="sep">|</span> <a href="scan">Scan pages</a>
             </nav>
         </header>
 

@@ -27,7 +27,7 @@
 
         <div>
             <h2>Administrable text</h2>
-            <?php _section("page1-about")?>
+            <?php _cnt("index-about")?>
         </div>        
 
         <div>

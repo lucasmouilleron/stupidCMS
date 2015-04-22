@@ -21,11 +21,11 @@
         </header>
 
         <div class="hot">
-            <?php _section("page2-about")?>
+            <?php _cnt("other-about")?>
         </div>
 
         <div class="services">
-            <?php _section("page2-more")?>
+            <?php _cnt("other-more")?>
         </div>
 
         <footer>

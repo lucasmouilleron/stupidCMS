@@ -9,12 +9,16 @@ date_default_timezone_set("Europe/Paris");
 define("MDS_PATH",__DIR__."/../mds");
 define("IMG_PATH",__DIR__."/../images");
 define("IMG_URL","./images/");
+define("CONTENTS_FILE",__DIR__."/contents.json");
+define("IMAGES_FILE",__DIR__."/images.json");
+define("CONTENT_FUNCTION","_cnt");
+define("IMAGE_FUNCTION","_img");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 ///////////////////////////////////////////////////////////////////////////////
-function _section($sectionName) {
+function _cnt($sectionName) {
     echo replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
 }
 
@@ -65,6 +69,28 @@ function getURLCacheKilled($url) {
         $url .= "?".$ck;
     }
     return $url;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function startsWith($haystack, $needle) {
+    // search backwards starting from haystack length characters from the end
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function endsWith($haystack, $needle) {
+    // search forward starting from end minus needle length characters
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function getContentsList() {
+    return json_decode(file_get_contents(CONTENTS_FILE), true);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function getImagesList() {
+    return json_decode(file_get_contents(IMAGES_FILE), true);
 }
 
 ?>
