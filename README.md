@@ -1,5 +1,5 @@
-stupidCMSBoilerplate
-====================
+stupidCMS
+=========
 
 Install
 -------
