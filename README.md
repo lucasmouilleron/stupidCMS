@@ -21,3 +21,4 @@ Admin
 - Open `http://site.com/admin` in browser
 - Bonus : 
 	- Surrond a defined constant with %% : `%%A_DEFINED_CONSTANT%%`
+	
