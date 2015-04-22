@@ -10,7 +10,7 @@ Variabilize pages
 - Create `my-page.php` at the site root
 - Add `<?php require_once __DIR__."/libs/tools.php" ?>` at the top of every pages
 - Contents : 
-	- Add `<?php _section("section-name")?>` sections in your php files
+	- Add `<?php _cnt("section-name")?>` sections in your php files
 	- Run `http://site.com/admin/scan` to update the CMS
 - Images : 
 	- Add `<img src="<?php _img("image-name.jpg")?>"/>` images in your php files
