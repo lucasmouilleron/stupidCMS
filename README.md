@@ -6,16 +6,15 @@ Install
 - Login password is defined in `libs/config.php`
 - Desactivate debug mode in production in `libs/config.php`
 
-Variabilize pages
------------------
-- Add .html pages in `pages`
-- Contents : 
-	- Add `{{CNT:section-name}}` sections in your pages
-	- Run `http://site.com/admin/scan` to update the CMS
-- Images : 
-	- Add `<img src="{{IMG:image-name.jpg}}"/>` images in your php files
-	- Run `http://site.com/admin/scan` to update the CMS
-	- If image is only included in a `content`, declare it in `_additionalImages.html`
+Pages
+-----
+- _Pages_ are located in `./pages`
+- They use the _stupid micro templating engine_ (SMTE)
+- _Pages_ are html files
+- In _pages_, paths are relative to the site root 
+- Administrable contents : `{{CNT:section-name}}`
+- Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
+- Tip : declare images in `_additionalImages.html` if they are only referenced via administrable contents
 
 Admin
 -----
