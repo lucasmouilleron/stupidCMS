@@ -18,12 +18,29 @@ define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("IMG_URL","./_images/");
 
 ///////////////////////////////////////////////////////////////////////////////
-function _cnt($sectionName) {
+function renderTemplate($content) {
+    return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
+        $result = $matches[1];
+        if(startsWith($result,DEFINITION_TAG)) {
+            $result = constant(substr($result, strlen(DEFINITION_TAG)));
+        }
+        if(startsWith($result,CONTENT_TAG)) {
+            $result = renderContent(substr($result, strlen(CONTENT_TAG)));
+        }
+        if(startsWith($result,IMAGE_TAG)) {
+            $result = renderImage(substr($result, strlen(IMAGE_TAG)));
+        }
+        return $result;
+    }, $content);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function renderContent($sectionName) {
     return replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
 }
 
 /////////////////////////////////////////////////////////////////////////////
-function _img($image) {
+function renderImage($image) {
     return IMG_URL."/".clearImageName($image);
 }
 
