@@ -10,7 +10,7 @@ Pages
 -----
 - _Pages_ are located in `./pages`
 - _Pages_ are html files
-- In _pages_, paths are relative to the site root 
+- In _pages_, paths are relative to the site root. For example, `<link rel="stylesheet" href="assets/css/main.css">` in a _page_ references indeed `./assets/css/main.css`
 - To link from a page to another page, use http://site.com/other-page (and not http://site.com/pages/other-page nor http://site.com/pages/other-page)
 - They use the _stupid micro templating engine_ (SMTE) allowing administrable content declaration
 
