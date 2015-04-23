@@ -2,29 +2,29 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/config.php";
+require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 /////////////////////////////////////////////////////////////////////////////
 session_start();
 date_default_timezone_set("Europe/Paris");
 define("CONTENTS_PATH",__DIR__."/../_contents");
 define("IMAGES_PATH",__DIR__."/../_images");
-define("IMG_URL","./_images/");
+define("PAGES_PATH",__DIR__."/../pages");
+define("CONTENT_TAG","CNT:");
+define("IMAGE_TAG","IMG:");
+define("DEFINITION_TAG","DEF:");
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");
-define("CONTENT_FUNCTION","_cnt");
-define("IMAGE_FUNCTION","_img");
-
-/////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
+define("IMG_URL","./_images/");
 
 ///////////////////////////////////////////////////////////////////////////////
 function _cnt($sectionName) {
-    echo replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
+    return replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function _img($image) {
-    echo IMG_URL."/".clearImageName($image);
+    return IMG_URL."/".clearImageName($image);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,16 +81,29 @@ function clearImageName($imageName) {
 	return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-function getURLCacheKilled($url) {
-    $query = parse_url($url, PHP_URL_QUERY);
-    $ck = "ck=".time();
-    if ($query) {
-        $url .= "&".$ck;
-    } else {
-        $url .= "?".$ck;
+///////////////////////////////////////////////////////////////////////////////
+function isAuthentified() {
+    if(!isset($_SESSION["authentified"])) {
+        return false;
     }
-    return $url;
+    else {
+        return $_SESSION["authentified"];
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function lockPage() {
+    if(!isAuthentified()) {
+        header("Location: login");
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function login($password) {
+    if($password == ADMIN_PASSWORD) {
+        $_SESSION["authentified"] = true;
+        header("Location: .");   
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////

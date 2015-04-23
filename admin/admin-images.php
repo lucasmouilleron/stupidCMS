@@ -1,18 +1,22 @@
 <?php 
+
 /////////////////////////////////////////////////////////////////////////////
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
+lockPage();
+
+/////////////////////////////////////////////////////////////////////////////
 $images = getImagesList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
 $itemSaved = "";
 if(isset($_POST["item"])) {
-    for ($i=0; $i < count($images); $i++) { 
-        if($images[$i] == $_POST["item"]) {
+    foreach ($images as $imageName => $imageFiles) { 
+        if($imageName == $_POST["item"]) {
             $file = $_FILES["file"];
             $item = $_POST["item"];
             move_uploaded_file($file["tmp_name"], getImagePath($item));
@@ -69,20 +73,18 @@ if(isset($_POST["item"])) {
             <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
         <?php endif;?>
 
-        <?php sort($images);?>
-        <?php for ($i=0; $i < count($images); $i++) :?>
-            <?php $imageName = $images[$i];?>
-            <h2><?php echo $imageName?></h2>
+        <?php ksort($images);?>
+        <?php foreach ($images as $imageName => $imageFiles) :?>
+            <h2><?php echo $imageName?> <small><?php echo implode($imageFiles,", ")?></small></h2>
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                <img src="../<?php _img($imageName)?>" class="admin-image"/>
+                <img src="../<?php echo _img($imageName)?>" class="admin-image"/>
                 </div>
                 <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                 <input type="hidden" name="item" value="<?php echo $imageName?>"/>
                 <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary"/>
             </form>
-
-        <?php endfor;?>
+        <?php endforeach;?>
 
         <footer>
             <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>

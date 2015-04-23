@@ -7,19 +7,18 @@ Nothing to do
 
 Variabilize pages
 -----------------
-- Add php pages at the site root
-- Add `<?php require_once __DIR__."/libs/tools.php" ?>` at the top of every pages
+- Add .html pages in `pages`
 - Contents : 
-	- Add `<?php _cnt("section-name")?>` sections in your php files
+	- Add `{{CNT:section-name}}` sections in your pages
 	- Run `http://site.com/admin/scan` to update the CMS
 - Images : 
-	- Add `<img src="<?php _img("image-name.jpg")?>"/>` images in your php files
+	- Add `<img src="{{IMG:image-name.jpg}}"/>` images in your php files
 	- Run `http://site.com/admin/scan` to update the CMS
-	- If image is only included in a `content`, declare it in `_additionalImages.php`
-
+	- If image is only included in a `content`, declare it in `_additionalImages.html`
 
 Admin
 -----
+- Login password is defined in `libs/config.php`
 - Open `http://site.com/admin` in browser
 - If administrable content not visible, run `http://site.com/admin/scan`
 - Bonus : 
@@ -27,10 +26,11 @@ Admin
 
 Miscs
 -----
-- URL rewriting : `my-page` --> `my-page.php`
+- URL rewriting : `my-page` --> `pages/my-page`
 - Underlying cotents in `_contents`
 - Underlying images in `_images`
 
 TODO
 ----
-- Show were contents and images are found
+- compile templates for optimization
+- sub folder in pages

@@ -2,15 +2,18 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
+lockPage();
+
+/////////////////////////////////////////////////////////////////////////////
 $contents = getContentsList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
 $itemSaved = "";
 if(isset($_POST["item"])) {
-    for ($i=0; $i < count($contents); $i++) { 
-        if($contents[$i] == $_POST["item"]) {
-            file_put_contents(getMDFilePath($contents[$i]), $_POST["content"]);
+    foreach ($contents as $contentName => $contentFiles) {
+        if($contentName == $_POST["item"]) {
+            file_put_contents(getMDFilePath($contentName), $_POST["content"]);
             $itemSaved = $_POST["item"];
             $saved = true;
             break;
@@ -50,7 +53,6 @@ if(isset($_POST["item"])) {
         </div>
     </div>
 
-    <!-- /////////////////////////////////////////////////////////////// -->
     <div class="container">
 
         <header>
@@ -66,12 +68,11 @@ if(isset($_POST["item"])) {
             <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
         <?php endif;?>
 
-        <?php sort($contents);?>
-        <?php for ($i=0; $i < count($contents); $i++) :?>
-            <?php $contentName = $contents[$i];?>
+        <?php ksort($contents);?>
+        <?php foreach ($contents as $contentName => $contentFiles) :?>
             <?php $contentFilePath = getMDFilePath($contentName);?>
             <?php createFileIfNotExists($contentFilePath)?>
-            <h2><?php echo $contents[$i]?></h2>
+            <h2><?php echo $contentName?> <small><?php echo implode($contentFiles,", ")?></small></h2>
             <form method="post">
                 <div class="form-group">
                     <textarea class="form-control" rows="10" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
@@ -80,8 +81,7 @@ if(isset($_POST["item"])) {
                 <input type="hidden" name="item" value="<?php echo $contentName?>"/>
                 <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary"/>
             </form>
-
-        <?php endfor;?>
+        <?php endforeach;?>
 
         <footer>
             <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>

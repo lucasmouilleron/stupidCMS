@@ -1,20 +1,17 @@
-<?php require_once __DIR__."/libs/tools.php" ?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo GENERAL_COMPANY?> | home</title>
+    <title>{{DEF:GENERAL_COMPANY}} | home</title>
     <meta name="description" content="">
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
 
-    <!-- /////////////////////////////////////////////////////////////// -->
     <div class="container">
 
         <header>
-            <h1><?php echo GENERAL_COMPANY?></h1>
+            <h1>{{DEF:GENERAL_COMPANY}}</h1>
             <nav>
                 <a href="index" class="active">index</a> <span class="sep">|</span> <a href="other">other page</a>
             </nav>
@@ -27,16 +24,21 @@
 
         <div>
             <h2>Administrable text</h2>
-            <?php _cnt("index-about")?>
-        </div>        
+            {{CNT:index-about}}
+        </div>
 
         <div>
             <h2>Administrable image</h2>
-            <img src="<?php _img("image1.jpg")?>"/>
+            <img src="{{IMG:image1.jpg}}"/>
+        </div>
+
+        <div>
+            <h2>Other administrable text</h2>
+            {{CNT:other-more}}
         </div>
 
         <footer>
-            <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>
+            <p>&copy; {{DEF:GENERAL_COMPANY}} | <a href="mailto:{{DEF:GENERAL_EMAIL}}">{{DEF:GENERAL_EMAIL}}</a></p>
         </footer>
 
     </div>
