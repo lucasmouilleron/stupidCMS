@@ -1,10 +1,6 @@
 <?php 
 
 /////////////////////////////////////////////////////////////////////////////
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-
-/////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
 lockPage();
 
@@ -60,7 +56,7 @@ if(isset($_POST["item"])) {
         <div class="image">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <img src="../<?php echo renderImage($imageName)?>" class="admin-image"/>
+                    <img src="../<?php echo renderImage($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
                 </div>
                 <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                 <input type="hidden" name="item" value="<?php echo $imageName?>"/>
@@ -69,3 +65,5 @@ if(isset($_POST["item"])) {
         </div>
     <?php endforeach;?>
 </div>
+
+<?php require_once __DIR__."/footer.php";?>

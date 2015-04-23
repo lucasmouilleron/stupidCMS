@@ -70,6 +70,6 @@ img {
     background-color: #ccc;
     padding:10px;
     position:fixed;
-    top:0;
+    bottom:0;
     width:100%;
 }
