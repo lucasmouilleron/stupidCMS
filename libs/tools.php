@@ -5,14 +5,19 @@ require_once __DIR__."/config.php";
 require_once __DIR__."/vendors/Michelf/Markdown.inc.php"; use \Michelf\Markdown;
 
 /////////////////////////////////////////////////////////////////////////////
+// BASIC
+/////////////////////////////////////////////////////////////////////////////
 session_start();
-//$_SESSION["authentified"] = false;
 date_default_timezone_set("Europe/Paris");
 $debugInfos = array();
+
+/////////////////////////////////////////////////////////////////////////////
+// PATHS
+/////////////////////////////////////////////////////////////////////////////
 define("CONTENTS_PATH",__DIR__."/../_contents");
 define("IMAGES_PATH",__DIR__."/../_images");
 define("PAGES_PATH",__DIR__."/../pages");
-define("CACHE_PATH",__DIR__."/../_cache");
+define("SMTE_CACHE_PATH",__DIR__."/../_cache");
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");
@@ -21,44 +26,40 @@ define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("IMG_URL","./_images/");
 
 ///////////////////////////////////////////////////////////////////////////////
-function clearPageCache() {
+// SMTE Engine
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function clearSMTECache() {
     $pages = listPages();
     foreach ($pages as $page) {
-        file_put_contents(CACHE_PATH."/".$page, renderPage($page, true));
+        file_put_contents(SMTE_CACHE_PATH."/".$page, renderPage($page, true));
+        setDegubInfo("cacheGenerated",$page);
     }    
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-function setDegubInfo($label, $value) {
-    global $debugInfos;
-    $debugInfos[$label]=$value;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-function getDebugInfos() {  
-    global $debugInfos;
-    return var_export($debugInfos,true);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 function renderPage($page, $noCache=false) {
-    if($noCache == false && file_exists(CACHE_PATH."/".$page)) {
+    if($noCache == false && file_exists(SMTE_CACHE_PATH."/".$page)) {
         setDegubInfo("loadedFromCache","true");
-        return file_get_contents(CACHE_PATH."/".$page);
+        return file_get_contents(SMTE_CACHE_PATH."/".$page);
     }
     else {
         setDegubInfo("loadedFromCache",false);
+        if(SMTE_CACHE_AUTO_GENERATE && $noCache == false) {
+            clearSMTECache();
+        }
         $content = @file_get_contents(PAGES_PATH."/".$page);
         if($content == "") {
             echo "404 !";
             exit();
         }
-        return renderTemplate($content);
+        return renderSMTETemplate($content);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-function renderTemplate($content) {
+function renderSMTETemplate($content) {
     return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
         $result = $matches[1];
         if(startsWith($result,DEFINITION_TAG)) {
@@ -83,6 +84,10 @@ function renderContent($sectionName) {
 function renderImage($image) {
     return IMG_URL."/".clearImageName($image);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// SMTE backend
+///////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
 function listPagesFull() {
@@ -131,15 +136,18 @@ function getImagesList() {
 }
 
 /////////////////////////////////////////////////////////////////////////////
-function replaceWithDefines($str) {
-    return preg_replace_callback("/\%\%(.*)\%\%/si", function($matches) {return constant($matches[1]);}, $str);
+function clearSectionName($sectionName) {
+ return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-function createFileIfNotExists($filePath) {
-    if (!file_exists($filePath)) {
-        file_put_contents($filePath, '');
-    }
+function clearImageName($imageName) {
+ return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function replaceWithDefines($str) {
+    return preg_replace_callback("/\%\%(.*)\%\%/si", function($matches) {return constant($matches[1]);}, $str);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -150,16 +158,6 @@ function getMDFilePath($section) {
 /////////////////////////////////////////////////////////////////////////////
 function getImagePath($image) {
     return IMAGES_PATH."/".clearImageName($image);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-function clearSectionName($sectionName) {
-   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-function clearImageName($imageName) {
-   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -188,8 +186,32 @@ function login($password) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// UTILS
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+function createFileIfNotExists($filePath) {
+    if (!file_exists($filePath)) {
+        file_put_contents($filePath, '');
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
 function isCurrentPage($pageName) {
     return endsWith(basename($_SERVER["PHP_SELF"]),$pageName);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function setDegubInfo($label, $value) {
+    global $debugInfos;
+    $label .= uniqid();
+    $debugInfos[$label] = $value;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function getDebugInfos() {  
+    global $debugInfos;
+    return var_export($debugInfos,true);
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 require_once __DIR__."/../libs/tools.php";
 
 /////////////////////////////////////////////////////////////////////////////
-clearPageCache();
+clearSMTECache();
 header("Location: .");
 
 ?>
