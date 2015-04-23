@@ -15,6 +15,7 @@ Variabilize pages
 - Images : 
 	- Add `<img src="<?php _img("image-name.jpg")?>"/>` images in your php files
 	- Run `http://site.com/admin/scan` to update the CMS
+	- If image is only included in a `content`, declare it in `_additionalImages.php`
 
 
 Admin
@@ -29,3 +30,7 @@ Miscs
 - URL rewriting : `my-page` --> `my-page.php`
 - Underlying cotents in `_contents`
 - Underlying images in `_images`
+
+TODO
+----
+- Show were contents and images are found
