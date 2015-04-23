@@ -39,4 +39,4 @@ Miscs
 
 TODO
 ----
-- sub folder in pages
+- sub folder index

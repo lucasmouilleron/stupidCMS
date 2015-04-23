@@ -14,10 +14,10 @@ $debugInfos = array();
 /////////////////////////////////////////////////////////////////////////////
 // PATHS
 /////////////////////////////////////////////////////////////////////////////
-define("CONTENTS_PATH",__DIR__."/../_contents");
-define("IMAGES_PATH",__DIR__."/../_images");
-define("PAGES_PATH",__DIR__."/../pages");
-define("SMTE_CACHE_PATH",__DIR__."/../_cache");
+define("CONTENTS_PATH",realpath(__DIR__."/../_contents"));
+define("IMAGES_PATH",realpath(__DIR__."/../_images"));
+define("PAGES_PATH",realpath(__DIR__."/../pages"));
+define("SMTE_CACHE_PATH",realpath(__DIR__."/../_cache"));
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");
@@ -33,6 +33,7 @@ define("IMG_URL","./_images/");
 function clearSMTECache() {
     $pages = listPages();
     foreach ($pages as $page) {
+        @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
         file_put_contents(SMTE_CACHE_PATH."/".$page, renderPage($page, true));
         setDegubInfo("cacheGenerated",$page);
     }    
@@ -91,11 +92,11 @@ function renderImage($image) {
 
 /////////////////////////////////////////////////////////////////////////////
 function listPagesFull() {
-    $files = scandir(PAGES_PATH);
+    $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
         if(endsWith($file, ".html")) {
-            array_push($pages, PAGES_PATH."/".$file);
+            array_push($pages, $file);
         }
     }
     return $pages;
@@ -103,11 +104,11 @@ function listPagesFull() {
 
 /////////////////////////////////////////////////////////////////////////////
 function listPages() {
-    $files = scandir(PAGES_PATH);
+    $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
         if(endsWith($file, ".html")) {
-            array_push($pages, $file);
+            array_push($pages, str_replace(PAGES_PATH, "", $file));
         }
     }
     return $pages;
@@ -188,6 +189,23 @@ function login($password) {
 /////////////////////////////////////////////////////////////////////////////
 // UTILS
 /////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+function getDirContents($dir, &$results = array()){
+    $files = scandir($dir);
+
+    foreach($files as $key => $value){
+        $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+        if(!is_dir($path)) {
+            $results[] = $path;
+        } else if(is_dir($path) && $value != "." && $value != "..") {
+            getDirContents($path, $results);
+            $results[] = $path;
+        }
+    }
+
+    return $results;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 function createFileIfNotExists($filePath) {
