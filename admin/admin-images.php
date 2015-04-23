@@ -75,14 +75,16 @@ if(isset($_POST["item"])) {
         <?php ksort($images);?>
         <?php foreach ($images as $imageName => $imageFiles) :?>
             <h2><?php echo $imageName?> <small><?php echo implode($imageFiles,", ")?></small></h2>
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <img src="../<?php echo renderImage($imageName)?>" class="admin-image"/>
-                </div>
-                <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
-                <input type="hidden" name="item" value="<?php echo $imageName?>"/>
-                <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary"/>
-            </form>
+            <div class="image">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <img src="../<?php echo renderImage($imageName)?>" class="admin-image"/>
+                    </div>
+                    <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
+                    <input type="hidden" name="item" value="<?php echo $imageName?>"/>
+                    <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary submit"/>
+                </form>
+            </div>
         <?php endforeach;?>
 
         <footer>
@@ -98,6 +100,7 @@ if(isset($_POST["item"])) {
     <!-- /////////////////////////////////////////////////////////////// -->
     <script src="./js/jquery-1.11.2.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/autosize.js"></script>
     <script src="./js/Markdown.Converter.js"></script>
     <script src="./js/main.js"></script>
 

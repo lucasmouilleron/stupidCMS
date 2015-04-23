@@ -72,14 +72,16 @@ if(isset($_POST["item"])) {
             <?php $contentFilePath = getMDFilePath($contentName);?>
             <?php createFileIfNotExists($contentFilePath)?>
             <h2><?php echo $contentName?> <small><?php echo implode($contentFiles,", ")?></small></h2>
-            <form method="post">
-                <div class="form-group">
-                    <textarea class="form-control" rows="10" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
-                </div>
-                <input type="button" class="btn btn-default preview-modal" value="preview"/>
-                <input type="hidden" name="item" value="<?php echo $contentName?>"/>
-                <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary"/>
-            </form>
+            <div class="content">
+                <form method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="10" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
+                    </div>
+                    <input type="button" class="btn btn-default preview-modal" value="preview"/>
+                    <input type="hidden" name="item" value="<?php echo $contentName?>"/>
+                    <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary submit"/>
+                </form>
+            </div>
         <?php endforeach;?>
 
         <footer>
