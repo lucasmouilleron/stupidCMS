@@ -6,8 +6,8 @@ require_once __DIR__."/../libs/tools.php";
 /////////////////////////////////////////////////////////////////////////////
 $scanDir = __DIR__."/..";
 $files = scandir($scanDir);
-$contents = [];
-$images = [];
+$contents = array();
+$images = array();
 foreach ($files as $file) {
 	if(endsWith($file, ".php")) {
 		$content = file_get_contents($scanDir."/".$file);

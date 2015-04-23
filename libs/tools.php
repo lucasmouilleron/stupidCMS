@@ -6,11 +6,11 @@ require_once __DIR__."/config.php";
 /////////////////////////////////////////////////////////////////////////////
 session_start();
 date_default_timezone_set("Europe/Paris");
-define("MDS_PATH",__DIR__."/../mds");
-define("IMG_PATH",__DIR__."/../images");
-define("IMG_URL","./images/");
-define("CONTENTS_FILE",__DIR__."/contents.json");
-define("IMAGES_FILE",__DIR__."/images.json");
+define("CONTENTS_PATH",__DIR__."/../_contents");
+define("IMAGES_PATH",__DIR__."/../_images");
+define("IMG_URL","./_images/");
+define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
+define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("CONTENT_FUNCTION","_cnt");
 define("IMAGE_FUNCTION","_img");
 
@@ -28,6 +28,28 @@ function _img($image) {
 }
 
 /////////////////////////////////////////////////////////////////////////////
+function getContentsList() {
+    $contents = @json_decode(file_get_contents(CONTENTS_FILE), true);
+    if($contents === null) {
+        return array();
+    }
+    else {
+        return $contents;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+function getImagesList() {
+    $images = @json_decode(file_get_contents(IMAGES_FILE), true);
+    if($images === null) {
+        return array();
+    }
+    else {
+        return $images;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////
 function replaceWithDefines($str) {
     return preg_replace_callback("/\%\%(.*)\%\%/si", function($matches) {return constant($matches[1]);}, $str);
 }
@@ -41,12 +63,12 @@ function createFileIfNotExists($filePath) {
 
 /////////////////////////////////////////////////////////////////////////////
 function getMDFilePath($section) {
-    return MDS_PATH."/".clearSectionName($section).".md";
+    return CONTENTS_PATH."/".clearSectionName($section).".md";
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function getImagePath($image) {
-    return IMG_PATH."/".clearImageName($image);
+    return IMAGES_PATH."/".clearImageName($image);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -73,24 +95,12 @@ function getURLCacheKilled($url) {
 
 /////////////////////////////////////////////////////////////////////////////
 function startsWith($haystack, $needle) {
-    // search backwards starting from haystack length characters from the end
     return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function endsWith($haystack, $needle) {
-    // search forward starting from end minus needle length characters
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-function getContentsList() {
-    return json_decode(file_get_contents(CONTENTS_FILE), true);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-function getImagesList() {
-    return json_decode(file_get_contents(IMAGES_FILE), true);
 }
 
 ?>
