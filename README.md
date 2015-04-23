@@ -3,7 +3,8 @@ stupidCMS
 
 Install
 -------
-Nothing to do
+- Login password is defined in `libs/config.php`
+- Desactivate debug mode in production in `libs/config.php`
 
 Variabilize pages
 -----------------
@@ -18,11 +19,13 @@ Variabilize pages
 
 Admin
 -----
-- Login password is defined in `libs/config.php`
 - Open `http://site.com/admin` in browser
 - If administrable content not visible, run `http://site.com/admin/scan`
-- Bonus : 
+- If new contents are not visible, run `http://site.com/admin/clearCache`
+- Content editing : 
 	- Surrond a defined constant with %% : `%%A_DEFINED_CONSTANT%%`
+- Image editing : 
+	- TODO
 
 Miscs
 -----
@@ -32,5 +35,4 @@ Miscs
 
 TODO
 ----
-- compile templates for optimization
 - sub folder in pages

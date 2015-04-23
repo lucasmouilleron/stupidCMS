@@ -16,4 +16,4 @@ RewriteRule ^admin/$ admin/admin-contents.php [L]
 # All goes through index
 RewriteRule ^$ index [L]
 RewriteRule ^(admin|assets|_images).* - [L]
-RewriteRule ^(.*)\?*$ stupid.php?__page__=/$1 [L,QSA]
+RewriteRule ^(.*)\?*$ stupid.php?__page__=/$1.html [L,QSA]

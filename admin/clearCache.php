@@ -1,0 +1,14 @@
+<?php
+
+/////////////////////////////////////////////////////////////////////////////
+require_once __DIR__."/../libs/tools.php";
+
+/////////////////////////////////////////////////////////////////////////////
+clearPageCache();
+header("Location: .");
+
+?>
+
+<?php if(DEBUG_MODE) :?>
+	<div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
+<?php endif;?>

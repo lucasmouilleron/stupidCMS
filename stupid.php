@@ -1,17 +1,7 @@
-<?php
+<?php require_once __DIR__."/libs/tools.php";?>
 
-/////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/libs/tools.php";
+<?php echo @renderPage($_GET["__page__"]);?>
 
-/////////////////////////////////////////////////////////////////////////////
-$page = $_GET["__page__"];
-$content = @file_get_contents(PAGES_PATH."/".$page.".html");
-
-if($content == "") {
-	echo "404 !";
-	exit();
-}
-
-echo renderTemplate($content);
-
-?>
+<?php if(DEBUG_MODE) :?>
+	<div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
+<?php endif;?>

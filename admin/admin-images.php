@@ -25,6 +25,7 @@ if(isset($_POST["item"])) {
             break;
         }
     }
+    clearPageCache();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,9 +65,7 @@ if(isset($_POST["item"])) {
 
         <header>
             <h1>Administration</h1>
-            <nav>
-                <a href="admin-contents">Contents</a> <span class="sep">|</span> <a href="admin-images" class="active">Images</a> <span class="sep">|</span> <a href="scan">Scan pages</a>
-            </nav>
+            <?php require_once __DIR__."/menu.php";?>
         </header>
 
         <?php if($saved):?>
@@ -78,7 +77,7 @@ if(isset($_POST["item"])) {
             <h2><?php echo $imageName?> <small><?php echo implode($imageFiles,", ")?></small></h2>
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                <img src="../<?php echo _img($imageName)?>" class="admin-image"/>
+                    <img src="../<?php echo renderImage($imageName)?>" class="admin-image"/>
                 </div>
                 <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                 <input type="hidden" name="item" value="<?php echo $imageName?>"/>
@@ -91,6 +90,10 @@ if(isset($_POST["item"])) {
         </footer>
 
     </div>
+
+    <?php if(DEBUG_MODE) :?>
+        <div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
+    <?php endif;?>
 
     <!-- /////////////////////////////////////////////////////////////// -->
     <script src="./js/jquery-1.11.2.min.js"></script>

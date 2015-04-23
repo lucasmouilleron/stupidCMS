@@ -55,6 +55,16 @@ footer {
     padding:15px 0 10px;
 }
 
+
+.debug {
+    margin:0 auto;
+    background-color: #ccc;
+    padding:10px;
+    position:fixed;
+    top:0;
+    width:100%;
+}
+
 /*************************************************************************/
 textarea {
     font-family: courier;

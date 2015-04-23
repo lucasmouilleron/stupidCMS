@@ -20,7 +20,6 @@ if(isset($_POST["password"])) {
 </head>
 <body>
 
-	<!-- /////////////////////////////////////////////////////////////// -->
 	<div class="container">
 
 		<header>
@@ -37,6 +36,10 @@ if(isset($_POST["password"])) {
 		</form>
 
 	</div>
+
+	<?php if(DEBUG_MODE) :?>
+		<div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
+	<?php endif;?>
 
 </body>
 </html>

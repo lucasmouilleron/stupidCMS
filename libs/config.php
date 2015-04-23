@@ -4,6 +4,7 @@
 define("GENERAL_COMPANY","stupidCMS");
 define("GENERAL_EMAIL","lucas.mouilleron@me.com");
 /////////////////////////////////////////////////////////////////////////////
+define("DEBUG_MODE","true");
 define("ADMIN_PASSWORD","password");
 
 ?>
