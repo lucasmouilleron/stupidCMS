@@ -29,6 +29,7 @@ Stupid backend
 - If SMTE administrable content are not visible, run `Scan Pages`
 - If SMTE new contents are not visible, run `Clear Cache`
 - Content editing tips : 
+	- Contents are in markdown foramt : [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 	- Surrond a defined constant with %% : `%%A_DEFINED_CONSTANT%%`
 - Image editing tips : todo
 

@@ -2,6 +2,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/tools.php";
+lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
 clearSMTECache();
@@ -9,6 +10,4 @@ header("Location: .");
 
 ?>
 
-<?php if(DEBUG_MODE) :?>
-	<div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
-<?php endif;?>
+<?php require_once __DIR__."/footer.php";?>

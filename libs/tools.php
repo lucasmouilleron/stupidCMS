@@ -24,6 +24,7 @@ define("DEFINITION_TAG","DEF:");
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("IMG_URL","./_images/");
+define("README_FILE",__DIR__."/../README.md");
 
 ///////////////////////////////////////////////////////////////////////////////
 // SMTE Engine
@@ -78,7 +79,7 @@ function renderSMTETemplate($content) {
 
 ///////////////////////////////////////////////////////////////////////////////
 function renderContent($sectionName) {
-    return replaceWithDefines(Markdown::defaultTransform(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
+    return replaceWithDefines(markdownToHTML(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -138,12 +139,12 @@ function getImagesList() {
 
 /////////////////////////////////////////////////////////////////////////////
 function clearSectionName($sectionName) {
- return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
+   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function clearImageName($imageName) {
- return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -240,6 +241,11 @@ function startsWith($haystack, $needle) {
 /////////////////////////////////////////////////////////////////////////////
 function endsWith($haystack, $needle) {
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function markdownToHTML($content) {
+    return Markdown::defaultTransform($content);
 }
 
 ?>

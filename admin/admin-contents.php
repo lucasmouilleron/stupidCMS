@@ -36,8 +36,8 @@ if(isset($_POST["item"])) {
 </head>
 <body>
 
+    <?php require_once __DIR__."/header.php";?>
 
-    <!-- /////////////////////////////////////////////////////////////// -->
     <div class="modal fade" role="dialog" aria-hidden="true" id="preview-modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -55,14 +55,6 @@ if(isset($_POST["item"])) {
     </div>
 
     <div class="container">
-
-        <header>
-            <h1>Administration</h1>
-            <?php require_once __DIR__."/menu.php";?>
-        </header>
-
-        <p>Markdown documentation : <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet</a></p>
-
         <?php if($saved):?>
             <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
         <?php endif;?>
@@ -83,16 +75,9 @@ if(isset($_POST["item"])) {
                 </form>
             </div>
         <?php endforeach;?>
-
-        <footer>
-            <p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>
-        </footer>
-
     </div>
 
-    <?php if(DEBUG_MODE) :?>
-        <div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
-    <?php endif;?>
+    <?php require_once __DIR__."/footer.php";?>
 
     <!-- /////////////////////////////////////////////////////////////// -->
     <script src="./js/jquery-1.11.2.min.js"></script>
