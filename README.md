@@ -9,9 +9,12 @@ Install
 Pages
 -----
 - _Pages_ are located in `./pages`
-- They use the _stupid micro templating engine_ (SMTE)
 - _Pages_ are html files
 - In _pages_, paths are relative to the site root 
+- They use the _stupid micro templating engine_ (SMTE)
+
+SMTE
+----
 - Administrable contents : `{{CNT:section-name}}`
 - Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
 - Tip : declare images in `_additionalImages.html` if they are only referenced via administrable contents
