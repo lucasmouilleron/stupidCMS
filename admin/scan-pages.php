@@ -29,11 +29,17 @@ foreach ($files as $file) {
 		array_push($images[$result], $file);
 	}
 }
+
 file_put_contents(CONTENTS_FILE, json_encode($contents));
 file_put_contents(IMAGES_FILE, json_encode($images));
 
-header("Location: .");
-
 ?>
+
+<?php require_once __DIR__."/header.php";?>
+
+<div class="container">
+	<div class="alert alert-success" role="alert">Found <strong><?php echo count($contents)?></strong> contents</div>
+	<div class="alert alert-success" role="alert">Found <strong><?php echo count($images)?></strong> images</div>
+</div>
 
 <?php require_once __DIR__."/footer.php";?>

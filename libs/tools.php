@@ -37,7 +37,8 @@ function clearSMTECache() {
         @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
         file_put_contents(SMTE_CACHE_PATH."/".$page, renderPage($page, true));
         setDegubInfo("cacheGenerated",$page);
-    }    
+    }
+    return $pages;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
