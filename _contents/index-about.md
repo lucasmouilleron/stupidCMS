@@ -7,4 +7,5 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Is ita vivebat, ut null
 - Using a defined constant : %%GENERAL_COMPANY%%
 - ![An image](assets/img/ajax-loader.gif)
 - [Markdown doc](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- ![An administrated image](_images/image2.jpg)
+
+![An administrated image](_images/image2.jpg)
