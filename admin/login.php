@@ -11,7 +11,7 @@ if(isset($_POST["password"])) {
 
 <?php require_once __DIR__."/header.php";?>
 
-<div class="container"> d
+<div class="container">
 	<form method="post">
 		<div class="form-group">
 			<input type="password" name="password" placeHolder="admin password" class="form-control"/>
