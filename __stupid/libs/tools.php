@@ -66,7 +66,7 @@ function renderSMTETemplate($content) {
     return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
         $result = $matches[1];
         if(startsWith($result,DEFINITION_TAG)) {
-            $result = constant(substr($result, strlen(DEFINITION_TAG)));
+            $result = @constant(substr($result, strlen(DEFINITION_TAG)));
         }
         if(startsWith($result,CONTENT_TAG)) {
             $result = renderContent(substr($result, strlen(CONTENT_TAG)));

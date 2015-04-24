@@ -4,7 +4,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Is ita vivebat, ut null
 #### Cool stuff
 
 - [A link to the other page](other)
-- Using a defined constant : %%GENERAL_COMPANY%%
+- Using a defined constant : {{DEF:GENERAL_COMPANY}}
 - ![An image](assets/img/ajax-loader.gif)
 - [Markdown doc](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 

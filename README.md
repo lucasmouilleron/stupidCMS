@@ -31,7 +31,7 @@ Stupid backend
 - If SMTE new contents are not visible, run `Clear Cache`
 - Content editing tips : 
 	- Contents are written in markdown format : [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-	- Surrond a defined constant with %% : `%%A_DEFINED_CONSTANT%%`
+	- Contents are also SMTE compatible
 - Image editing tips : todo
 
 Miscs
