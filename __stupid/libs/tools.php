@@ -16,15 +16,15 @@ $debugInfos = array();
 /////////////////////////////////////////////////////////////////////////////
 define("CONTENTS_PATH",realpath(__DIR__."/../_contents"));
 define("IMAGES_PATH",realpath(__DIR__."/../_images"));
-define("PAGES_PATH",realpath(__DIR__."/../pages"));
+define("PAGES_PATH",realpath(__DIR__."/../../"));
 define("SMTE_CACHE_PATH",realpath(__DIR__."/../_cache"));
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");
-define("IMG_URL","./_images/");
-define("README_FILE",__DIR__."/../README.md");
+define("IMG_URL","./__stupid/_images/");
+define("README_FILE",__DIR__."/../../README.md");
 
 ///////////////////////////////////////////////////////////////////////////////
 // SMTE Engine
@@ -33,6 +33,7 @@ define("README_FILE",__DIR__."/../README.md");
 ///////////////////////////////////////////////////////////////////////////////
 function clearSMTECache() {
     $pages = listPages();
+    
     foreach ($pages as $page) {
         @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
         file_put_contents(SMTE_CACHE_PATH."/".$page, renderPage($page, true));
@@ -97,7 +98,7 @@ function listPagesFull() {
     $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
-        if(endsWith($file, ".html")) {
+        if(endsWith($file, ".html") && !startsWith($file,SMTE_CACHE_PATH)) {
             array_push($pages, $file);
         }
     }
@@ -109,7 +110,7 @@ function listPages() {
     $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
-        if(endsWith($file, ".html")) {
+        if(endsWith($file, ".html") && !startsWith($file,SMTE_CACHE_PATH)) {
             array_push($pages, str_replace(PAGES_PATH, "", $file));
         }
     }
