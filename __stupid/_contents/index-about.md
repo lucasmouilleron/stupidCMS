@@ -8,4 +8,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Is ita vivebat, ut null
 - ![An image](assets/img/ajax-loader.gif)
 - [Markdown doc](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-{{IMG:image2.jpg}}
+![Administrable image]({{IMG:image2.jpg}})

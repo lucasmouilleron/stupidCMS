@@ -42,5 +42,4 @@ Miscs
 TODO
 ----
 - page inclusions
-- smte in markdowns 
 - sub folder index

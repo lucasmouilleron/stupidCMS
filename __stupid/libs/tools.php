@@ -80,7 +80,7 @@ function renderSMTETemplate($content) {
 
 ///////////////////////////////////////////////////////////////////////////////
 function renderContent($sectionName) {
-    return replaceWithDefines(markdownToHTML(@file_get_contents(getMDFilePath(clearSectionName($sectionName)))));
+    return renderSMTETemplate(replaceWithDefines(markdownToHTML(@file_get_contents(getMDFilePath(clearSectionName($sectionName))))));
 }
 
 /////////////////////////////////////////////////////////////////////////////
