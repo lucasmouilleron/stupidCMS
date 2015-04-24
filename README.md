@@ -41,7 +41,7 @@ Miscs
 
 TODO
 ----
-- FIX CACHE PROBLEM
+- TODO FIX CACHE MKDIR CACHE FOLDER
 - sub folder index
 - page inclusions
 - smte in markdowns 
