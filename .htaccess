@@ -1,12 +1,10 @@
 SetEnv PHP_VER 5_4
 
+# No folder listing
 Options -Indexes
 
+# Rewriting !
 RewriteEngine On
-
-# Exclude files and folders
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 
 # Admin
 RewriteCond %{REQUEST_FILENAME}.php -f
@@ -17,9 +15,11 @@ RewriteRule ^admin/(.*)$ __stupid/admin/$1.php [NC,L]
 
 # All goes through index
 RewriteRule ^$ index [L]
+
 # Bypass stupid
 RewriteRule ^__stupid.*$ - [L]
-# Bypass all assets
-RewriteRule ^.*(.css|.js|.jpg|.png|.gif|.html)$ - [NC,L]
+
 # Send pages to stupid
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)\?*$ __stupid/stupid.php?__page__=/$1.html [L,QSA]
