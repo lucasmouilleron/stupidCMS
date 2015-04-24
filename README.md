@@ -41,6 +41,7 @@ Miscs
 
 TODO
 ----
+- FIX CACHE PROBLEM
 - sub folder index
 - page inclusions
 - smte in markdowns 
