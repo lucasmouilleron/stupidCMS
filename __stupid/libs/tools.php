@@ -26,6 +26,7 @@ define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("IMG_URL","./__stupid/_images/");
 define("README_FILE",__DIR__."/../../README.md");
+define("CONTENT_MARKDOWN_PREFIX","***");
 
 ///////////////////////////////////////////////////////////////////////////////
 // SMTE Engine
@@ -84,7 +85,11 @@ function renderSMTETemplate($content) {
 
 ///////////////////////////////////////////////////////////////////////////////
 function renderContent($sectionName) {
-    return renderSMTETemplate(replaceWithDefines(markdownToHTML(@file_get_contents(getMDFilePath(clearSectionName($sectionName))))));
+	$content = @file_get_contents(getMDFilePath(clearSectionName($sectionName)));
+	if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
+		$content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
+	}
+    return renderSMTETemplate(replaceWithDefines($content));
 }
 
 /////////////////////////////////////////////////////////////////////////////

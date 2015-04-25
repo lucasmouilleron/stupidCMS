@@ -31,8 +31,11 @@ Stupid backend
 - If SMTE administrable content are not visible, run `Scan Pages`
 - If SMTE new contents are not visible, run `Clear Cache`
 - Content editing tips : 
-	- Contents are written in markdown format : [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-	- Contents are also SMTE compatible
+	- Contents are also SMTE compatible, which means you can use the SMTE tags
+	- Contents can also be written in markdown format : 
+		- Prefix your content with *** to enable Markdown
+		- [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+	
 - Image editing tips : todo
 
 Miscs
