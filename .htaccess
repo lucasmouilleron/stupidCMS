@@ -7,8 +7,8 @@ Options -Indexes
 RewriteEngine On
 
 # Admin
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^admin$ __stupid/admin.php
 RewriteRule ^admin/$ admin/admin-contents [NC,L]
 RewriteRule ^admin/((css|js)/.*)$ __stupid/admin/$1 [NC,L]
 RewriteRule ^admin/(.*)$ __stupid/admin/$1.php [NC,L]

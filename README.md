@@ -21,6 +21,7 @@ Stupid Micro Templating Engine (SMTE)
 - Administrable contents : `{{CNT:section-name}}`
 - Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
 - Include a definition (PHP constant, e.g. defined in `./__stupid/libs/config.php`) : `{{DEF:CONSTANT_NAME}}`
+- Include another page in a page : `{{INC:page-name-without-html-extension}}`
 - Tip : declare images in `_additionalImages.html` if they are only referenced via administrable contents
 
 Stupid backend
@@ -41,5 +42,4 @@ Miscs
 
 TODO
 ----
-- page inclusions
 - sub folder index

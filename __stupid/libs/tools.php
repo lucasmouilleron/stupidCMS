@@ -21,6 +21,7 @@ define("SMTE_CACHE_PATH",truepath(__DIR__."/../_cache"));
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");
+define("INCLUDE_TAG","INC:");
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");
 define("IMG_URL","./__stupid/_images/");
@@ -65,6 +66,9 @@ function renderPage($page, $noCache=false) {
 function renderSMTETemplate($content) {
     return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
         $result = $matches[1];
+        if(startsWith($result,INCLUDE_TAG)) {
+            $result = renderSMTETemplate(@file_get_contents(PAGES_PATH."/".substr($result, strlen(DEFINITION_TAG)).".html"));
+        }
         if(startsWith($result,DEFINITION_TAG)) {
             $result = @constant(substr($result, strlen(DEFINITION_TAG)));
         }
