@@ -34,6 +34,9 @@ define("CONTENT_MARKDOWN_PREFIX","***");
 
 ///////////////////////////////////////////////////////////////////////////////
 function clearSMTECache() {
+    @deleteDirectory(SMTE_CACHE_PATH);
+    @mkdir(SMTE_CACHE_PATH);
+
     $pages = listPages();
     foreach ($pages as $page) {
         @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
@@ -54,6 +57,7 @@ function renderPage($page, $noCache=false) {
         if(SMTE_CACHE_AUTO_GENERATE && $noCache == false) {
             clearSMTECache();
         }
+        ob_start(); 
         $content = @file_get_contents(PAGES_PATH."/".$page);
         if($content == "") {
             echo "404 !";
@@ -149,12 +153,12 @@ function getImagesList() {
 
 /////////////////////////////////////////////////////////////////////////////
 function clearSectionName($sectionName) {
-   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
+ return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function clearImageName($imageName) {
-   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+ return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -283,6 +287,30 @@ function truepath($path){
     // put initial separator that could have been lost
     $path=!$unipath ? '/'.$path : $path;
     return $path;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+
+        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+        }
+
+    }
+
+    return rmdir($dir);
 }
 
 ?>

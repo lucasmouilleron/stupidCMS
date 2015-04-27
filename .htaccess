@@ -13,13 +13,13 @@ RewriteRule ^admin/$ admin/admin-contents [NC,L]
 RewriteRule ^admin/((css|js)/.*)$ __stupid/admin/$1 [NC,L]
 RewriteRule ^admin/(.*)$ __stupid/admin/$1.php [NC,L]
 
-# All goes through index
-RewriteRule ^$ index [L]
-
 # Bypass stupid
 RewriteRule ^__stupid.*$ - [L]
+
+# Index by default
+RewriteRule ^$ index [L]
 
 # Send pages to stupid
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)\?*$ __stupid/stupid.php?__page__=/$1.html [L,QSA]
+RewriteRule ^(.*)$ __stupid/stupid.php?__page__=/$1.html [L,QSA]
