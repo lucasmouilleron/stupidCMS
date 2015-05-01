@@ -17,6 +17,7 @@ $debugInfos = array();
 define("CONTENTS_PATH",truepath(__DIR__."/../_contents"));
 define("IMAGES_PATH",truepath(__DIR__."/../_images"));
 define("PAGES_PATH",truepath(__DIR__."/../../"));
+define("PAGES_EXTENSION",".html");
 define("SMTE_CACHE_PATH",truepath(__DIR__."/../_cache"));
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
@@ -40,14 +41,40 @@ function clearSMTECache() {
     $pages = listPages();
     foreach ($pages as $page) {
         @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
-        file_put_contents(SMTE_CACHE_PATH."/".$page, renderPage($page, true));
+        file_put_contents(SMTE_CACHE_PATH."/".$page.PAGES_EXTENSION, renderPage($page, true));
         setDegubInfo("cacheGenerated",$page);
     }
     return $pages;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+function processPage($page) {
+    if(isPageDynamic($page)) {
+        include(PAGES_PATH."/".$page.".php");
+    }
+    else if(isPageRenderable($page)){ 
+        echo @renderPage($page);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function isPageDynamic($page) {
+    return file_exists(PAGES_PATH."/".$page.".php");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function isPageRenderable($page) {
+    if(!isset($page) || $page == "") {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 function renderPage($page, $noCache=false) {
+    $page = $page.PAGES_EXTENSION;
     if($noCache == false && file_exists(SMTE_CACHE_PATH."/".$page)) {
         setDegubInfo("loadedFromCache","true");
         return file_get_contents(SMTE_CACHE_PATH."/".$page);
@@ -72,10 +99,10 @@ function renderSMTETemplate($content) {
     return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
         $result = $matches[1];
         if(startsWith($result,INCLUDE_TAG)) {
-            $result = renderSMTETemplate(@file_get_contents(PAGES_PATH."/".substr($result, strlen(DEFINITION_TAG)).".html"));
+            $result = renderInclusion(substr($result, strlen(DEFINITION_TAG)));
         }
         if(startsWith($result,DEFINITION_TAG)) {
-            $result = @constant(substr($result, strlen(DEFINITION_TAG)));
+            $result = renderDefinition(substr($result, strlen(DEFINITION_TAG)));
         }
         if(startsWith($result,CONTENT_TAG)) {
             $result = renderContent(substr($result, strlen(CONTENT_TAG)));
@@ -85,6 +112,16 @@ function renderSMTETemplate($content) {
         }
         return $result;
     }, $content);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function renderDefinition($def) {
+    return @constant($def);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function renderInclusion($inclusionName) {
+    return renderSMTETemplate(@file_get_contents(PAGES_PATH."/".$inclusionName.PAGES_EXTENSION));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -110,8 +147,8 @@ function listPagesFull() {
     $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
-        if(endsWith($file, ".html") && !startsWith($file,SMTE_CACHE_PATH)) {
-            array_push($pages, $file);
+        if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,SMTE_CACHE_PATH)) {
+            array_push($pages, str_replace(PAGES_EXTENSION, "", $file));
         }
     }
     return $pages;
@@ -122,8 +159,8 @@ function listPages() {
     $files = getDirContents(PAGES_PATH);
     $pages = array();
     foreach ($files as $file) {
-        if(endsWith($file, ".html") && !startsWith($file,SMTE_CACHE_PATH)) {
-            array_push($pages, str_replace(PAGES_PATH, "", $file));
+        if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,SMTE_CACHE_PATH)) {
+            array_push($pages, str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file)));
         }
     }
     return $pages;
@@ -153,12 +190,12 @@ function getImagesList() {
 
 /////////////////////////////////////////////////////////////////////////////
 function clearSectionName($sectionName) {
- return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
+   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $sectionName);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 function clearImageName($imageName) {
- return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+   return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
 }
 
 /////////////////////////////////////////////////////////////////////////////

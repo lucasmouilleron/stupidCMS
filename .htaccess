@@ -23,7 +23,7 @@ RewriteRule ^__stupid.*$ - [L]
 RewriteRule ^$ index [L]
 
 # Send pages to stupid
-RewriteRule ^(.*)\.html$ __stupid/stupid.php?__page__=/$1.html [L,QSA]
+RewriteRule ^(.*)\.html$ __stupid/stupid.php?__page__=/$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ __stupid/stupid.php?__page__=/$1.html [L,QSA]
+RewriteRule ^(.*)$ __stupid/stupid.php?__page__=/$1 [L,QSA]

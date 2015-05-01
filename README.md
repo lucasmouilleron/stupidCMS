@@ -10,9 +10,9 @@ Install
 
 Stupid Pages
 ------------
-- _Stupid pages_ are located at the site root `./`
-- _Stupid pages_ files extensions must be `.html`
-- In _stupid pages_, paths are relative to the site root
+- _Stupid Pages_ are located at the site root `./`
+- _Stupid Pages_ files extensions should be `.html`
+- In _Stupid Pages_, paths are relative to the site root
 - To link from a page to another page, use `http://site.com/other-page`
 - They use the _stupid micro templating engine_ (SMTE) allowing administrable content declaration
 
@@ -23,6 +23,18 @@ Stupid Micro Templating Engine (SMTE)
 - Include a definition (PHP constant, e.g. defined in `./__stupid/libs/config.php`) : `{{DEF:CONSTANT_NAME}}`
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
 - Tip : declare images in `_additionalImages.html` if they are only referenced via administrable contents
+
+Studid Dynamic Page (SDP)
+-------------------------
+- _Stupid Pages_ files extensions can be `.php`
+- In this case the page is a _Stupid Dynamic Page (SDP)_
+- Custom php scripting can be addded
+- Sutpid API available :
+	- `renderDefinition("def-name")`
+	- `renderInclusion("page-name-without-html-extension")`
+	- `renderContent("section-name")`
+	- `renderImage("image-name")`
+- No cache is applied
 
 Stupid backend
 --------------
