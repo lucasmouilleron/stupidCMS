@@ -5,7 +5,7 @@
 </div>
 
 <?php if(DEBUG_MODE) :?>
-	<div class="debug">DEBUG : <?php echo getDebugInfos();?></div>
+	<div class="debug">DEBUG : <?php echo $stupidBackend->stupid->getDebugInfos();?></div>
 <?php endif;?>
 
 <script src="./js/jquery-1.11.2.min.js"></script>

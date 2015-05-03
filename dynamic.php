@@ -1,7 +1,8 @@
+<?php global $stupid;?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo renderDefinition("GENERAL_COMPANY")?> | home</title>
+	<title><?php echo $stupid->renderDefinition("GENERAL_COMPANY")?> | home</title>
 	<meta name="description" content="">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -11,7 +12,7 @@
 
 	<div class="container">
 
-		<?php echo renderInclusion("_menu")?>
+		<?php echo $stupid->renderInclusion("_menu")?>
 
 		<div class="hot">
 		<p>This is a PHP page.</p>
@@ -21,10 +22,10 @@
 
 		<div>
             <h2>Administrable image</h2>
-            <img src="<?php echo renderImage("image1.jpg")?>"/>
+            <img src="<?php echo $stupid->renderImage("image1.jpg")?>"/>
         </div>
 
-		<?php echo renderContent("index-about")?>
+		<?php echo $stupid->renderContent("index-about")?>
 
 		{{INC:_footer}}
 

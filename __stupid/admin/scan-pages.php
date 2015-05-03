@@ -1,16 +1,17 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/../libs/tools.php";
-lockPage();
+require_once __DIR__."/../libs/stupidBackend.php";
+$stupidBackend = new stupidBackend();
+$stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
 $contents = array();
 $images = array();
-$files = listPagesFull();
+$files = $stupidBackend->listPagesFull();
 
 foreach ($files as $file) {
-	$content = file_get_contents($file);
+	$content = file_get_contents($file.PAGES_EXTENSION);
 	$file = str_replace(PAGES_PATH, "", $file);
 	preg_match_all("/\{\{".CONTENT_TAG."(.*)\}\}/U",$content, $matches);
 	$results = $matches[1];

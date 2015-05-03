@@ -1,11 +1,12 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/../libs/tools.php";
-lockPage();
+require_once __DIR__."/../libs/stupidBackend.php";
+$stupidBackend = new stupidBackend();
+$stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
-$cacheFiles = clearSMTECache();
+$cacheFiles = $stupidBackend->stupid->clearSMTECache();
 
 ?>
 

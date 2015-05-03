@@ -5,8 +5,8 @@ stupidCMS is a flat file stupid CMS.
 
 Install
 -------
-- Login password is defined in `./__stupid/libs/config.php`
-- Desactivate debug mode in production in `./__stupid/libs/config.php`
+- Login password is defined in `./__stupid/libs/stupidConfig.php`
+- Desactivate debug mode in production in `./__stupid/libs/stupidConfig.php`
 
 Stupid Pages
 ------------
@@ -29,12 +29,13 @@ Studid Dynamic Page (SDP)
 - _Stupid Pages_ files extensions can be `.php`
 - In this case the page is a _Stupid Dynamic Page (SDP)_
 - Custom php scripting can be addded
+- `<?php global $stupid;?>` must be called to make the stupid engine available
 - Sutpid API available :
-	- `renderDefinition("def-name")`
-	- `renderInclusion("page-name-without-html-extension")`
-	- `renderContent("section-name")`
-	- `renderImage("image-name")`
-- No cache is applied
+	- `$stupid->renderDefinition("def-name")`
+	- `$stupid->renderInclusion("page-name-without-html-extension")`
+	- `$stupid->renderContent("section-name")`
+	- `$stupid->renderImage("image-name")`
+- No cache is applied (it is applied only for included contents)
 
 Stupid backend
 --------------

@@ -1,11 +1,12 @@
 <?php 
 
 /////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/../libs/tools.php";
-lockPage();
+require_once __DIR__."/../libs/stupidBackend.php";
+$stupidBackend = new stupidBackend();
+$stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
-$contents = getContentsList();
+$contents = $stupidBackend->getContentsList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -13,13 +14,13 @@ $itemSaved = "";
 if(isset($_POST["item"])) {
     foreach ($contents as $contentName => $contentFiles) {
         if($contentName == $_POST["item"]) {
-            file_put_contents(getMDFilePath($contentName), $_POST["content"]);
+            file_put_contents($stupidBackend->stupid->getMDFilePath($contentName), $_POST["content"]);
             $itemSaved = $_POST["item"];
             $saved = true;
             break;
         }
     }
-    clearSMTECache();
+    $stupidBackend->stupid->clearSMTECache();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ if(isset($_POST["item"])) {
 
     <?php ksort($contents);?>
     <?php foreach ($contents as $contentName => $contentFiles) :?>
-        <?php $contentFilePath = getMDFilePath($contentName);?>
+        <?php $contentFilePath = $stupidBackend->stupid->getMDFilePath($contentName);?>
         <?php createFileIfNotExists($contentFilePath)?>
         <h2><?php echo $contentName?> <small><?php echo implode($contentFiles,", ")?></small></h2>
         <div class="content">

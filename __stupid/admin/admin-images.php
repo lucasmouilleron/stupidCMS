@@ -1,11 +1,12 @@
 <?php 
 
 /////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/../libs/tools.php";
-lockPage();
+require_once __DIR__."/../libs/stupidBackend.php";
+$stupidBackend = new stupidBackend();
+$stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
-$images = getImagesList();
+$images = $stupidBackend->getImagesList();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -15,13 +16,13 @@ if(isset($_POST["item"])) {
         if($imageName == $_POST["item"]) {
             $file = $_FILES["file"];
             $item = $_POST["item"];
-            move_uploaded_file($file["tmp_name"], getImagePath($item));
+            move_uploaded_file($file["tmp_name"], $stupidBackend->stupid->getImagePath($item));
             $itemSaved = $item;
             $saved = true;
             break;
         }
     }
-    clearSMTECache();
+    $stupidBackend->stupid->clearSMTECache();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -56,7 +57,7 @@ if(isset($_POST["item"])) {
         <div class="image">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <img src="../<?php echo renderImage($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
+                <img src="../<?php echo $stupidBackend->stupid->renderImage($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
                 </div>
                 <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                 <input type="hidden" name="item" value="<?php echo $imageName?>"/>
