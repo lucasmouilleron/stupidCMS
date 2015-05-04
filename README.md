@@ -20,9 +20,8 @@ Stupid Micro Templating Engine (SMTE)
 -------------------------------------
 - Administrable contents : `{{CNT:section-name}}`
 - Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
-- Include a definition (PHP constant, e.g. defined in `./__stupid/libs/config.php`) : `{{DEF:CONSTANT_NAME}}`
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
-- Tip : declare images in `_additionalImages.html` if they are only referenced via administrable contents
+- Tip : declare images in `_additionalContents.html` if they are only referenced via administrable contents
 
 Studid Dynamic Page (SDP)
 -------------------------
@@ -31,11 +30,11 @@ Studid Dynamic Page (SDP)
 - Custom php scripting can be addded
 - `<?php global $stupid;?>` must be called to make the stupid engine available
 - Sutpid API available :
-	- `$stupid->renderDefinition("def-name")`
 	- `$stupid->renderInclusion("page-name-without-html-extension")`
 	- `$stupid->renderContent("section-name")`
 	- `$stupid->renderImage("image-name")`
 - No cache is applied (it is applied only for included contents)
+- Tip : declare contents or images in `_additionalContents.html` if they are only referenced via _SDP_
 
 Stupid backend
 --------------

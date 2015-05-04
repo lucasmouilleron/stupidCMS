@@ -3,6 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // DEFINES
 /////////////////////////////////////////////////////////////////////////////
+define("STUPID_PATH",truepath(__DIR__."/.."));
 define("CONTENTS_PATH",truepath(__DIR__."/../_contents"));
 define("IMAGES_PATH",truepath(__DIR__."/../_images"));
 define("PAGES_PATH",truepath(__DIR__."/../../"));

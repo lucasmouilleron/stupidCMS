@@ -4,6 +4,7 @@
 require_once __DIR__."/helpers.php";
 require_once __DIR__."/stupidConfig.php";
 require_once __DIR__."/stupidDefinitions.php";
+require_once __DIR__."/stupidCacheFile.php";
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -11,13 +12,19 @@ class Stupid
 {
     ///////////////////////////////////////////////////////////////////////////////
     public $debugInfos = array();
+    public $cacheEngine;
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function __construct() {
+        $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_PATH);
+    }
 
     /////////////////////////////////////////////////////////////////////////////
     function listPages() {
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,SMTE_CACHE_PATH)) {
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
                 array_push($pages, str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file)));
             }
         }
@@ -26,13 +33,10 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function clearSMTECache() {
-        @deleteDirectory(SMTE_CACHE_PATH);
-        @mkdir(SMTE_CACHE_PATH);
-
+        $this->cacheEngine->clearCache();
         $pages = $this->listPages();
         foreach ($pages as $page) {
-            @mkdir(dirname(SMTE_CACHE_PATH."/".$page),0777, true);
-            file_put_contents(SMTE_CACHE_PATH."/".$page.PAGES_EXTENSION, $this->renderPage($page, true));
+            $this->cacheEngine->setToCache($page,$this->renderPage($page, true));
             $this->setDegubInfo("cacheGenerated",$page);
         }
         return $pages;
@@ -65,10 +69,9 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function renderPage($page, $noCache=false) {
-        $page = $page.PAGES_EXTENSION;
-        if($noCache == false && file_exists(SMTE_CACHE_PATH."/".$page)) {
+        if($noCache == false && $this->cacheEngine->isInCache($page)) {
             $this->setDegubInfo($page." loadedFromCache","true");
-            return file_get_contents(SMTE_CACHE_PATH."/".$page);
+            return $this->cacheEngine->getFromCache($page);
         }
         else {
             $this->setDegubInfo($page." loadedFromCache",false);
@@ -76,7 +79,7 @@ class Stupid
                 $this->clearSMTECache();
             }
             ob_start(); 
-            $content = @file_get_contents(PAGES_PATH."/".$page);
+            $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
             if($content == "") {
                 echo "404 !";
                 exit();

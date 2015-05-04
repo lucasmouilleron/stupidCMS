@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo $stupid->renderDefinition("GENERAL_COMPANY")?> | home</title>
+	<title><?php echo $stupid->renderContent("general-company")?></title>
 	<meta name="description" content="">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -27,7 +27,7 @@
 
 		<?php echo $stupid->renderContent("index-about")?>
 
-		{{INC:_footer}}
+		<?php echo $stupid->renderInclusion("_footer")?>
 
 	</div>
 
