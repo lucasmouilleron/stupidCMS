@@ -2,8 +2,8 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/stupidBackend.php";
-$stupid = new stupidBackend();
-$stupid->lockPage();
+$stupidBackend = new stupidBackend();
+$stupidBackend->lockPage();
 ?>
 
 <?php require_once __DIR__."/header.php";?>

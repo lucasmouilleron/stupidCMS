@@ -21,7 +21,7 @@ class StupidBackend
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,SMTE_CACHE_PATH)) {
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
                 array_push($pages, str_replace(PAGES_EXTENSION, "", $file));
             }
         }

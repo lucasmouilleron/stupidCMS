@@ -5,6 +5,7 @@ require_once __DIR__."/helpers.php";
 require_once __DIR__."/stupidConfig.php";
 require_once __DIR__."/stupidDefinitions.php";
 require_once __DIR__."/stupidCacheFile.php";
+require_once __DIR__."/stupidCacheRedis.php";
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +17,14 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function __construct() {
-        $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_PATH);
+        if(SMTE_CACHE_ENGINE == "redis") {
+            $this->cacheEngine = new StupidCacheRedis(SMTE_CACHE_REDIS_PORT);    
+            $this->setDegubInfo("cacheEngine","redis");
+        }
+        else if(SMTE_CACHE_ENGINE == "file") {
+            $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_FILE_PATH);
+            $this->setDegubInfo("cacheEngine","file");
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +33,7 @@ class Stupid
         $pages = array();
         foreach ($files as $file) {
             if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
-                array_push($pages, str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file)));
+                array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
             }
         }
         return $pages;
@@ -44,6 +52,7 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function processPage($page) {
+        $page = $this->cleanPageName($page);
         if($this->isPageDynamic($page)) {
             include(PAGES_PATH."/".$page.".php");
         }
@@ -84,16 +93,17 @@ class Stupid
                 echo "404 !";
                 exit();
             }
-            return $this->renderSMTETemplate($content);
+            return $this->renderSMTETemplate($content,$noCache);
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderSMTETemplate($content) {
+    function renderSMTETemplate($content, $noCache=false) {
         return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
+            global $noCache;
             $result = $matches[1];
             if(startsWith($result,INCLUDE_TAG)) {
-                $result = $this->renderInclusion(substr($result, strlen(DEFINITION_TAG)));
+                $result = $this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache);
             }
             if(startsWith($result,DEFINITION_TAG)) {
                 $result = $this->renderDefinition(substr($result, strlen(DEFINITION_TAG)));
@@ -114,13 +124,13 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderInclusion($inclusionName) {
-        return $this->renderPage($inclusionName);
+    function renderInclusion($inclusionName, $noCache=false) {
+        return $this->renderPage($inclusionName, $noCache);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     function renderContent($sectionName) {
-        $content = @file_get_contents($this->getMDFilePath($this->clearSectionName($sectionName)));
+        $content = @file_get_contents($this->getMDFilePath($this->cleanSectionName($sectionName)));
         if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
             $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
         }
@@ -129,17 +139,22 @@ class Stupid
 
     /////////////////////////////////////////////////////////////////////////////
     function renderImage($image) {
-        return IMG_URL."/".$this->clearImageName($image);
+        return IMG_URL."/".$this->cleanImageName($image);
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function clearSectionName($sectionName) {
+    function cleanSectionName($sectionName) {
         return preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('_', '.', ''), $sectionName);
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function clearImageName($imageName) {
+    function cleanImageName($imageName) {
         return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function cleanPageName($page) {
+        return ltrim($page,"/");
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -152,12 +167,12 @@ class Stupid
 
     /////////////////////////////////////////////////////////////////////////////
     function getMDFilePath($section) {
-        return CONTENTS_PATH."/".$this->clearSectionName($section).".md";
+        return CONTENTS_PATH."/".$this->cleanSectionName($section).".md";
     }
 
     /////////////////////////////////////////////////////////////////////////////
     function getImagePath($image) {
-        return IMAGES_PATH."/".$this->clearImageName($image);
+        return IMAGES_PATH."/".$this->cleanImageName($image);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

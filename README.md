@@ -36,19 +36,26 @@ Studid Dynamic Page (SDP)
 - No cache is applied (it is applied only for included contents)
 - Tip : declare contents or images in `_additionalContents.html` if they are only referenced via _SDP_
 
+Stupid Caching
+--------------
+- Contents are _cached_ in `Stupid CMS`
+- Two engines are available : 
+	- The cache engine is selectable in `__stupid/libs/stupidConfig.php`
+	- _File_ cache engine : cache files are located in `__stupid/_cache`
+	- _Redis_ cache engine : redis port is configurable in `__stupid/libs/stupidDefinitions.php`
+- Tip : If SMTE new contents are not visible, run `Clear Cache`
+
 Stupid backend
 --------------
 - stupidCMS comes with a stupid backend
 - Open `http://site.com/admin` in browser
-- If SMTE administrable content are not visible, run `Scan Pages`
-- If SMTE new contents are not visible, run `Clear Cache`
 - Content editing tips : 
 	- Contents are also SMTE compatible, which means you can use the SMTE tags
 	- Contents can also be written in markdown format : 
 		- Prefix your content with *** to enable Markdown
 		- [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-	
-- Image editing tips : todo
+- Tip : If SMTE administrable content are not visible, run `Scan Pages`
+- Tip : If SMTE new contents are not visible, run `Clear Cache`
 
 Miscs
 -----

@@ -1,0 +1,10 @@
+{
+    "name": "stupidCMS",
+    "require": {
+        "michelf/php-markdown": "1.5.0",
+        "predis/predis": "1.1.*@dev"
+    },
+    "config": {
+        "vendor-dir": "libs/vendors"
+    }
+}
