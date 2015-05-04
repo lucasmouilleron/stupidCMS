@@ -2,10 +2,10 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/../libs/stupidBackend.php";
-$stupid = new stupidBackend();
+$stupidBackend = new stupidBackend();
 
 if(isset($_POST["password"])) {
-	$stupid->login($_POST["password"]);
+	$stupidBackend->login($_POST["password"]);
 }
 
 ?>
