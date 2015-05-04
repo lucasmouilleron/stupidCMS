@@ -8,7 +8,6 @@ require_once __DIR__."/stupidCacheFile.php";
 require_once __DIR__."/stupidCacheRedis.php";
 
 ///////////////////////////////////////////////////////////////////////////////
-
 class Stupid
 {
     ///////////////////////////////////////////////////////////////////////////////
@@ -55,7 +54,7 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function clearSMTECache() {
+    function clearCache() {
         $this->cacheEngine->clearCache();
         $pages = $this->listPages();
         foreach ($pages as $page) {
@@ -100,13 +99,13 @@ class Stupid
     ///////////////////////////////////////////////////////////////////////////////
     function renderPage($page, $noCache=false) {
         if($noCache == false && $this->cacheEngine->isInCache($page)) {
-            $this->setDegubInfo($page." pageLoadedFromCache",true);
+            $this->setDegubInfo("pageLoadedFromCache",$page);
             return $this->cacheEngine->getFromCache($page);
         }
         else {
-            $this->setDegubInfo($page." pageLoadedFromCache",false);
+            $this->setDegubInfo("pageLoadedFromFile",$page);
             if(SMTE_CACHE_AUTO_GENERATE && $noCache == false) {
-                $this->clearSMTECache();
+                $this->clearCache();
             }
             ob_start(); 
             $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
@@ -152,16 +151,16 @@ class Stupid
     ///////////////////////////////////////////////////////////////////////////////
     function renderContent($contentName, $noCache=false) {
         if($noCache == false && $this->cacheEngine->isInCache(SMTE_CACHE_CONTENT_PREFIX.$contentName)) {
-            $this->setDegubInfo($contentName." contentLoadedFromCache",true);
+            $this->setDegubInfo("contentLoadedFromCache",$contentName);
             return $this->cacheEngine->getFromCache(SMTE_CACHE_CONTENT_PREFIX.$contentName);
         }
         else {
-            $this->setDegubInfo($contentName." contentLoadedFromCache",false);
+            $this->setDegubInfo("contentLoadedFromFile",$contentName);
             $content = @file_get_contents($this->getContentFilePath($this->cleanContentName($contentName)));
             if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
                 $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
             }
-            return $this->renderSMTETemplate($this->replaceWithDefines($content));
+            return $this->renderSMTETemplate($content);
         }
     }
 
@@ -186,14 +185,6 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function replaceWithDefines($str) {
-        return preg_replace_callback("/\%\%(.*)\%\%/si", 
-            function($matches) {
-                return constant($matches[1]);
-            }, $str);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
     function getContentFilePath($contentName) {
         return CONTENTS_PATH."/".$this->cleanContentName($contentName).".md";
     }
@@ -205,7 +196,7 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function setDegubInfo($label, $value) {
-        $label .= uniqid();
+        $label = count($this->debugInfos)." >>> ".$label;
         $this->debugInfos[$label] = $value;
     }
 

@@ -20,7 +20,7 @@ if(isset($_POST["item"])) {
             break;
         }
     }
-    $stupidBackend->stupid->clearSMTECache();
+    $stupidBackend->stupid->clearCache();
 }
 
 /////////////////////////////////////////////////////////////////////////////

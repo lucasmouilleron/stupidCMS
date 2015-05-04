@@ -6,7 +6,7 @@ $stupidBackend = new stupidBackend();
 $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
-$cacheFiles = $stupidBackend->stupid->clearSMTECache();
+$cacheFiles = $stupidBackend->stupid->clearCache();
 
 ?>
 
