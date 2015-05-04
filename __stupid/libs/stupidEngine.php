@@ -24,6 +24,10 @@ class Stupid
             $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_FILE_PATH);
             $this->setDegubInfo("cacheEngine","file");
         }
+        else {
+            $this->cacheEngine = new StupidCache();
+            $this->setDegubInfo("cacheEngine","none");   
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -104,9 +108,6 @@ class Stupid
         }
         else {
             $this->setDegubInfo("pageLoadedFromFile",$page);
-            if(SMTE_CACHE_AUTO_GENERATE && $noCache == false) {
-                $this->clearCache();
-            }
             ob_start(); 
             $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
             if($content == "") {

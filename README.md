@@ -40,8 +40,9 @@ Studid Dynamic Page (SDP)
 Stupid Caching
 --------------
 - Contents are _cached_ in `Stupid CMS`
-- Two engines are available : 
+- Three engines are available : 
 	- The cache engine is selectable in `__stupid/libs/stupidConfig.php`
+	- _None_ cache engine : no cache, all pages and contents are loaded from original files (not recommended)
 	- _File_ cache engine : cache files are located in `__stupid/_cache`
 	- _Redis_ cache engine : redis port is configurable in `__stupid/libs/stupidDefinitions.php`
 - Tip : If SMTE new contents are not visible, run `Clear Cache`
