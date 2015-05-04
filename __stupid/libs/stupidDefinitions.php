@@ -21,6 +21,7 @@ define("CONTENT_MARKDOWN_PREFIX","***");
 /////////////////////////////////////////////////////////////////////////////
 define("SMTE_CACHE_FILE_PATH",truepath(__DIR__."/../_cache"));
 define("SMTE_CACHE_REDIS_PORT",6379);
+define("SMTE_CACHE_CONTENT_PREFIX","CNT__");
 /////////////////////////////////////////////////////////////////////////////
 define("CONTACT_EMAIL","lucas.mouiilleron@me.com");
 define("README_FILE",__DIR__."/../../README.md");

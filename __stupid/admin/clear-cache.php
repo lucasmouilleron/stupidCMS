@@ -13,9 +13,12 @@ $cacheFiles = $stupidBackend->stupid->clearSMTECache();
 <?php require_once __DIR__."/header.php";?>
 
 <div class="container">
-	<?php foreach ($cacheFiles as $cacheFile) :?>
-		<div class="alert alert-success" role="alert">Cache file <strong><?php echo $cacheFile?></strong> generated</div>
-		
+	<?php foreach ($cacheFiles["pages"] as $cacheFile) :?>
+		<div class="alert alert-success" role="alert">Page cache <strong><?php echo $cacheFile?></strong> generated</div>
+	<?php endforeach;?>
+
+	<?php foreach ($cacheFiles["contents"] as $cacheFile) :?>
+		<div class="alert alert-success" role="alert">Content cache <strong><?php echo $cacheFile?></strong> generated</div>
 	<?php endforeach;?>
 </div>
 

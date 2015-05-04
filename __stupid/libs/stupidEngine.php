@@ -39,15 +39,36 @@ class Stupid
         return $pages;
     }
 
+    /////////////////////////////////////////////////////////////////////////////
+    function listContents() {
+        $contents = @json_decode(file_get_contents(CONTENTS_FILE), true);
+        if($contents === null) {
+            return array();
+        }
+        else {
+            $contentsArray = array();
+            foreach ($contents as $contentName => $content) {
+                array_push($contentsArray, $contentName);
+            }
+            return $contentsArray;
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     function clearSMTECache() {
         $this->cacheEngine->clearCache();
         $pages = $this->listPages();
         foreach ($pages as $page) {
             $this->cacheEngine->setToCache($page,$this->renderPage($page, true));
-            $this->setDegubInfo("cacheGenerated",$page);
+            $this->setDegubInfo("pageCacheGenerated",$page);
         }
-        return $pages;
+        $contents = $this->listContents();
+        foreach ($contents as $contentName) {
+            $contentName = $this->cleanContentName($contentName);
+            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderContent($contentName, true));
+            $this->setDegubInfo("contentCacheGenerated",$contentName);
+        }
+        return array("pages"=>$pages, "contents"=>$contents);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -79,11 +100,11 @@ class Stupid
     ///////////////////////////////////////////////////////////////////////////////
     function renderPage($page, $noCache=false) {
         if($noCache == false && $this->cacheEngine->isInCache($page)) {
-            $this->setDegubInfo($page." loadedFromCache","true");
+            $this->setDegubInfo($page." pageLoadedFromCache",true);
             return $this->cacheEngine->getFromCache($page);
         }
         else {
-            $this->setDegubInfo($page." loadedFromCache",false);
+            $this->setDegubInfo($page." pageLoadedFromCache",false);
             if(SMTE_CACHE_AUTO_GENERATE && $noCache == false) {
                 $this->clearSMTECache();
             }
@@ -105,14 +126,14 @@ class Stupid
             if(startsWith($result,INCLUDE_TAG)) {
                 $result = $this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache);
             }
-            if(startsWith($result,DEFINITION_TAG)) {
-                $result = $this->renderDefinition(substr($result, strlen(DEFINITION_TAG)));
-            }
             if(startsWith($result,CONTENT_TAG)) {
-                $result = $this->renderContent(substr($result, strlen(CONTENT_TAG)));
+                $result = $this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache);
             }
             if(startsWith($result,IMAGE_TAG)) {
                 $result = $this->renderImage(substr($result, strlen(IMAGE_TAG)));
+            }
+            if(startsWith($result,DEFINITION_TAG)) {
+                $result = $this->renderDefinition(substr($result, strlen(DEFINITION_TAG)));
             }
             return $result;
         }, $content);
@@ -129,12 +150,19 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderContent($sectionName) {
-        $content = @file_get_contents($this->getMDFilePath($this->cleanSectionName($sectionName)));
-        if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
-            $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
+    function renderContent($contentName, $noCache=false) {
+        if($noCache == false && $this->cacheEngine->isInCache(SMTE_CACHE_CONTENT_PREFIX.$contentName)) {
+            $this->setDegubInfo($contentName." contentLoadedFromCache",true);
+            return $this->cacheEngine->getFromCache(SMTE_CACHE_CONTENT_PREFIX.$contentName);
         }
-        return $this->renderSMTETemplate($this->replaceWithDefines($content));
+        else {
+            $this->setDegubInfo($contentName." contentLoadedFromCache",false);
+            $content = @file_get_contents($this->getContentFilePath($this->cleanContentName($contentName)));
+            if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
+                $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
+            }
+            return $this->renderSMTETemplate($this->replaceWithDefines($content));
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -143,8 +171,8 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function cleanSectionName($sectionName) {
-        return preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('_', '.', ''), $sectionName);
+    function cleanContentName($contentName) {
+        return ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('_', '.', ''), $contentName),"/");
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -166,8 +194,8 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function getMDFilePath($section) {
-        return CONTENTS_PATH."/".$this->cleanSectionName($section).".md";
+    function getContentFilePath($contentName) {
+        return CONTENTS_PATH."/".$this->cleanContentName($contentName).".md";
     }
 
     /////////////////////////////////////////////////////////////////////////////

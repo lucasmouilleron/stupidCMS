@@ -18,7 +18,7 @@ Stupid Pages
 
 Stupid Micro Templating Engine (SMTE)
 -------------------------------------
-- Administrable contents : `{{CNT:section-name}}`
+- Administrable contents : `{{CNT:content-name}}`
 - Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
 - Tip : declare images in `_additionalContents.html` if they are only referenced via administrable contents
@@ -31,7 +31,7 @@ Studid Dynamic Page (SDP)
 - `<?php global $stupid;?>` must be called to make the stupid engine available
 - Sutpid API available :
 	- `$stupid->renderInclusion("page-name-without-html-extension")`
-	- `$stupid->renderContent("section-name")`
+	- `$stupid->renderContent("content-name")`
 	- `$stupid->renderImage("image-name")`
 - No cache is applied (it is applied only for included contents)
 - Tip : declare contents or images in `_additionalContents.html` if they are only referenced via _SDP_

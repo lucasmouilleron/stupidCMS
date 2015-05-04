@@ -6,7 +6,7 @@ $stupidBackend = new stupidBackend();
 $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
-$contents = $stupidBackend->getContentsList();
+$contents = $stupidBackend->listContents();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -14,7 +14,7 @@ $itemSaved = "";
 if(isset($_POST["item"])) {
     foreach ($contents as $contentName => $contentFiles) {
         if($contentName == $_POST["item"]) {
-            file_put_contents($stupidBackend->stupid->getMDFilePath($contentName), $_POST["content"]);
+            file_put_contents($stupidBackend->stupid->getContentFilePath($contentName), $_POST["content"]);
             $itemSaved = $_POST["item"];
             $saved = true;
             break;
@@ -51,7 +51,7 @@ if(isset($_POST["item"])) {
 
     <?php ksort($contents);?>
     <?php foreach ($contents as $contentName => $contentFiles) :?>
-        <?php $contentFilePath = $stupidBackend->stupid->getMDFilePath($contentName);?>
+        <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($contentName);?>
         <?php createFileIfNotExists($contentFilePath)?>
         <h2><?php echo $contentName?> <small><?php echo implode($contentFiles,", ")?></small></h2>
         <div class="content">

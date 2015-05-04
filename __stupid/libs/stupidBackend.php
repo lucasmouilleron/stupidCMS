@@ -16,8 +16,49 @@ class StupidBackend
         $this->stupid = new Stupid();
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+    function scanImages() {
+        $images = array();
+        $pages = $this->listPages();
+        foreach ($pages as $page) {
+            $content = file_get_contents($page.PAGES_EXTENSION);
+            $page = str_replace(PAGES_PATH, "", $page);
+            preg_match_all("/\{\{".IMAGE_TAG."(.*)\}\}/U",$content, $matches);
+            $results = $matches[1];
+            foreach ($results as $result) {
+                if(!array_key_exists($result, $images)) {
+                    $images[$result] = array(); 
+                }
+                array_push($images[$result], $page);
+            }
+        }
+
+        file_put_contents(IMAGES_FILE, json_encode($images));
+        return $images;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function scanContents() {
+        $contents = array();
+        $pages = $this->listPages();
+        foreach ($pages as $page) {
+            $content = file_get_contents($page.PAGES_EXTENSION);
+            $page = str_replace(PAGES_PATH, "", $page);
+            preg_match_all("/\{\{".CONTENT_TAG."(.*)\}\}/U",$content, $matches);
+            $results = $matches[1];
+            foreach ($results as $result) {
+                if(!array_key_exists($result, $contents)) {
+                    $contents[$result] = array();   
+                }
+                array_push($contents[$result], $page);
+            }
+        }
+        file_put_contents(CONTENTS_FILE, json_encode($contents));
+        return $contents;
+    }
+
     /////////////////////////////////////////////////////////////////////////////
-    function listPagesFull() {
+    function listPages() {
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
@@ -29,7 +70,7 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function getContentsList() {
+    function listContents() {
         $contents = @json_decode(file_get_contents(CONTENTS_FILE), true);
         if($contents === null) {
             return array();
@@ -40,7 +81,7 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function getImagesList() {
+    function listImages() {
         $images = @json_decode(file_get_contents(IMAGES_FILE), true);
         if($images === null) {
             return array();
