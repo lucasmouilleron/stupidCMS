@@ -1,12 +1,13 @@
 stupidCMS
 =========
 
-stupidCMS is a flat file stupid CMS.
+stupidCMS is a flat file stupid CMS with nice templating and caching engines.
 
 Install
 -------
 - Login password is defined in `./__stupid/libs/stupidConfig.php`
 - Desactivate debug mode in production in `./__stupid/libs/stupidConfig.php`
+- Drop all files (including `.htaccess`) at your site root
 
 Stupid Pages
 ------------
@@ -57,11 +58,14 @@ Stupid backend
 - Tip : If SMTE administrable content are not visible, run `Scan Pages`
 - Tip : If SMTE new contents are not visible, run `Clear Cache`
 
-Miscs
------
+Dev
+---
+- Install `composer` : `curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer`
+- Install dependencies : `cd __stupid && composer install`
 - Underlying cotents in `./__stupid/_contents`
 - Underlying images in `./__stupid/_images`
 
 TODO
 ----
 - sub folder index
+- todo
