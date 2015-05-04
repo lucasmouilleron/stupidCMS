@@ -57,7 +57,7 @@ if(isset($_POST["item"])) {
         <div class="content">
             <form method="post">
                 <div class="form-group">
-                    <textarea class="form-control" rows="10" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
+                    <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
                 </div>
                 <input type="button" class="btn btn-default preview-modal" value="preview"/>
                 <input type="hidden" name="item" value="<?php echo $contentName?>"/>

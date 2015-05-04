@@ -1,6 +1,6 @@
 <div class="container">
 	<footer>
-		<p>&copy; <?php echo GENERAL_COMPANY ?> | <a href="mailto:<?php echo GENERAL_EMAIL?>"><?php echo GENERAL_EMAIL?></a></p>
+		<p>&copy; stupidCMS | <a href="mailto:<?php echo CONTACT_EMAIL?>"><?php echo CONTACT_EMAIL?></a></p>
 	</footer>
 </div>
 

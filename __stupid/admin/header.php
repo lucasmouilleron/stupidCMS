@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo GENERAL_COMPANY?> | Admininistration</title>
+	<title>stupidCMS | Admininistration</title>
 	<meta name="description" content="">
 	<meta name="robots" content="noindex">
 	<meta charset="utf-8">
