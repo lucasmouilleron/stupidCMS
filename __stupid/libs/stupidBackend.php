@@ -29,7 +29,9 @@ class StupidBackend
                 if(!array_key_exists($result, $images)) {
                     $images[$result] = array(); 
                 }
-                array_push($images[$result], $page);
+                if(!in_array($page, $images[$result])) {
+                    array_push($images[$result], $page);
+                }
             }
         }
 
@@ -50,7 +52,9 @@ class StupidBackend
                 if(!array_key_exists($result, $contents)) {
                     $contents[$result] = array();   
                 }
-                array_push($contents[$result], $page);
+                if(!in_array($page, $contents[$result])) {
+                    array_push($contents[$result], $page);
+                }
             }
         }
         file_put_contents(CONTENTS_FILE, json_encode($contents));
