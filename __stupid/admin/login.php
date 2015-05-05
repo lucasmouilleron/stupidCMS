@@ -15,7 +15,7 @@ if(isset($_POST["password"])) {
 <div class="container">
 	<form method="post">
 		<div class="form-group">
-			<input type="password" name="password" placeHolder="admin password" class="form-control"/>
+			<input type="password" name="password" placeHolder="admin password" class="form-control" autofocus/>
 		</div>
 		<input type="submit" name="login" value="login" class="btn btn-primary"/>
 	</form>
