@@ -161,6 +161,9 @@ class Stupid
             if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
                 $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
             }
+            else {
+                $content = $this->defaultContentProcessing($content);
+            }
             return $this->renderSMTETemplate($content);
         }
     }
@@ -204,6 +207,11 @@ class Stupid
     ///////////////////////////////////////////////////////////////////////////////
     function getDebugInfos() {  
         return var_export($this->debugInfos,true);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function defaultContentProcessing($content) {
+        return nl2br($content);
     }
 
 }
