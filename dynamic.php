@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo $stupid->renderContent("general-company")?></title>
+	<title><?php $stupid->__cnt("general-company")?></title>
 	<meta name="description" content="">
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -12,7 +12,7 @@
 
 	<div class="container">
 
-		<?php echo $stupid->renderInclusion("_menu")?>
+		<?php $stupid->__inc("_menu")?>
 
 		<div class="hot">
 		<p>This is a PHP page.</p>
@@ -22,12 +22,12 @@
 
 		<div>
             <h2>Administrable image</h2>
-            <img src="<?php echo $stupid->renderImage("image1.jpg")?>"/>
+            <img src="<?php $stupid->__img("image1.jpg")?>"/>
         </div>
 
-		<?php echo $stupid->renderContent("index-about")?>
+		<?php $stupid->__cnt("index-about")?>
 
-		<?php echo $stupid->renderInclusion("_footer")?>
+		<?php $stupid->__inc("_footer")?>
 
 	</div>
 

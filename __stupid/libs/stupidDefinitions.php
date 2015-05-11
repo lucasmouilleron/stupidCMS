@@ -15,6 +15,10 @@ define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");
 define("INCLUDE_TAG","INC:");
+define("IF_TAG","IF:");
+define("END_IF_TAG","EIF");
+define("BEGIN_ECHO",'echo "');
+define("END_ECHO",'";');
 /////////////////////////////////////////////////////////////////////////////
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");

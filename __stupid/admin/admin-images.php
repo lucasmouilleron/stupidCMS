@@ -57,7 +57,7 @@ if(isset($_POST["item"])) {
         <div class="image">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                <img src="../<?php echo $stupidBackend->stupid->renderImage($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
+                <img src="../<?php $stupidBackend->stupid->__img($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
                 </div>
                 <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                 <input type="hidden" name="item" value="<?php echo $imageName?>"/>

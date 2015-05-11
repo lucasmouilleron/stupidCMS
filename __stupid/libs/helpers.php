@@ -34,7 +34,7 @@ function createFileIfNotExists($filePath) {
 
 /////////////////////////////////////////////////////////////////////////////
 function isCurrentPage($pageName) {
-    return endsWith(basename($_SERVER["PHP_SELF"]),$pageName);
+    return endsWith(basename($_SERVER["REQUEST_URI"]),$pageName);
 }
 
 

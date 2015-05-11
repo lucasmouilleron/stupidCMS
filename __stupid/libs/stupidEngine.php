@@ -81,7 +81,7 @@ class Stupid
             include(PAGES_PATH."/".$page.".php");
         }
         else if($this->isPageRenderable($page)){ 
-            echo @$this->renderPage($page);
+            eval(@$this->renderPage($page));
         }
     }
 
@@ -120,28 +120,37 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function renderSMTETemplate($content, $noCache=false) {
-        return preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
+        $content = addslashes($content);
+        $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
             global $noCache;
             $result = $matches[1];
             if(startsWith($result,INCLUDE_TAG)) {
-                $result = $this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache);
+                $result = END_ECHO.$this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache).BEGIN_ECHO;
             }
             if(startsWith($result,CONTENT_TAG)) {
-                $result = $this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache);
+                $result = END_ECHO.$this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache).BEGIN_ECHO;
             }
             if(startsWith($result,IMAGE_TAG)) {
-                $result = $this->renderImage(substr($result, strlen(IMAGE_TAG)));
+                $result = END_ECHO.$this->renderImage(substr($result, strlen(IMAGE_TAG))).BEGIN_ECHO;
             }
             if(startsWith($result,DEFINITION_TAG)) {
-                $result = $this->renderDefinition(substr($result, strlen(DEFINITION_TAG)));
+                $result = END_ECHO.$this->renderDefinition(substr($result, strlen(DEFINITION_TAG))).BEGIN_ECHO;
+            }
+            if(startsWith($result,IF_TAG)) {
+                $result = END_ECHO."if (".(stripslashes(substr($result, strlen(IF_TAG))))."){".BEGIN_ECHO;
+            }
+            if(startsWith($result,END_IF_TAG)) {
+                $result = END_ECHO."};".BEGIN_ECHO;
             }
             return $result;
         }, $content);
+        return BEGIN_ECHO.$content.END_ECHO;
+        //return $content;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     function renderDefinition($def) {
-        return @constant($def);
+        return BEGIN_ECHO.addslashes(constant($def)).END_ECHO;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -170,7 +179,27 @@ class Stupid
 
     /////////////////////////////////////////////////////////////////////////////
     function renderImage($image) {
-        return IMG_URL."/".$this->cleanImageName($image);
+        return BEGIN_ECHO.addslashes(IMG_URL."/".$this->cleanImageName($image)).END_ECHO;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function __inc($inclusionName) {
+        eval($this->renderInclusion($inclusionName));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function __cnt($contentName) {
+        eval($this->renderContent($contentName));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function __img($image) {
+        eval($this->renderImage($image));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function __def($def) {
+        eval($this->renderDefinition($def));
     }
 
     /////////////////////////////////////////////////////////////////////////////

@@ -13,15 +13,15 @@
 		<header>
 			<h1>stupidCMS<sup><?php echo STUPID_VERSION?></sup></h1>
 			<nav>
-				<a href="admin-contents" class="<?php if(isCurrentPage("admin-contents.php")) echo "active"?>">Contents</a>
+				<a href="admin-contents" class="<?php if(isCurrentPage("admin-contents")) echo "active"?>">Contents</a>
 				<span class="sep">|</span>
-				<a href="admin-images" class="<?php if(isCurrentPage("admin-images.php")) echo "active"?>">Images</a> 
+				<a href="admin-images" class="<?php if(isCurrentPage("admin-images")) echo "active"?>">Images</a> 
 				<span class="sep">|</span> 
-				<a href="scan-pages" class="<?php if(isCurrentPage("scan-pages.php")) echo "active"?>">Scan pages</a> 
+				<a href="scan-pages" class="<?php if(isCurrentPage("scan-pages")) echo "active"?>">Scan pages</a> 
 				<span class="sep">|</span> 
-				<a href="clear-cache" class="<?php if(isCurrentPage("clear-cache.php")) echo "active"?>">Clear cache</a>
+				<a href="clear-cache" class="<?php if(isCurrentPage("clear-cache")) echo "active"?>">Clear cache</a>
 				<span class="sep">|</span> 
-				<a href="help" class="<?php if(isCurrentPage("help.php")) echo "active"?>">Help</a>
+				<a href="help" class="<?php if(isCurrentPage("help")) echo "active"?>">Help</a>
 			</nav>
 		</header>
 	</div>
