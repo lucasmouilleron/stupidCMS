@@ -145,7 +145,6 @@ class Stupid
             return $result;
         }, $content);
         return BEGIN_ECHO.$content.END_ECHO;
-        //return $content;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -234,7 +233,7 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function getDebugInfos() {  
+    function getDebugInfos() {
         return var_export($this->debugInfos,true);
     }
 

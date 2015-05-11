@@ -85,6 +85,25 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
+    function listContentsByPages() {
+        $contents = $this->listContents();
+        $contentsByPage = array();
+        foreach ($contents as $contentName => $contentPages) {
+            if(count($contentPages)>1) {
+                $contentPage = "__multiple";
+            }
+            else {
+                $contentPage = $contentPages[0];
+            }
+            if(!array_key_exists($contentPage, $contentsByPage)) {
+                $contentsByPage[$contentPage] = array();
+            }
+            array_push($contentsByPage[$contentPage], $contentName);
+        }
+        return $contentsByPage;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
     function listImages() {
         $images = @json_decode(file_get_contents(IMAGES_FILE), true);
         if($images === null) {

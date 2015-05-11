@@ -7,6 +7,7 @@ $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
 $contents = $stupidBackend->listContents();
+$contentsByPages = $stupidBackend->listContentsByPages();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -49,22 +50,41 @@ if(isset($_POST["item"])) {
         <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
     <?php endif;?>
 
-    <?php ksort($contents);?>
-    <?php foreach ($contents as $contentName => $contentFiles) :?>
-        <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($contentName);?>
-        <?php createFileIfNotExists($contentFilePath)?>
-        <h2><?php echo $contentName?> <small><?php echo implode($contentFiles,", ")?></small></h2>
-        <div class="content">
-            <form method="post">
-                <div class="form-group">
-                    <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
-                </div>
-                <input type="button" class="btn btn-default preview-modal" value="preview"/>
-                <input type="hidden" name="item" value="<?php echo $contentName?>"/>
-                <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary submit"/>
-            </form>
-        </div>
+    <?php ksort($contentsByPages);?>
+
+    <nav>
+        <ul>
+            <?php foreach ($contentsByPages as $contentPage => $contentNames) :?>
+                <li><a href="#<?php echo $contentPage?>"><?php echo $contentPage?></a></li>
+            <?php endforeach;?>
+        </ul>
+    </nav>
+    <hr/>
+    
+    <?php foreach ($contentsByPages as $contentPage => $contentNames) :?>
+
+        <a name="<?php echo $contentPage?>"></a>
+        <h2><?php echo $contentPage?></h2>
+
+        <?php foreach ($contentNames as $contentName):?>
+            <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($contentName);?>
+            <?php createFileIfNotExists($contentFilePath)?>
+            <h3><?php echo $contentName?></h3>
+            <div class="content">
+                <form method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath)?></textarea>
+                    </div>
+                    <input type="button" class="btn btn-default preview-modal" value="preview"/>
+                    <input type="hidden" name="item" value="<?php echo $contentName?>"/>
+                    <input type="submit" name="<?php echo $contentName?>" value="save" class="btn btn-primary submit"/>
+                </form>
+            </div>
+        <?php endforeach;?>
+
+        <hr/>
     <?php endforeach;?>
+
 </div>
 
 <?php require_once __DIR__."/footer.php";?>

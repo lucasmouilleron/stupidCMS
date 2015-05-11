@@ -34,19 +34,21 @@ header h1 {
     font-family: 'Droid Serif', serif, arial, sans-serif;
 }
 
-header nav {
+nav {
     text-transform: capitalize;
     font-size:1.3em;
     height:20px;
+    text-align: center;
 }
 
-header nav .active {
+nav .active {
     color:#000;
     text-decoration: none;
 }
 
-header nav li {
+nav li {
     display: inline;
+    margin:0 10px;
 }
 
 footer {
@@ -54,7 +56,6 @@ footer {
     border-top: 1px solid #ddd;
     padding:15px 0 10px;
 }
-
 
 .debug {
     margin:0 auto;
