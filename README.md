@@ -15,7 +15,7 @@ Stupid Pages (SP)
 - _Stupid Pages_ files extensions should be `.html`
 - In _Stupid Pages_, paths are relative to the site root
 - To link from a page to another page, use `http://site.com/other-page`
-- They use the _stupid micro templating engine_ (SMTE) allowing administrable content declaration
+- They use the _Stupid Micro Templating Engine_ (SMTE) allowing administrable content declaration
 
 Stupid Micro Templating Engine (SMTE)
 -------------------------------------
