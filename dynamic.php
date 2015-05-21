@@ -5,8 +5,8 @@
 	<title><?php $stupid->__cnt("general-company")?></title>
 	<meta name="description" content="">
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="assets/css/main.css">
 	<meta name="viewport" content="width=device-width initial-scale=1.0">
+	<?php $stupid->__inc("_includes")?>
 </head>
 <body>
 
@@ -30,6 +30,6 @@
 		<?php $stupid->__inc("_footer")?>
 
 	</div>
-
+	
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/vendors/autoload.php"; 
-require_once __DIR__."/stupidConfig.php";
+require_once __DIR__."/../config.php";
 use \Michelf\Markdown;
 /////////////////////////////////////////////////////////////////////////////
 session_start();
@@ -34,7 +34,7 @@ function createFileIfNotExists($filePath) {
 
 /////////////////////////////////////////////////////////////////////////////
 function isCurrentPage($pageName) {
-    return endsWith(basename($_SERVER["REQUEST_URI"]),$pageName);
+    return endsWith(strtok($_SERVER["REQUEST_URI"], "?"),$pageName);
 }
 
 

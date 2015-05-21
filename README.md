@@ -5,9 +5,11 @@ stupidCMS is a flat file stupid CMS with nice templating and caching engines.
 
 Install
 -------
-- Login password is defined in `./__stupid/libs/stupidConfig.php`
-- Desactivate debug mode in production in `./__stupid/libs/stupidConfig.php`
-- Drop all files (including `.htaccess`) at your site root
+- Drop all files (including `.htaccess`) at the site root
+- Edit the `./__stupid/config.php` file :
+	- Change the `SITE_URL` so it is the root url of the
+	- Change the admin password
+	- Desactivate debug mode in production
 
 Stupid Pages (SP)
 -----------------
@@ -22,6 +24,7 @@ Stupid Micro Templating Engine (SMTE)
 - Administrable contents : `{{CNT:content-name}}`
 - Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
+- Definitions : `{{DEF:CONSTANT_NAME}}` (for example `SITE_URL`)
 - If : `{{IF:php expression}}content{{EIF}}`
 - Tip : declare images in `_additionalContents.html` if they are only referenced via administrable contents
 
@@ -42,7 +45,7 @@ Compiled Stupid Pages Caching (CSPC)
 ------------------------------------
 - Compiled `Stupid Pages` are _cached_ for performance optimization
 - Three engines are available : 
-	- The cache engine is selectable in `__stupid/libs/stupidConfig.php`
+	- The cache engine is selectable in `__stupid/config.php`
 	- _None_ cache engine : no cache, all pages and contents are loaded from original files (not recommended)
 	- _File_ cache engine : cache files are located in `__stupid/_cache`
 	- _Redis_ cache engine : redis port is configurable in `__stupid/libs/stupidDefinitions.php`

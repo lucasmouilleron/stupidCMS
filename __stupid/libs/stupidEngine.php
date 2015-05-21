@@ -2,7 +2,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__."/helpers.php";
-require_once __DIR__."/stupidConfig.php";
+require_once __DIR__."/../config.php";
 require_once __DIR__."/stupidDefinitions.php";
 require_once __DIR__."/stupidCacheFile.php";
 require_once __DIR__."/stupidCacheRedis.php";
@@ -68,7 +68,7 @@ class Stupid
         $contents = $this->listContents();
         foreach ($contents as $contentName) {
             $contentName = $this->cleanContentName($contentName);
-            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderContent($contentName, true));
+            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderSMTETemplate($contentName, true));
             $this->setDegubInfo("contentCacheGenerated",$contentName);
         }
         return array("pages"=>$pages, "contents"=>$contents);
@@ -124,6 +124,9 @@ class Stupid
         $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
             global $noCache;
             $result = $matches[1];
+            if(startsWith($result,DEFINITION_TAG)) {
+                $result = END_ECHO.$this->renderDefinition(substr($result, strlen(DEFINITION_TAG))).BEGIN_ECHO;
+            }
             if(startsWith($result,INCLUDE_TAG)) {
                 $result = END_ECHO.$this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache).BEGIN_ECHO;
             }
@@ -132,9 +135,6 @@ class Stupid
             }
             if(startsWith($result,IMAGE_TAG)) {
                 $result = END_ECHO.$this->renderImage(substr($result, strlen(IMAGE_TAG))).BEGIN_ECHO;
-            }
-            if(startsWith($result,DEFINITION_TAG)) {
-                $result = END_ECHO.$this->renderDefinition(substr($result, strlen(DEFINITION_TAG))).BEGIN_ECHO;
             }
             if(startsWith($result,IF_TAG)) {
                 $result = END_ECHO."if (".(stripslashes(substr($result, strlen(IF_TAG))))."){".BEGIN_ECHO;
