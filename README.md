@@ -49,6 +49,7 @@ Compiled Stupid Pages Caching (CSPC)
 	- _File_ cache engine : cache files are located in `__stupid/_cache`
 	- _Redis_ cache engine : redis port is configurable in `__stupid/libs/stupidDefinitions.php`
 - Tip : If new contents are not visible, run `Clear Cache` from the `Stupid Backend`
+- Tip : In `DEV_MODE`, the cache is disabled
 
 Stupid Backend (SB)
 -------------------
