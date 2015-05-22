@@ -10,6 +10,7 @@ Install
 	- Change the `SITE_URL` so it is the root url of the
 	- Change the `ADMIN_PASSWORD`
 	- Set `DEBUG_MODE` to false in production
+	- Set `DEVELOPMENT_MODE` to false in production
 	- `PAGE_404` can be set to `false` if no 404 page is desired
 
 Stupid Pages (SP)
