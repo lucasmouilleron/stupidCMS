@@ -102,11 +102,60 @@ class StupidBackend
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
                 array_push($pages, str_replace(PAGES_EXTENSION, "", $file));
             }
         }
         return $pages;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function listPagesWithExtensions() {
+        $files = getDirContents(PAGES_PATH);
+        $pages = array();
+        foreach ($files as $file) {
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
+                array_push($pages, $file);
+            }
+        }
+        return $pages;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function savePageFullPath($page, $content) {
+        file_put_contents($page, $content);
+        return $page;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function savePage($pageName, $content) {
+        $pagePath = PAGES_PATH."/".$this->stupid->cleanPageNameFile($pageName);
+        file_put_contents($pagePath, $content);
+        return $pagePath;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function saveContent($contentName, $content) {
+        $contentPath = $this->stupid->getContentFilePath($contentName);
+        file_put_contents($contentPath, $content);
+        return $contentPath;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function saveImage($imageName, $file) {
+        $imagePath = $this->stupid->getImagePath($imageName);
+        move_uploaded_file($file, $imagePath);
+        return $imagePath;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function listTemplates() {
+        $files = getDirContents(PAGE_TEMPLATES_PATH);
+        $templates = array();
+        foreach ($files as $file) {
+            array_push($templates, array("file"=>$file,"content"=>file_get_contents($file)));
+        }
+        return $templates;
     }
 
     /////////////////////////////////////////////////////////////////////////////

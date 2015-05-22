@@ -78,7 +78,7 @@ class Stupid
     function processPage($page) {
         $page = $this->cleanPageName($page);
         if($this->isPageDynamic($page)) {
-            include(PAGES_PATH."/".$page.".php");
+            include(PAGES_PATH."/".$page.DYNAMIC_PAGES_EXTENSION);
         }
         else if($this->isPageRenderable($page)){ 
             eval(@$this->renderPage($page));
@@ -87,7 +87,7 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function isPageDynamic($page) {
-        return file_exists(PAGES_PATH."/".$page.".php");
+        return file_exists(PAGES_PATH."/".$page.DYNAMIC_PAGES_EXTENSION);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -111,8 +111,14 @@ class Stupid
             ob_start(); 
             $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
             if($content == "") {
-                echo "404 !";
-                exit();
+                header("HTTP/1.0 404 Not Found");
+                if(PAGE_404 !== false) {
+                    return $this->processPage(PAGE_404);
+                }
+                else {
+                    echo "404";
+                    exit();
+                }
             }
             return $this->renderSMTETemplate($content,$noCache);
         }
@@ -144,103 +150,112 @@ class Stupid
             }
             return $result;
         }, $content);
-        return BEGIN_ECHO.$content.END_ECHO;
-    }
+return BEGIN_ECHO.$content.END_ECHO;
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderDefinition($def) {
-        return BEGIN_ECHO.addslashes(constant($def)).END_ECHO;
-    }
+function renderDefinition($def) {
+    return BEGIN_ECHO.addslashes(constant($def)).END_ECHO;
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderInclusion($inclusionName, $noCache=false) {
-        return $this->renderPage($inclusionName, $noCache);
-    }
+function renderInclusion($inclusionName, $noCache=false) {
+    return $this->renderPage($inclusionName, $noCache);
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderContent($contentName, $noCache=false) {
-        if($noCache == false && $this->cacheEngine->isInCache(SMTE_CACHE_CONTENT_PREFIX.$contentName)) {
-            $this->setDegubInfo("contentLoadedFromCache",$contentName);
-            return $this->cacheEngine->getFromCache(SMTE_CACHE_CONTENT_PREFIX.$contentName);
+function renderContent($contentName, $noCache=false) {
+    if($noCache == false && $this->cacheEngine->isInCache(SMTE_CACHE_CONTENT_PREFIX.$contentName)) {
+        $this->setDegubInfo("contentLoadedFromCache",$contentName);
+        return $this->cacheEngine->getFromCache(SMTE_CACHE_CONTENT_PREFIX.$contentName);
+    }
+    else {
+        $this->setDegubInfo("contentLoadedFromFile",$contentName);
+        $content = @file_get_contents($this->getContentFilePath($this->cleanContentName($contentName)));
+        if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
+            $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
         }
         else {
-            $this->setDegubInfo("contentLoadedFromFile",$contentName);
-            $content = @file_get_contents($this->getContentFilePath($this->cleanContentName($contentName)));
-            if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
-                $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
-            }
-            else {
-                $content = $this->defaultContentProcessing($content);
-            }
-            return $this->renderSMTETemplate($content);
+            $content = $this->defaultContentProcessing($content);
         }
+        return $this->renderSMTETemplate($content);
     }
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function renderImage($image) {
-        return BEGIN_ECHO.addslashes(IMG_URL."/".$this->cleanImageName($image)).END_ECHO;
-    }
+function renderImage($image) {
+    return BEGIN_ECHO.addslashes(IMG_URL."/".$this->cleanImageName($image)).END_ECHO;
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function __inc($inclusionName) {
-        eval($this->renderInclusion($inclusionName));
-    }
+function __inc($inclusionName) {
+    eval($this->renderInclusion($inclusionName));
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function __cnt($contentName) {
-        eval($this->renderContent($contentName));
-    }
+function __cnt($contentName) {
+    eval($this->renderContent($contentName));
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function __img($image) {
-        eval($this->renderImage($image));
-    }
+function __img($image) {
+    eval($this->renderImage($image));
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function __def($def) {
-        eval($this->renderDefinition($def));
-    }
+function __def($def) {
+    eval($this->renderDefinition($def));
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function cleanContentName($contentName) {
-        return ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('_', '.', ''), $contentName),"/");
-    }
+function cleanContentName($contentName) {
+    return ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('-', '.', ''), $contentName),"/");
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function cleanImageName($imageName) {
-        return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), $imageName);
-    }
+function cleanImageName($imageName) {
+    return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('-', '.', ''), $imageName);
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function cleanPageName($page) {
-        return ltrim($page,"/");
-    }
+function cleanPageName($page) {
+    return ltrim($page,"/");
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function getContentFilePath($contentName) {
-        return CONTENTS_PATH."/".$this->cleanContentName($contentName).".md";
+function cleanPageNameFile($page) {
+    $page = $this->cleanContentName($page);
+    if(!endsWith($page, PAGES_EXTENSION)) {
+        $page = $page.PAGES_EXTENSION;
     }
+    return $page;
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function getImagePath($image) {
-        return IMAGES_PATH."/".$this->cleanImageName($image);
-    }
+function getContentFilePath($contentName) {
+    return CONTENTS_PATH."/".$this->cleanContentName($contentName).".md";
+}
+
+    /////////////////////////////////////////////////////////////////////////////
+function getImagePath($image) {
+    return IMAGES_PATH."/".$this->cleanImageName($image);
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function setDegubInfo($label, $value) {
-        $label = count($this->debugInfos)." >>> ".$label;
-        $this->debugInfos[$label] = $value;
-    }
+function setDegubInfo($label, $value) {
+    $label = count($this->debugInfos)." >>> ".$label;
+    $this->debugInfos[$label] = $value;
+}
 
     ///////////////////////////////////////////////////////////////////////////////
-    function getDebugInfos() {
-        return var_export($this->debugInfos,true);
-    }
+function getDebugInfos() {
+    return var_export($this->debugInfos,true);
+}
 
     /////////////////////////////////////////////////////////////////////////////
-    function defaultContentProcessing($content) {
-        return nl2br($content);
-    }
+function defaultContentProcessing($content) {
+    return nl2br($content);
+}
 
 }
 

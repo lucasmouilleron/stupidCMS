@@ -17,12 +17,14 @@ if(isset($_POST["item"])) {
         if($imageName == $_POST["item"]) {
             $file = $_FILES["file"];
             $item = $_POST["item"];
-            move_uploaded_file($file["tmp_name"], $stupidBackend->stupid->getImagePath($item));
-            $itemSaved = $item;
+            $itemSaved = $stupidBackend->saveImage($imageName, $file["tmp_name"]);
             $saved = true;
             break;
         }
     }
+}
+
+if($saved) {
     $stupidBackend->stupid->clearCache();
 }
 
@@ -57,7 +59,7 @@ if(isset($_POST["item"])) {
     <nav>
         <ul>
             <?php foreach ($imagesByPages as $imagePage => $imageNames) :?>
-                <li><a href="#<?php echo $imagePage?>"><?php echo $imagePage?></a></li>
+                <li><a href="#<?php echo $imagePage?>"><?php echo $imagePage?><sup><?php echo count($imageNames)?></sup></a></li>
             <?php endforeach;?>
         </ul>
     </nav>

@@ -2,10 +2,15 @@ $(function() {
 
 	autosize($("textarea"));
 
-	$(".content .submit").hide();
-	$(".content textarea").keyup(function(){
+	$(".content .submit, .page .submit").hide();
+	$(".content textarea, .page textarea").on("change keyup paste", function() {
 		$(this).parent().parent().find(".submit").show();
 		$(this).css({"border-color":"red"});
+	});
+
+	$(".addPage .next").hide();
+	$(".addPage #name").on("change keyup paste", function() {
+		$(".addPage .next").show();
 	});
 
 	$(".image .submit").hide();
@@ -27,5 +32,20 @@ $(function() {
 		var converter = new Markdown.Converter();
 		$("#preview-modal-content").html(converter.makeHtml($(this).parent().find("textarea").val()));
 		$("#preview-modal").modal({});
+	});
+
+	$(".addPage select").change(function() {
+		var templateID = $(".addPage select").val();
+		$.ajax({
+			url: "get-template-content?template="+templateID
+		}).fail(function(a,b) {
+			console.log(a,b);
+		}).done(function(data) {
+			console.log(data);
+			$(".addPage #content").val(data);
+			autosize.update($(".addPage #content"));
+			$(".addPage #content").trigger("change");
+			
+		});
 	});
 });

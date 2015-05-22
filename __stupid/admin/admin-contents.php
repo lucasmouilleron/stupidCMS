@@ -15,13 +15,16 @@ $itemSaved = "";
 if(isset($_POST["item"])) {
     foreach ($contents as $contentName => $contentFiles) {
         if($contentName == $_POST["item"]) {
-            file_put_contents($stupidBackend->stupid->getContentFilePath($contentName), $_POST["content"]);
-            $itemSaved = $_POST["item"];
+            $itemSaved = $stupidBackend->saveContent($contentName,$_POST["content"]);
             $saved = true;
             break;
         }
     }
+}
+if($saved) {
     $stupidBackend->stupid->clearCache();
+    $contents = $stupidBackend->listContents();
+    $contentsByPages = $stupidBackend->listContentsByPages();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,7 +58,7 @@ if(isset($_POST["item"])) {
     <nav>
         <ul>
             <?php foreach ($contentsByPages as $contentPage => $contentNames) :?>
-                <li><a href="#<?php echo $contentPage?>"><?php echo $contentPage?></a></li>
+                <li><a href="#<?php echo $contentPage?>"><?php echo $contentPage?><sup><?php echo count($contentNames)?></sup></a></li>
             <?php endforeach;?>
         </ul>
     </nav>

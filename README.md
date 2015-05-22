@@ -8,8 +8,9 @@ Install
 - Drop all files (including `.htaccess`) at the site root
 - Edit the `./__stupid/config.php` file :
 	- Change the `SITE_URL` so it is the root url of the
-	- Change the admin password
-	- Desactivate debug mode in production
+	- Change the `ADMIN_PASSWORD`
+	- Set `DEBUG_MODE` to false in production
+	- `PAGE_404` can be set to `false` if no 404 page is desired
 
 Stupid Pages (SP)
 -----------------
@@ -58,7 +59,7 @@ Stupid Backend (SB)
 	- Contents can also be written in markdown format : 
 		- Prefix your content with *** to enable Markdown
 		- [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- Tip : If SMTE administrable content are not visible, run `Scan Pages`
+- Tip : If SMTE administrable content are not visible, run `Scan Contents`
 - Tip : If SMTE new contents are not visible, run `Clear Cache`
 
 Dev
