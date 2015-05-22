@@ -7,6 +7,7 @@ $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
 $images = $stupidBackend->listImages();
+$imagesByPages = $stupidBackend->listImagesByPages();
 
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
@@ -51,19 +52,35 @@ if(isset($_POST["item"])) {
         <div class="alert alert-success" role="alert"><?php echo $itemSaved?> <strong>saved</strong> !</div>
     <?php endif;?>
 
-    <?php ksort($images);?>
-    <?php foreach ($images as $imageName => $imageFiles) :?>
-        <h2><?php echo $imageName?> <small><?php echo implode($imageFiles,", ")?></small></h2>
-        <div class="image">
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                <img src="../<?php $stupidBackend->stupid->__img($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
-                </div>
-                <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
-                <input type="hidden" name="item" value="<?php echo $imageName?>"/>
-                <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary submit"/>
-            </form>
-        </div>
+    <?php ksort($imagesByPages);?>
+
+    <nav>
+        <ul>
+            <?php foreach ($imagesByPages as $imagePage => $imageNames) :?>
+                <li><a href="#<?php echo $imagePage?>"><?php echo $imagePage?></a></li>
+            <?php endforeach;?>
+        </ul>
+    </nav>
+    <hr/>
+
+    <?php foreach ($imagesByPages as $imagePage => $imageNames) :?>
+
+        <a name="<?php echo $imagePage?>"></a>
+        <h2><?php echo $imagePage?></h2>
+
+        <?php foreach ($imageNames as $imageName):?>
+            <h3><?php echo $imageName?></h3>
+            <div class="image">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <img src="<?php $stupidBackend->stupid->__img($imageName)?>?ck=<?php echo time()?>" class="admin-image"/>
+                    </div>
+                    <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
+                    <input type="hidden" name="item" value="<?php echo $imageName?>"/>
+                    <input type="submit" name="<?php echo $imageName?>" value="save" class="btn btn-primary submit"/>
+                </form>
+            </div>
+        <?php endforeach;?>
     <?php endforeach;?>
 </div>
 

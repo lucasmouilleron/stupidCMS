@@ -18,11 +18,8 @@ class StupidBackend
 
     ///////////////////////////////////////////////////////////////////////////////
     function scanImages() {
-        $images = array();
-        $pages = $this->listPages();
-        foreach ($pages as $page) {
-            $content = file_get_contents($page.PAGES_EXTENSION);
-            $page = str_replace(PAGES_PATH, "", $page);
+
+        function enrichiFoundImages($content,$images,$page) {
             preg_match_all("/\{\{".IMAGE_TAG."(.*)\}\}/U",$content, $matches);
             $results = $matches[1];
             foreach ($results as $result) {
@@ -33,6 +30,27 @@ class StupidBackend
                     array_push($images[$result], $page);
                 }
             }
+            return $images;
+        }
+
+        $images = array();
+        $pages = $this->listPages();
+        foreach ($pages as $page) {
+            $content = file_get_contents($page.PAGES_EXTENSION);
+            $page = str_replace(PAGES_PATH, "", $page);
+            $images = enrichiFoundImages($content,$images,$page);
+        }
+        $contents = json_decode(file_get_contents(CONTENTS_FILE));
+        foreach ($contents as $contentName => $contentPages) {
+            $contentFile = $this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName));
+            if(file_exists($contentFile)) {
+                $page = MULTIPLE_PAGE;
+                if(count($contentPages) == 1) {
+                    $page = $contentPages[0];
+                }
+                $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
+                $images = enrichiFoundImages($content,$images,$page);
+            }
         }
 
         file_put_contents(IMAGES_FILE, json_encode($images));
@@ -41,11 +59,8 @@ class StupidBackend
 
     ///////////////////////////////////////////////////////////////////////////////
     function scanContents() {
-        $contents = array();
-        $pages = $this->listPages();
-        foreach ($pages as $page) {
-            $content = file_get_contents($page.PAGES_EXTENSION);
-            $page = str_replace(PAGES_PATH, "", $page);
+
+        function enrichiFoundContents($content,$contents,$page) {
             preg_match_all("/\{\{".CONTENT_TAG."(.*)\}\}/U",$content, $matches);
             $results = $matches[1];
             foreach ($results as $result) {
@@ -56,7 +71,28 @@ class StupidBackend
                     array_push($contents[$result], $page);
                 }
             }
+            return $contents;
         }
+
+        $contents = array();
+        $pages = $this->listPages();
+        foreach ($pages as $page) {
+            $content = file_get_contents($page.PAGES_EXTENSION);
+            $page = str_replace(PAGES_PATH, "", $page);
+            $contents = enrichiFoundContents($content,$contents,$page);
+        }
+        foreach ($contents as $contentName => $contentPages) {
+            $contentFile = $this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName));
+            if(file_exists($contentFile)) {
+                $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
+                $page = MULTIPLE_PAGE;
+                if(count($contentPages) == 1) {
+                    $page = $contentPages[0];
+                }
+                $contents = enrichiFoundContents($content,$contents,$page);
+            }
+        }
+
         file_put_contents(CONTENTS_FILE, json_encode($contents));
         return $contents;
     }
@@ -90,7 +126,7 @@ class StupidBackend
         $contentsByPage = array();
         foreach ($contents as $contentName => $contentPages) {
             if(count($contentPages)>1) {
-                $contentPage = "__multiple";
+                $contentPage = MULTIPLE_PAGE;
             }
             else {
                 $contentPage = $contentPages[0];
@@ -112,6 +148,25 @@ class StupidBackend
         else {
             return $images;
         }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function listImagesByPages() {
+        $images = $this->listImages();
+        $imagesByPage = array();
+        foreach ($images as $imageName => $imagePages) {
+            if(count($imagePages)>1) {
+                $imagePage = "__multiple";
+            }
+            else {
+                $imagePage = $imagePages[0];
+            }
+            if(!array_key_exists($imagePage, $imagesByPage)) {
+                $imagesByPage[$imagePage] = array();
+            }
+            array_push($imagesByPage[$imagePage], $imageName);
+        }
+        return $imagesByPage;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

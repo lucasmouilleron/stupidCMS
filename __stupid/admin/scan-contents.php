@@ -7,8 +7,8 @@ $stupidBackend->lockPage();
 
 ?>
 
-<?php $images = $stupidBackend->scanImages();?>
 <?php $contents = $stupidBackend->scanContents();?>
+<?php $images = $stupidBackend->scanImages();?>
 
 <?php require_once __DIR__."/header.php";?>
 

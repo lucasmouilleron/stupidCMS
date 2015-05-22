@@ -19,6 +19,7 @@ define("IF_TAG","IF:");
 define("END_IF_TAG","EIF");
 define("BEGIN_ECHO",'echo "');
 define("END_ECHO",'";');
+define("MULTIPLE_PAGE","__multiple");
 /////////////////////////////////////////////////////////////////////////////
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("IMAGES_FILE",IMAGES_PATH."/__index.json");

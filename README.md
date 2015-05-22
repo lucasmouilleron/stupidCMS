@@ -26,7 +26,6 @@ Stupid Micro Templating Engine (SMTE)
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
 - Definitions : `{{DEF:CONSTANT_NAME}}` (for example `SITE_URL`)
 - If : `{{IF:php expression}}content{{EIF}}`
-- Tip : declare images in `_additionalContents.html` if they are only referenced via administrable contents
 
 Studid Dynamic Page (SDP)
 -------------------------
@@ -39,7 +38,6 @@ Studid Dynamic Page (SDP)
 	- `$stupid->__cnt("content-name")`
 	- `$stupid->__img("image-name")`
 - No cache is applied (it is applied only for included contents)
-- Tip : declare contents or images in `_additionalContents.html` if they are only referenced via _SDP_
 
 Compiled Stupid Pages Caching (CSPC)
 ------------------------------------
