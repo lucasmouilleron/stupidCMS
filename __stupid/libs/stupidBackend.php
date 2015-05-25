@@ -34,7 +34,7 @@ class StupidBackend
         }
 
         $images = array();
-        $pages = $this->listPages();
+        $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
             $content = file_get_contents($page.PAGES_EXTENSION);
             $page = str_replace(PAGES_PATH, "", $page);
@@ -75,7 +75,7 @@ class StupidBackend
         }
 
         $contents = array();
-        $pages = $this->listPages();
+        $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
             $content = file_get_contents($page.PAGES_EXTENSION);
             $page = str_replace(PAGES_PATH, "", $page);
@@ -98,15 +98,13 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listPages() {
-        $files = getDirContents(PAGES_PATH);
-        $pages = array();
-        foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
-                array_push($pages, str_replace(PAGES_EXTENSION, "", $file));
-            }
+    function listPagesFullPath() {
+        $pages = $this->stupid->listPages();
+        $pagesFullPath = array();
+        foreach ($pages as $page) {
+            array_push($pagesFullPath, PAGES_PATH."/".$page);
         }
-        return $pages;
+        return $pagesFullPath;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -114,7 +112,7 @@ class StupidBackend
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
                 array_push($pages, $file);
             }
         }

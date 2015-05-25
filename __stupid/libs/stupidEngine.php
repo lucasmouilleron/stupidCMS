@@ -36,11 +36,21 @@ class Stupid
 
     /////////////////////////////////////////////////////////////////////////////
     function listPages() {
+        $noScanFolders = explode(";", NO_SCAN_FOLDERS);
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH)) {
-                array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
+            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
+                $process = true;
+                foreach ($noScanFolders as $noScanFolder) {
+                    if(startsWith($file,realpath(ROOT_PATH."/".$noScanFolder))) {
+                        $process = false;
+                        break;
+                    }
+                }
+                if($process) {
+                    array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
+                }
             }
         }
         return $pages;
@@ -72,7 +82,7 @@ class Stupid
         $contents = $this->listContents();
         foreach ($contents as $contentName) {
             $contentName = $this->cleanContentName($contentName);
-            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderSMTETemplate($contentName, true));
+            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderContent($contentName, true));
             $this->setDegubInfo("contentCacheGenerated",$contentName);
         }
         return array("pages"=>$pages, "contents"=>$contents);
@@ -130,7 +140,7 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function renderSMTETemplate($content, $noCache=false) {
-        $content = addslashes($content);
+        $content = $this->cleanRenderString($content,'"');
         $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
             global $noCache;
             $result = $matches[1];
@@ -147,7 +157,7 @@ class Stupid
                 $result = END_ECHO.$this->renderImage(substr($result, strlen(IMAGE_TAG))).BEGIN_ECHO;
             }
             if(startsWith($result,IF_TAG)) {
-                $result = END_ECHO."if (".(stripslashes(substr($result, strlen(IF_TAG))))."){".BEGIN_ECHO;
+                $result = END_ECHO."if (".($this->decleanRenderString(substr($result, strlen(IF_TAG))))."){".BEGIN_ECHO;
             }
             if(startsWith($result,END_IF_TAG)) {
                 $result = END_ECHO."};".BEGIN_ECHO;
@@ -159,7 +169,7 @@ return BEGIN_ECHO.$content.END_ECHO;
 
     ///////////////////////////////////////////////////////////////////////////////
 function renderDefinition($def) {
-    return BEGIN_ECHO.addslashes(constant($def)).END_ECHO;
+    return BEGIN_ECHO.$this->cleanRenderString(constant($def)).END_ECHO;
 }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -188,7 +198,7 @@ function renderContent($contentName, $noCache=false) {
 
     /////////////////////////////////////////////////////////////////////////////
 function renderImage($image) {
-    return BEGIN_ECHO.addslashes(IMG_URL."/".$this->cleanImageName($image)).END_ECHO;
+    return BEGIN_ECHO.$this->cleanRenderString(IMG_URL."/".$this->cleanImageName($image)).END_ECHO;
 }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -209,6 +219,16 @@ function __img($image) {
     ///////////////////////////////////////////////////////////////////////////////
 function __def($def) {
     eval($this->renderDefinition($def));
+}
+
+    /////////////////////////////////////////////////////////////////////////////
+function cleanRenderString($string) {
+    return addcslashes($string,'"');
+}
+
+    /////////////////////////////////////////////////////////////////////////////
+function decleanRenderString($string) {
+    return stripcslashes($string);
 }
 
     /////////////////////////////////////////////////////////////////////////////

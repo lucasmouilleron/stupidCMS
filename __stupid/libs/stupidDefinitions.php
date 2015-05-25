@@ -9,6 +9,7 @@ define("CONTENTS_PATH",truepath(__DIR__."/../_contents"));
 define("IMAGES_PATH",truepath(__DIR__."/../_images"));
 define("PAGES_PATH",truepath(__DIR__."/../../"));
 define("PAGE_TEMPLATES_PATH",truepath(__DIR__."/../../_templates"));
+define("ROOT_PATH",truepath(__DIR__."/../.."));
 /////////////////////////////////////////////////////////////////////////////
 define("PAGES_EXTENSION",".html");
 define("DYNAMIC_PAGES_EXTENSION",".php");
