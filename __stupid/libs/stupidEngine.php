@@ -32,42 +32,9 @@ class Stupid
             $this->cacheEngine = new StupidCache();
             $this->setDegubInfo("cacheEngine","none");   
         }
-    }
 
-    /////////////////////////////////////////////////////////////////////////////
-    function listPages() {
-        $noScanFolders = explode(";", NO_SCAN_FOLDERS);
-        $files = getDirContents(PAGES_PATH);
-        $pages = array();
-        foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
-                $process = true;
-                foreach ($noScanFolders as $noScanFolder) {
-                    if(startsWith($file,realpath(ROOT_PATH."/".$noScanFolder))) {
-                        $process = false;
-                        break;
-                    }
-                }
-                if($process) {
-                    array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
-                }
-            }
-        }
-        return $pages;
-    }
-
-    /////////////////////////////////////////////////////////////////////////////
-    function listContents() {
-        $contents = @json_decode(file_get_contents(CONTENTS_FILE), true);
-        if($contents === null) {
-            return array();
-        }
-        else {
-            $contentsArray = array();
-            foreach ($contents as $contentName => $content) {
-                array_push($contentsArray, $contentName);
-            }
-            return $contentsArray;
+        if($this->cacheEngine->isEmpty()) {
+            $this->clearCache();
         }
     }
 
@@ -148,7 +115,7 @@ class Stupid
                 $result = END_ECHO.$this->renderDefinition(substr($result, strlen(DEFINITION_TAG))).BEGIN_ECHO;
             }
             if(startsWith($result,INCLUDE_TAG)) {
-                $result = END_ECHO.$this->renderInclusion(substr($result, strlen(DEFINITION_TAG)), $noCache).BEGIN_ECHO;
+                $result = END_ECHO.$this->renderInclusion(substr($result, strlen(INCLUDE_TAG)), $noCache).BEGIN_ECHO;
             }
             if(startsWith($result,CONTENT_TAG)) {
                 $result = END_ECHO.$this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache).BEGIN_ECHO;
@@ -169,12 +136,25 @@ return BEGIN_ECHO.$content.END_ECHO;
 
     ///////////////////////////////////////////////////////////////////////////////
 function renderDefinition($def) {
-    return BEGIN_ECHO.$this->cleanRenderString(constant($def)).END_ECHO;
+    if(!defined($def)) {
+        $this->setDegubInfo("definitionNotFound",$def);
+        return false;
+    }
+    else {
+        return BEGIN_ECHO.$this->cleanRenderString(constant($def)).END_ECHO;
+    }
 }
 
     ///////////////////////////////////////////////////////////////////////////////
 function renderInclusion($inclusionName, $noCache=false) {
-    return $this->renderPage($inclusionName, $noCache);
+    $inclusionPath = PAGES_PATH."/".$inclusionName.PAGES_EXTENSION;
+    if(!file_exists($inclusionPath)) {
+        $this->setDegubInfo("inclusionNotFound",$inclusionPath);
+        return false;
+    }
+    else {
+        return $this->renderPage($inclusionName, $noCache);
+    }
 }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -184,15 +164,22 @@ function renderContent($contentName, $noCache=false) {
         return $this->cacheEngine->getFromCache(SMTE_CACHE_CONTENT_PREFIX.$contentName);
     }
     else {
-        $this->setDegubInfo("contentLoadedFromFile",$contentName);
-        $content = @file_get_contents($this->getContentFilePath($this->cleanContentName($contentName)));
-        if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
-            $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
+        $contentFilePath = $this->getContentFilePath($this->cleanContentName($contentName));
+        if(!file_exists($contentFilePath)) {
+            $this->setDegubInfo("contentNotFound",$contentName);
+            return false;
         }
         else {
-            $content = $this->defaultContentProcessing($content);
+            $this->setDegubInfo("contentLoadedFromFile",$contentName);
+            $content = @file_get_contents($contentFilePath);
+            if(startsWith($content,CONTENT_MARKDOWN_PREFIX)) {
+                $content = markdownToHTML(substr($content, strlen(CONTENT_MARKDOWN_PREFIX)));
+            }
+            else {
+                $content = $this->defaultContentProcessing($content);
+            }
+            return $this->renderSMTETemplate($content);
         }
-        return $this->renderSMTETemplate($content);
     }
 }
 
@@ -220,6 +207,44 @@ function __img($image) {
 function __def($def) {
     eval($this->renderDefinition($def));
 }
+
+    /////////////////////////////////////////////////////////////////////////////
+function listPages() {
+    $noScanFolders = explode(";", NO_SCAN_FOLDERS);
+    $files = getDirContents(PAGES_PATH);
+    $pages = array();
+    foreach ($files as $file) {
+        if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
+            $process = true;
+            foreach ($noScanFolders as $noScanFolder) {
+                if(startsWith($file,realpath(ROOT_PATH."/".$noScanFolder))) {
+                    $process = false;
+                    break;
+                }
+            }
+            if($process) {
+                array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
+            }
+        }
+    }
+    return $pages;
+}
+
+    /////////////////////////////////////////////////////////////////////////////
+function listContents() {
+    $contents = @json_decode(file_get_contents(CONTENTS_FILE), true);
+    if($contents === null) {
+        return array();
+    }
+    else {
+        $contentsArray = array();
+        foreach ($contents as $contentName => $content) {
+            array_push($contentsArray, $contentName);
+        }
+        return $contentsArray;
+    }
+}
+
 
     /////////////////////////////////////////////////////////////////////////////
 function cleanRenderString($string) {
