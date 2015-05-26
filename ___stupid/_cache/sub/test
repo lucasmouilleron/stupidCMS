@@ -1,0 +1,45 @@
+echo "<!DOCTYPE html>
+<html>
+<head>
+	<title>";echo "stupidCMS";echo "</title>
+	<meta name=\"description\" content=\"\">
+	<meta charset=\"utf-8\">
+	<meta name=\"viewport\" content=\"width=device-width initial-scale=1.0\">
+	";echo "<link rel=\"stylesheet\" href=\"";echo "http://localhost/stupidCMS";echo "/assets/css/main.css\">
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/jquery.js\"></script>
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/main.js\"></script>";echo "
+</head>
+<body>
+
+	<div class=\"container\">
+
+		";echo "<header>
+	<h1>";echo "stupidCMS";echo "</h1>
+	<nav>
+		";echo "<ul>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/index\">Index</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/other\">Other page</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/custom-menu\">Custom menu</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/dynamic\">Dynamic page</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/sub/test\">Sub page</a></li>
+</ul>
+";echo "
+	</nav>
+</header>";echo "
+
+		<div>
+			";echo "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ita nemo beato beatior. Quae hic rei publicae vulnera inponebat, eadem ille sanabat. Quid, cum fictas fabulas, e quibus utilitas nulla elici potest, cum voluptate legimus? Haec para/doca illi, nos admirabilia dicamus. Non semper, inquam; Duo Reges: constructio interrete. Certe, nisi voluptatem tanti aestimaretis. Quae animi affectio suum cuique tribuens atque hanc, quam dico.</p>
+
+<p><img src=\"";echo "http://localhost/stupidCMS/__images//image2.jpg";echo "\" alt=\"Administrable image\" /></p>
+";echo "
+		</div>
+
+		";echo "<footer>
+    <p>© ";echo "stupidCMS";echo " | <a href=\"mailto:";echo "lucas.mouilleron@me.com";echo "\">";echo "lucas.mouilleron@me.com";echo "</a></p>
+
+</footer>";echo "
+
+	</div>
+
+</body>
+</html>";

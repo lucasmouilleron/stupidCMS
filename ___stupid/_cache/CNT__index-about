@@ -1,0 +1,21 @@
+echo "<h4>Basics</h4>
+
+<p>";echo "";echo "
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Is ita vivebat, ut nulla tam exquisita posset inveniri voluptas, qua non abundaret. Octavio fuit, cum illam severitatem <em>in</em> eo filio adhibuit, <strong>quem in adoptionem</strong> D. Egone non intellego, quid sit don Graece, Latine voluptas? Numquam facies. Hosne igitur laudas et hanc eorum, inquam, sententiam sequi nos censes oportere? Duo Reges: constructio interrete.</p>
+
+<h4>Cool stuff</h4>
+
+<ul>
+<li><a href=\"other\">A link to the other page</a></li>
+<li>Using a defined constant : ";echo "sutpidCMS";echo "</li>
+<li>Using another defined constant : ";echo "http://localhost/stupidCMS";echo " </li>
+<li><img src=\"assets/img/ajax-loader.gif\" alt=\"An image\" /></li>
+<li><a href=\"https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet\">Markdown doc</a></li>
+</ul>
+
+<p><img src=\"";echo "http://localhost/stupidCMS/__images//image2.jpg";echo "\" alt=\"Administrable image\" /></p>
+
+<p>";echo "<hr/>
+this is a partial page
+<hr/>";echo "</p>
+";

@@ -3,18 +3,18 @@
 /////////////////////////////////////////////////////////////////////////////
 // DEFINES
 /////////////////////////////////////////////////////////////////////////////
-define("STUPID_VERSION","0.5");
+define("STUPID_VERSION","0.6");
 define("STUPID_PATH",truepath(__DIR__."/.."));
-define("CONTENTS_PATH",truepath(__DIR__."/../_contents"));
-define("IMAGES_PATH",truepath(__DIR__."/../_images"));
+define("CONTENTS_PATH",truepath(__DIR__."/../../__contents"));
+define("IMAGES_PATH",truepath(__DIR__."/../../__images"));
 define("PAGES_PATH",truepath(__DIR__."/../../"));
-define("PAGE_TEMPLATES_PATH",truepath(__DIR__."/../../_templates"));
+define("PAGE_TEMPLATES_PATH",truepath(__DIR__."/../../__templates"));
 define("ROOT_PATH",truepath(__DIR__."/../.."));
 /////////////////////////////////////////////////////////////////////////////
 define("CONTENT_EXTENSION",".md");
 define("PAGES_EXTENSION",".html");
 define("DYNAMIC_PAGES_EXTENSION",".php");
-define("IMG_URL",SITE_URL."/__stupid/_images/");
+define("IMG_URL",SITE_URL."/__images/");
 define("CONTENT_TAG","CNT:");
 define("IMAGE_TAG","IMG:");
 define("DEFINITION_TAG","DEF:");

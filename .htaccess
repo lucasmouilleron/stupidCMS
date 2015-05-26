@@ -11,20 +11,20 @@ RewriteEngine On
 
 # Admin
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^admin$ __stupid/admin.php
+RewriteRule ^admin$ ___stupid/admin.php
 RewriteRule ^admin/$ admin/admin-contents [NC,L]
-RewriteRule ^admin/((css|js)/.*)$ __stupid/admin/$1 [NC,L]
-RewriteRule ^admin/(.*)$ __stupid/admin/$1.php [NC,L]
+RewriteRule ^admin/((css|js)/.*)$ ___stupid/admin/$1 [NC,L]
+RewriteRule ^admin/(.*)$ ___stupid/admin/$1.php [NC,L]
 
 # Bypass stupid
-RewriteRule ^__stupid.*$ - [L]
+RewriteRule ^___stupid.*$ - [L]
 
 # Index by default
 RewriteRule ^$ index [L]
 
 # Send pages to stupid
-RewriteRule ^(.*)\.html$ __stupid/stupid.php?__page__=/$1 [L,QSA]
-RewriteRule ^(.*)\.php$ __stupid/stupid.php?__page__=/$1 [L,QSA]
+RewriteRule ^(.*)\.html$ ___stupid/stupid.php?__page__=/$1 [L,QSA]
+RewriteRule ^(.*)\.php$ ___stupid/stupid.php?__page__=/$1 [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ __stupid/stupid.php?__page__=/$1 [L,QSA]
+RewriteRule ^(.*)$ ___stupid/stupid.php?__page__=/$1 [L,QSA]

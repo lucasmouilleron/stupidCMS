@@ -1,0 +1,8 @@
+echo "<ul>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/index\">Index</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/other\">Other page</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/custom-menu\">Custom menu</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/dynamic\">Dynamic page</a></li>
+<li><a href=\"";echo "http://localhost/stupidCMS";echo "/sub/test\">Sub page</a></li>
+</ul>
+";

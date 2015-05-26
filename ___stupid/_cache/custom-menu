@@ -1,0 +1,61 @@
+echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>";echo "stupidCMS";echo "</title>
+    <meta name=\"description\" content=\"\">
+    <meta charset=\"utf-8\">
+    <meta name=\"viewport\" content=\"width=device-width initial-scale=1.0\">
+    ";echo "<link rel=\"stylesheet\" href=\"";echo "http://localhost/stupidCMS";echo "/assets/css/main.css\">
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/jquery.js\"></script>
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/main.js\"></script>";echo "
+</head>
+<body>
+
+    <div class=\"container\">
+
+        <header>
+            <h1>";echo "stupidCMS";echo "</h1>
+            <nav>
+                <ul>
+                    <li><a href=\"";echo "http://localhost/stupidCMS";echo "/index\" ";if (isCurrentPage("index")){echo "class=\"active\"";};echo ">index</a></li>
+                    <li><a href=\"";echo "http://localhost/stupidCMS";echo "/other\" ";if (isCurrentPage("other")){echo "class=\"active\"";};echo ">other page</a></li>
+                    <li><a href=\"";echo "http://localhost/stupidCMS";echo "/custom-menu\" ";if (isCurrentPage("custom-menu")){echo "class=\"active\"";};echo ">Custom menu</a></li>
+                    <li><a href=\"";echo "http://localhost/stupidCMS";echo "/dynamic\" ";if (isCurrentPage("dynamic")){echo "class=\"active\"";};echo ">dynamic page</a></li>
+                    <li><a href=\"";echo "http://localhost/stupidCMS";echo "/sub/test\" ";if (isCurrentPage("sub/test")){echo "class=\"active\"";};echo ">sub page</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class=\"hot\">
+            ";echo "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Hinc ceteri particulas arripere conati suam quisque videro voluit afferre sententiam. In qua quid est boni praeter summam voluptatem, et eam sempiternam? Quae hic rei publicae vulnera inponebat, eadem ille sanabat. Duo Reges: constructio interrete. Septem autem illi non suo, sed populorum suffragio omnium nominati sunt. Praeclare hoc quidem.";echo "
+        </div>
+
+        <div>
+            ";echo "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;<br />
+<br />
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;<br />
+<br />
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;<br />
+<br />
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? <br />
+<br />
+Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;<br />
+<br />
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere -;<br />
+<br />
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aperiendum est igitur, quid sit voluptas; Duo Reges: constructio interrete. Piso igitur hoc modo, vir optimus tuique, ut scis, amantissimus. Quae sequuntur igitur? Nondum autem explanatum satis, erat, quid maxime natura vellet. Quae autem natura suae primae institutionis oblita est? Atque haec coniunctio confusioque virtutum tamen a philosophis ratione quadam distinguitur. Aut unde est hoc contritum vetustate proverbium: quicum in tenebris? Illis videtur, qui illud non dubitant bonum dicere.";echo "
+        </div>
+
+        <div>
+            ";echo "yes yes yes";echo "
+        </div>
+
+        ";echo "<footer>
+    <p>© ";echo "stupidCMS";echo " | <a href=\"mailto:";echo "lucas.mouilleron@me.com";echo "\">";echo "lucas.mouilleron@me.com";echo "</a></p>
+
+</footer>";echo "
+
+    </div>
+    
+</body>
+</html>";

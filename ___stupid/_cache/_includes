@@ -1,0 +1,3 @@
+echo "<link rel=\"stylesheet\" href=\"";echo "http://localhost/stupidCMS";echo "/assets/css/main.css\">
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/jquery.js\"></script>
+<script src=\"";echo "http://localhost/stupidCMS";echo "/assets/js/main.js\"></script>";

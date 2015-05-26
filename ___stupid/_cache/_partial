@@ -1,0 +1,3 @@
+echo "<hr/>
+this is a partial page
+<hr/>";
