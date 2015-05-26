@@ -280,7 +280,7 @@ function cleanPageNameFile($page) {
 
     /////////////////////////////////////////////////////////////////////////////
 function getContentFilePath($contentName) {
-    return CONTENTS_PATH."/".$this->cleanContentName($contentName).".md";
+    return CONTENTS_PATH."/".$this->cleanContentName($contentName).CONTENT_EXTENSION;
 }
 
     /////////////////////////////////////////////////////////////////////////////

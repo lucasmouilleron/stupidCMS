@@ -217,6 +217,29 @@ class StupidBackend
     }
 
     ///////////////////////////////////////////////////////////////////////////////
+    function cleanContents() {
+        $deletedContents = array();
+        $this->scanContents();
+        $contents = $this->stupid->listContents();
+        $contentFiles = getDirContents(CONTENTS_PATH);
+        foreach ($contentFiles as $contentFile) {
+            if($contentFile != CONTENTS_FILE) {
+                $delete = true;
+                foreach ($contents as $content) {
+                    if(endsWith($contentFile, $content.CONTENT_EXTENSION)) {
+                        $delete = false;
+                    }
+                }
+                if($delete) {
+                    array_push($deletedContents, $contentFile);
+                    unlink($contentFile);
+                }
+            }
+        }
+        return $deletedContents;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     function isAuthentified() {
         if(!isset($_SESSION["authentified"])) {
             return false;

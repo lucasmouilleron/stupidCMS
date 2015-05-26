@@ -11,6 +11,7 @@ define("PAGES_PATH",truepath(__DIR__."/../../"));
 define("PAGE_TEMPLATES_PATH",truepath(__DIR__."/../../_templates"));
 define("ROOT_PATH",truepath(__DIR__."/../.."));
 /////////////////////////////////////////////////////////////////////////////
+define("CONTENT_EXTENSION",".md");
 define("PAGES_EXTENSION",".html");
 define("DYNAMIC_PAGES_EXTENSION",".php");
 define("IMG_URL",SITE_URL."/__stupid/_images/");
