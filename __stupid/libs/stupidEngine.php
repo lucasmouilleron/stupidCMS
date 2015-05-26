@@ -32,10 +32,6 @@ class Stupid
             $this->cacheEngine = new StupidCache();
             $this->setDegubInfo("cacheEngine","none");   
         }
-
-        if($this->cacheEngine->isEmpty()) {
-            $this->clearCache();
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -43,14 +39,11 @@ class Stupid
         $this->cacheEngine->clearCache();
         $pages = $this->listPages();
         foreach ($pages as $page) {
-            $this->cacheEngine->setToCache($page,$this->renderPage($page, true));
-            $this->setDegubInfo("pageCacheGenerated",$page);
+            $this->renderPage($page, true);
         }
         $contents = $this->listContents();
         foreach ($contents as $contentName) {
-            $contentName = $this->cleanContentName($contentName);
-            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$this->renderContent($contentName, true));
-            $this->setDegubInfo("contentCacheGenerated",$contentName);
+            $this->renderContent($contentName, true);
         }
         return array("pages"=>$pages, "contents"=>$contents);
     }
@@ -78,29 +71,6 @@ class Stupid
         }
         else {
             return true;
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////
-    function renderPage($page, $noCache=false) {
-        if($noCache == false && $this->cacheEngine->isInCache($page)) {
-            $this->setDegubInfo("pageLoadedFromCache",$page);
-            return $this->cacheEngine->getFromCache($page);
-        }
-        else {
-            $this->setDegubInfo("pageLoadedFromFile",$page);
-            $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
-            if($content == "") {
-                header("HTTP/1.0 404 Not Found");
-                if(PAGE_404 !== false) {
-                    return $this->processPage(PAGE_404);
-                }
-                else {
-                    echo "404";
-                    exit();
-                }
-            }
-            return $this->renderSMTETemplate($content,$noCache);
         }
     }
 
@@ -177,8 +147,37 @@ function renderContent($contentName, $noCache=false) {
             else {
                 $content = $this->defaultContentProcessing($content);
             }
-            return $this->renderSMTETemplate($content);
+            $contentRender = $this->renderSMTETemplate($content);
+            $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX.$contentName,$contentRender);
+            $this->setDegubInfo("contentCacheGenerated",$contentName);
+            return $contentRender;
         }
+    }
+}
+
+  ///////////////////////////////////////////////////////////////////////////////
+function renderPage($page, $noCache=false) {
+    if($noCache == false && $this->cacheEngine->isInCache($page)) {
+        $this->setDegubInfo("pageLoadedFromCache",$page);
+        return $this->cacheEngine->getFromCache($page);
+    }
+    else {
+        $this->setDegubInfo("pageLoadedFromFile",$page);
+        $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
+        if($content == "") {
+            header("HTTP/1.0 404 Not Found");
+            if(PAGE_404 !== false) {
+                return $this->processPage(PAGE_404);
+            }
+            else {
+                echo "404";
+                exit();
+            }
+        }
+        $pageRender = $this->renderSMTETemplate($content,$noCache);
+        $this->cacheEngine->setToCache($page, $pageRender);
+        $this->setDegubInfo("pageCacheGenerated",$page);
+        return $pageRender;
     }
 }
 

@@ -16,11 +16,6 @@ class StupidCacheFile extends StupidCache
 	}
 
 	///////////////////////////////////////////////////////////////////////////////
-    public function isEmpty() {
-        return !file_exists($this->cacheFolder);
-    }
-
-	///////////////////////////////////////////////////////////////////////////////
 	public function clearCache() {
 		@deleteDirectory($this->cacheFolder);
 	}
