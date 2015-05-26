@@ -11,6 +11,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Is ita vivebat, ut null
 - ![An image](assets/img/ajax-loader.gif)
 - [Markdown doc](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-![Administrable image]({{IMG:image2.jpg}})
+![Administrable image]({{FILE:image2.jpg}})
 
 {{INC:_partial}}

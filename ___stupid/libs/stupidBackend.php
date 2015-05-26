@@ -17,28 +17,29 @@ class StupidBackend
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function scanImages() {
+    function scanFiles() {
 
-        function enrichiFoundImages($content,$images,$page) {
-            preg_match_all("/\{\{".IMAGE_TAG."(.*)\}\}/U",$content, $matches);
+        function enrichiFoundFiles($content,$files,$page) {
+            preg_match_all("/\{\{".FILE_TAG."(.*)\}\}/U",$content, $matches);
             $results = $matches[1];
             foreach ($results as $result) {
-                if(!array_key_exists($result, $images)) {
-                    $images[$result] = array(); 
+                if(!array_key_exists($result, $files)) {
+                    $files[$result] = array(); 
                 }
-                if(!in_array($page, $images[$result])) {
-                    array_push($images[$result], $page);
+                if(!in_array($page, $files[$result])) {
+                    array_push($files[$result], $page);
                 }
             }
-            return $images;
+            return $files;
         }
 
-        $images = array();
+        @mkdir(FILES_PATH);
+        $files = array();
         $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
             $content = file_get_contents($page.PAGES_EXTENSION);
             $page = str_replace(PAGES_PATH, "", $page);
-            $images = enrichiFoundImages($content,$images,$page);
+            $files = enrichiFoundFiles($content,$files,$page);
         }
         $contents = json_decode(file_get_contents(CONTENTS_FILE));
         foreach ($contents as $contentName => $contentPages) {
@@ -49,12 +50,12 @@ class StupidBackend
                     $page = $contentPages[0];
                 }
                 $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
-                $images = enrichiFoundImages($content,$images,$page);
+                $files = enrichiFoundFiles($content,$files,$page);
             }
         }
 
-        file_put_contents(IMAGES_FILE, json_encode($images));
-        return $images;
+        file_put_contents(FILES_FILE, json_encode($files));
+        return $files;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -74,6 +75,7 @@ class StupidBackend
             return $contents;
         }
 
+        @mkdir(CONTENTS_PATH);
         $contents = array();
         $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
@@ -140,10 +142,10 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function saveImage($imageName, $file) {
-        $imagePath = $this->stupid->getImagePath($imageName);
-        move_uploaded_file($file, $imagePath);
-        return $imagePath;
+    function saveFile($fileName, $file) {
+        $filePath = $this->stupid->getFilePath($fileName);
+        move_uploaded_file($file, $filePath);
+        return $filePath;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -187,56 +189,65 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listImages() {
-        $images = @json_decode(file_get_contents(IMAGES_FILE), true);
-        if($images === null) {
+    function listFiles() {
+        $files = @json_decode(file_get_contents(FILES_FILE), true);
+        if($files === null) {
             return array();
         }
         else {
-            return $images;
+            return $files;
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listImagesByPages() {
-        $images = $this->listImages();
-        $imagesByPage = array();
-        foreach ($images as $imageName => $imagePages) {
-            if(count($imagePages)>1) {
-                $imagePage = "__multiple";
+    function listFilesByPages() {
+        $files = $this->listFiles();
+        $filesByPage = array();
+        foreach ($files as $fileName => $filePages) {
+            if(count($filePages)>1) {
+                $filePage = "__multiple";
             }
             else {
-                $imagePage = $imagePages[0];
+                $filePage = $filePages[0];
             }
-            if(!array_key_exists($imagePage, $imagesByPage)) {
-                $imagesByPage[$imagePage] = array();
+            if(!array_key_exists($filePage, $filesByPage)) {
+                $filesByPage[$filePage] = array();
             }
-            array_push($imagesByPage[$imagePage], $imageName);
+            array_push($filesByPage[$filePage], $fileName);
         }
-        return $imagesByPage;
+        return $filesByPage;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
     function cleanContents() {
         $deletedContents = array();
         $this->scanContents();
-        $contents = $this->stupid->listContents();
+        $contents = $this->stupid->listContents(true);
+        array_push($contents, CONTENTS_FILE);
         $contentFiles = getDirContents(CONTENTS_PATH);
         foreach ($contentFiles as $contentFile) {
-            if($contentFile != CONTENTS_FILE) {
-                $delete = true;
-                foreach ($contents as $content) {
-                    if(endsWith($contentFile, $content.CONTENT_EXTENSION)) {
-                        $delete = false;
-                    }
-                }
-                if($delete) {
-                    array_push($deletedContents, $contentFile);
-                    unlink($contentFile);
-                }
+            if(!in_array($contentFile, $contents)) {
+                array_push($deletedContents, $contentFile);
+                unlink($contentFile);
             }
         }
         return $deletedContents;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function cleanFiles() {
+        $deletedFiles = array();
+        $this->scanFiles();
+        $files = $this->stupid->listFiles(true);
+        array_push($files, FILES_FILE);
+        $filesFiles = getDirContents(FILES_PATH);
+        foreach ($filesFiles as $fileFile) {
+            if(!in_array($fileFile, $files)) {
+                array_push($deletedFiles, $fileFile);
+                unlink($fileFile);
+            }
+        }
+        return $deletedFiles;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

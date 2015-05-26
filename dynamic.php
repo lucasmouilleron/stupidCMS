@@ -22,7 +22,7 @@
 
 		<div>
             <h2>Administrable image</h2>
-            <img src="<?php $stupid->__img("image1.jpg")?>"/>
+            <img src="<?php $stupid->__file("image1.jpg")?>"/>
         </div>
 
 		<?php $stupid->__cnt("index-about")?>

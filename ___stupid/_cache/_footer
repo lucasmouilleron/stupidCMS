@@ -1,4 +1,0 @@
-echo "<footer>
-    <p>© ";echo "stupidCMS";echo " | <a href=\"mailto:";echo "lucas.mouilleron@me.com";echo "\">";echo "lucas.mouilleron@me.com";echo "</a></p>
-
-</footer>";

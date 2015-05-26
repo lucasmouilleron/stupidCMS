@@ -26,7 +26,7 @@ Stupid Pages (SP)
 Stupid Micro Templating Engine (SMTE)
 -------------------------------------
 - Administrable contents : `{{CNT:content-name}}`
-- Administrable images : `<img src="{{IMG:image-name.jpg}}"/>`
+- Administrable files : `<img src="{{FILE:file-name.jpg}}"/>` or `<a href="{{FILE:file-name.pdf}}">the file</a>`
 - Include another page in a page : `{{INC:page-name-without-html-extension}}`
 - Definitions : `{{DEF:CONSTANT_NAME}}` (for example `SITE_URL`)
 - If : `{{IF:php expression}}content{{EIF}}`
@@ -40,7 +40,7 @@ Studid Dynamic Page (SDP)
 - Sutpid API available :
 - `$stupid->__inc("page-name-without-html-extension")`
 - `$stupid->__cnt("content-name")`
-- `$stupid->__img("image-name")`
+- `$stupid->__file("file-name")`
 - No cache is applied (it is applied only for included contents)
 
 Compiled Stupid Pages Caching (CSPC)
@@ -49,7 +49,7 @@ Compiled Stupid Pages Caching (CSPC)
 - Three engines are available : 
 - The cache engine is selectable in `/config.php`
 - _None_ cache engine : no cache, all pages and contents are loaded from original files (not recommended)
-- _File_ cache engine : cache files are located in `___stupid/_cache`
+- _File_ cache engine : cache files are located in `/__cache`
 - _Redis_ cache engine : redis port is configurable in `___stupid/libs/stupidDefinitions.php`
 - Tip : If new contents are not visible, run `Clear Cache` from the `Stupid Backend`
 - Tip : In `DEV_MODE`, the cache is disabled
@@ -70,8 +70,8 @@ Dev
 ---
 - Install `composer` : `curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer`
 - Install dependencies : `cd ___stupid && composer install`
-- Underlying cotents in `./___stupid/_contents`
-- Underlying images in `./___stupid/_images`
+- Underlying cotents in `./__contents`
+- Underlying files in `./__files`
 
 TODO
 ----

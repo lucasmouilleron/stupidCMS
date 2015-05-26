@@ -1,6 +1,6 @@
 <div class="container">
 	<footer>
-		<p>&copy; stupidCMS | <a href="mailto:<?php echo CONTACT_EMAIL?>"><?php echo CONTACT_EMAIL?></a></p>
+		<p>&copy; <?php echo STUPID_NAME?> | <a href="mailto:<?php echo CONTACT_EMAIL?>"><?php echo CONTACT_EMAIL?></a></p>
 	</footer>
 </div>
 
@@ -8,11 +8,11 @@
 	<div class="debug">DEBUG : <?php echo $stupidBackend->stupid->getDebugInfos();?></div>
 <?php endif;?>
 
-<script src="./js/jquery-1.11.2.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script src="./js/bootstrap.validator.min.js"></script>
-<script src="./js/autosize.js"></script>
-<script src="./js/Markdown.Converter.js"></script>
+<script src="./js/vendors/jquery-1.11.2.min.js"></script>
+<script src="./js/vendors/bootstrap.min.js"></script>
+<script src="./js/vendors/bootstrap.validator.min.js"></script>
+<script src="./js/vendors/autosize.js"></script>
+<script src="./js/vendors/Markdown.Converter.js"></script>
 <script src="./js/main.js"></script>
 
 </body>

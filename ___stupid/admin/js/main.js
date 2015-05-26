@@ -1,5 +1,6 @@
 $(function() {
 
+    $("[data-toggle=\"tooltip\"]").tooltip(); 
 	autosize($("textarea"));
 
 	$(".content .submit, .page .submit").hide();
@@ -13,17 +14,17 @@ $(function() {
 		$(".addPage .next").show();
 	});
 
-	$(".image .submit").hide();
-	$(".image input:file").change(function(e){
-		var $image = $(this).parent().parent().find("img");
+	$(".file .submit").hide();
+	$(".file input:file").change(function(e){
+		var $file = $(this).parent().parent().find("img");
 		if (e.target.files && e.target.files[0]) {
 			var reader = new FileReader();
 			reader.onload = function (e) {
-				$image.attr("src", e.target.result);
+				$file.attr("src", e.target.result);
 			};
 			reader.readAsDataURL(e.target.files[0]);
 		}
-		$image.css({"opacity":"0.3"});
+		$file.css({"opacity":"0.3"});
 		$(this).parent().parent().find(".submit").show();
 	});
 

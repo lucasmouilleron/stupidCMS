@@ -1,8 +1,8 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/vendors/autoload.php"; 
-require_once __DIR__."/../../config.php";
+require_once __DIR__."/vendors/autoload.php";
+require_once __DIR__."/vendors/Michelf/php-markdown/Michelf/Markdown.inc.php";
 use \Michelf\Markdown;
 /////////////////////////////////////////////////////////////////////////////
 session_start();
@@ -10,18 +10,18 @@ date_default_timezone_set("Europe/Paris");
 
 /////////////////////////////////////////////////////////////////////////////
 function getDirContents($dir, &$results = array()){
-    $files = scandir($dir);
-
-    foreach($files as $key => $value){
-        $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
-        if(!is_dir($path)) {
-            $results[] = $path;
-        } else if(is_dir($path) && $value != "." && $value != "..") {
-            getDirContents($path, $results);
-            $results[] = $path;
+    if(file_exists($dir)) {   
+        $files = scandir($dir);
+        foreach($files as $key => $value){
+            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+            if(!is_dir($path)) {
+                $results[] = $path;
+            } else if(is_dir($path) && $value != "." && $value != "..") {
+                getDirContents($path, $results);
+                $results[] = $path;
+            }
         }
     }
-
     return $results;
 }
 
