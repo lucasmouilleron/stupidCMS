@@ -8,7 +8,7 @@ Stupid::setDefaultConstants();
 // GENERAL
 /////////////////////////////////////////////////////////////////////////////
 define("STUPID_NAME","stupidCMS");
-define("STUPID_VERSION","0.6");
+define("STUPID_VERSION","0.7");
 define("CONTACT_EMAIL","lucas.mouiilleron@me.com");
 define("README_FILE",__DIR__."/../../README.md");
 /////////////////////////////////////////////////////////////////////////////
