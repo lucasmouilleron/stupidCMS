@@ -89,7 +89,6 @@ class Stupid
         }
         else {
             $this->setDegubInfo("pageLoadedFromFile",$page);
-            ob_start(); 
             $content = @file_get_contents(PAGES_PATH."/".$page.PAGES_EXTENSION);
             if($content == "") {
                 header("HTTP/1.0 404 Not Found");
@@ -153,7 +152,7 @@ function renderInclusion($inclusionName, $noCache=false) {
         return false;
     }
     else {
-        return $this->renderPage($inclusionName, $noCache);
+        return $this->renderSMTETemplate(file_get_contents($inclusionPath));
     }
 }
 
