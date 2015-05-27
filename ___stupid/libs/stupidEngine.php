@@ -16,6 +16,10 @@ class Stupid
 
     ///////////////////////////////////////////////////////////////////////////////
     function __construct() {
+
+        session_start();
+        date_default_timezone_set("Europe/Paris");
+
         if(DEVELOPMENT_MODE) {
             $this->cacheEngine = new StupidCache();
             $this->setDegubInfo("cacheEngine","none, debug mode");   

@@ -6,6 +6,8 @@ $stupidBackend = new stupidBackend();
 $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
+// Processing
+/////////////////////////////////////////////////////////////////////////////
 if(isset($_GET["do"])) {
 	$deletedContents = $stupidBackend->cleanContents();
 	$deletedFiles = $stupidBackend->cleanFiles();

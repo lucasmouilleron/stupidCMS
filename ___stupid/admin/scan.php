@@ -5,10 +5,13 @@ require_once __DIR__."/../libs/stupidBackend.php";
 $stupidBackend = new stupidBackend();
 $stupidBackend->lockPage();
 
-?>
+/////////////////////////////////////////////////////////////////////////////
+// Data collecting
+/////////////////////////////////////////////////////////////////////////////
+$contents = $stupidBackend->scanContents();
+$files = $stupidBackend->scanFiles();
 
-<?php $contents = $stupidBackend->scanContents();?>
-<?php $files = $stupidBackend->scanFiles();?>
+?>
 
 <?php require_once __DIR__."/header.php";?>
 

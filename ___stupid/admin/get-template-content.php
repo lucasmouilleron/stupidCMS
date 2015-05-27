@@ -6,6 +6,8 @@ $stupidBackend = new stupidBackend();
 $stupidBackend->lockPage();
 
 /////////////////////////////////////////////////////////////////////////////
+// Data collecting
+/////////////////////////////////////////////////////////////////////////////
 $templateID = @$_GET["template"];
 if(isset($templateID) && strpos($templateID, "..") === false) {
     $file = PAGE_TEMPLATES_PATH."/".$templateID;

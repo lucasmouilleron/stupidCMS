@@ -4,9 +4,6 @@
 require_once __DIR__."/vendors/autoload.php";
 require_once __DIR__."/vendors/Michelf/php-markdown/Michelf/Markdown.inc.php";
 use \Michelf\Markdown;
-/////////////////////////////////////////////////////////////////////////////
-session_start();
-date_default_timezone_set("Europe/Paris");
 
 /////////////////////////////////////////////////////////////////////////////
 function getDirContents($dir, &$results = array()){
