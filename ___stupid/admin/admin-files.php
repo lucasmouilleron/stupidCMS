@@ -75,7 +75,11 @@ if($saved) {
             <div class="file">
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <img src="<?php $stupidBackend->stupid->__file($fileName)?>?ck=<?php echo time()?>" class="admin-file"/>
+                        <?php if($stupidBackend->isFileAnImage($fileName)):?>
+                            <img src="<?php $stupidBackend->stupid->__file($fileName)?>?ck=<?php echo time()?>" class="admin-file"/>
+                        <?php else:?>
+                            <a href="<?php $stupidBackend->stupid->__file($fileName)?>?ck=<?php echo time()?>" target="_new"><?php $stupidBackend->stupid->__file($fileName)?></a>
+                        <?php endif;?>
                     </div>
                     <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
                     <input type="hidden" name="item" value="<?php echo $fileName?>"/>

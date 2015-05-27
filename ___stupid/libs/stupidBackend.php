@@ -251,6 +251,13 @@ class StupidBackend
     }
 
     ///////////////////////////////////////////////////////////////////////////////
+    function isFileAnImage($fileName) {
+        $imageExtensions = explode(";", FILE_IMAGE_EXTENSIONS);
+        $fileExtension = @array_pop(explode(".", $fileName));
+        return in_array($fileExtension, $imageExtensions);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     function isAuthentified() {
         if(!isset($_SESSION["authentified"])) {
             return false;

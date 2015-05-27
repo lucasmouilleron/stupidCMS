@@ -39,6 +39,7 @@ define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("FILES_FILE",FILES_PATH."/__index.json");
 define("CONTENT_MARKDOWN_PREFIX","***");
 define("SMTE_CACHE_CONTENT_PREFIX","CNT__");
+define("FILE_IMAGE_EXTENSIONS","jpg;gif;png");
 /////////////////////////////////////////////////////////////////////////////
 define("SMTE_CACHE_REDIS_PORT",6379);
 
