@@ -6,14 +6,8 @@ stupidCMS is a flat file stupid CMS with nice templating and caching engines.
 Install
 -------
 - Drop all files (including `.htaccess`) at the site root
-- Create the file `./config.php` and override default config :
-	- `DEBUG_MODE`: displays hints (defaut : `true`)
-	- `DEVELOPMENT_MODE`: no cache for easier development (defaut : `false`)
-	- `ADMIN_PASSWORD`: has to be changed (default : `password`)
-	- `SITE_URL`: has to be set to the site root url (default : `http://localhost`)
-	- `PAGE_404`: `false` or the name of the 404 page (without extension)
-	- `NO_SCAN_FOLDERS`: 
-	- `SMTE_CACHE_ENGINE`: `file` | `redis` | `none` (default : `file`)
+- Create the file `./config.php` and override default config (cf _Overridable Configuration_)
+	
 
 Stupid Pages (SP)
 -----------------
@@ -46,13 +40,13 @@ Studid Dynamic Page (SDP)
 Compiled Stupid Pages Caching (CSPC)
 ------------------------------------
 - Compiled `Stupid Pages` are _cached_ for performance optimization
-- Three engines are available : 
 - The cache engine is selectable in `/config.php`
-- _None_ cache engine : no cache, all pages and contents are loaded from original files (not recommended)
-- _File_ cache engine : cache files are located in `/__cache`
-- _Redis_ cache engine : redis port is configurable in `___stupid/libs/stupidDefinitions.php`
-- Tip : If new contents are not visible, run `Clear Cache` from the `Stupid Backend`
-- Tip : In `DEV_MODE`, the cache is disabled
+- Three engines are available : 
+    - _None_ cache engine : no cache, all pages and contents are loaded from original files (not recommended)
+    - _File_ cache engine : cache files are located in `/__cache`
+    - _Redis_ cache engine : redis port is configurable in `___stupid/libs/stupidDefinitions.php`
+- Tip : If new contents are not visible, run `Clear` from the `Stupid Backend`
+- Tip : In `DEVELOPMENT_MODE`, the cache is disabled
 
 Stupid Backend (SB)
 -------------------
@@ -65,6 +59,16 @@ Stupid Backend (SB)
 - [Markdown documentation](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 - Tip : If SMTE administrable content are not visible, run `Scan Contents`
 - Tip : If SMTE new contents are not visible, run `Clear Cache`
+
+Overridable configuration
+-------------------------
+- `DEBUG_MODE (true)`: displays hints
+- `DEVELOPMENT_MODE (false)`: no cache for easier development
+- `ADMIN_PASSWORD ("password")`: has to be changed
+- `SITE_URL ("http://localhost")`: has to be set to the site root url
+- `PAGE_404 (false)`: `false` or the name of the 404 page (without extension)
+- `NO_SCAN_FOLDERS (none)`: folders not to scan when finding contents and files
+- `SMTE_CACHE_ENGINE ("file")`: `file` | `redis` | `none`
 
 Dev
 ---
