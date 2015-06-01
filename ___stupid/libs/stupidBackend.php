@@ -205,7 +205,7 @@ class StupidBackend
         $filesByPage = array();
         foreach ($files as $fileName => $filePages) {
             if(count($filePages)>1) {
-                $filePage = "__multiple";
+                $filePage = MULTIPLE_PAGE;
             }
             else {
                 $filePage = $filePages[0];

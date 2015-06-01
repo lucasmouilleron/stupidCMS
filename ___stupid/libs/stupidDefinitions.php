@@ -42,7 +42,7 @@ define("IF_TAG","IF:");
 define("END_IF_TAG","EIF");
 define("BEGIN_ECHO",'echo "');
 define("END_ECHO",'";');
-define("MULTIPLE_PAGE","__multiple");
+define("MULTIPLE_PAGE","*");
 define("CONTENTS_FILE",CONTENTS_PATH."/__index.json");
 define("FILES_FILE",FILES_PATH."/__index.json");
 define("CONTENT_MARKDOWN_PREFIX","***");

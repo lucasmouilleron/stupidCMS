@@ -1,1 +1,1 @@
-{"image1.jpg":["\/__templates\/template1","\/index"],"cv_fr.pdf":["\/index"],"image2.jpg":["__multiple","\/sub\/test"]}
+{"image1.jpg":["\/__templates\/template1","\/index"],"cv_fr.pdf":["\/index"],"image2.jpg":["*","\/sub\/test"]}
