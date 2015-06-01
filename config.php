@@ -1,9 +1,9 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
+define("ADMIN_PASSWORD","password");
 define("DEBUG_MODE",true);
 define("DEVELOPMENT_MODE",false);
-define("ADMIN_PASSWORD","password");
 /////////////////////////////////////////////////////////////////////////////
 define("SITE_URL","http://localhost/stupidCMS");
 define("PAGE_404","404");

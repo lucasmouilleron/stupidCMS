@@ -101,6 +101,12 @@ function deleteDirectory($dir) {
     return rmdir($dir);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+function setDefaultConstantValueIfMissing($constantName,$constantDefaultValue) {
+    if(!defined($constantName)) {
+        define($constantName,$constantDefaultValue);
+    }
+}
 
 
 ?>

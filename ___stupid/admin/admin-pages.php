@@ -31,6 +31,8 @@ if(isset($_POST["addPage"])) {
 }
 if($saved) {
     $stupidBackend->stupid->clearCache();
+    $stupidBackend->scanContents();
+    $stupidBackend->scanFiles();
     $pages = $stupidBackend->listPagesWithExtensions();
 }
 

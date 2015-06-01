@@ -27,6 +27,8 @@ if(isset($_POST["item"])) {
 }
 if($saved) {
     $stupidBackend->stupid->clearCache();
+    $stupidBackend->scanContents();
+    $stupidBackend->scanFiles();
     $contents = $stupidBackend->listContents();
     $contentsByPages = $stupidBackend->listContentsByPages();
 }

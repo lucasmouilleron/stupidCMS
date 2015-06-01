@@ -62,6 +62,7 @@ Stupid Backend (SB)
 
 Overridable configuration
 -------------------------
+- Defined in `___stupid/libs/stupidDefinitions.php`
 - `DEBUG_MODE (true)`: displays hints
 - `DEVELOPMENT_MODE (false)`: no cache for easier development
 - `ADMIN_PASSWORD ("password")`: has to be changed

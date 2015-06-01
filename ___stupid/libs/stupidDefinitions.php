@@ -1,8 +1,16 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
-Stupid::setDefaultConstants();
-
+// config.php OVERIDABLE CONFIGS
+/////////////////////////////////////////////////////////////////////////////
+setDefaultConstantValueIfMissing("DEBUG_MODE",true);
+setDefaultConstantValueIfMissing("DEVELOPMENT_MODE",false);
+setDefaultConstantValueIfMissing("ADMIN_PASSWORD","password");
+setDefaultConstantValueIfMissing("SITE_URL","http://localhost");
+setDefaultConstantValueIfMissing("PAGE_404",false);
+setDefaultConstantValueIfMissing("NO_SCAN_FOLDERS","none;none2");
+setDefaultConstantValueIfMissing("SMTE_CACHE_ENGINE","file");
+setDefaultConstantValueIfMissing("PAGES_EDITABLE",true);
 
 /////////////////////////////////////////////////////////////////////////////
 // GENERAL

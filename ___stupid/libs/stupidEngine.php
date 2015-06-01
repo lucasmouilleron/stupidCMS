@@ -39,24 +39,6 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    static function setDefaultConstants() {
-        self::setDefaultConstantValueIfMissing("DEBUG_MODE",true);
-        self::setDefaultConstantValueIfMissing("DEVELOPMENT_MODE",false);
-        self::setDefaultConstantValueIfMissing("ADMIN_PASSWORD","password");
-        self::setDefaultConstantValueIfMissing("SITE_URL","http://localhost");
-        self::setDefaultConstantValueIfMissing("PAGE_404",false);
-        self::setDefaultConstantValueIfMissing("NO_SCAN_FOLDERS","none;none2");
-        self::setDefaultConstantValueIfMissing("SMTE_CACHE_ENGINE","file");
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////
-    static function setDefaultConstantValueIfMissing($constantName,$constantDefaultValue) {
-        if(!defined($constantName)) {
-            define($constantName,$constantDefaultValue);
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////
     function clearCache() {
         $this->cacheEngine->clearCache();
         $pages = $this->listPages();
