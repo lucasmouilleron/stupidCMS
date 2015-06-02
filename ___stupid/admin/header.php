@@ -20,8 +20,8 @@
 					<?php if(DEVELOPMENT_MODE):?><li><a href="admin-pages" class="<?php if(isCurrentPage("admin-pages")) echo "active"?>" data-placement="bottom" data-toggle="tooltip" title="Manage pages">Pages</a></li><?php endif;?>
 					<?php if(DEVELOPMENT_MODE):?><li><a href="clean" class="<?php if(isCurrentPage("clean")) echo "active"?>" data-placement="bottom" data-toggle="tooltip" title="Clear old contents and files">Clean</a></li><?php endif;?>
 					<?php if(DEVELOPMENT_MODE):?><li><a href="clear" class="<?php if(isCurrentPage("clear")) echo "active"?>" data-placement="bottom" data-toggle="tooltip" title="Clear cache">Clear</a></li><?php endif;?>
-					<li><a href="<?php echo SITE_URL?>" target="new">View site</a></li>
-					<li><a href="help" class="<?php if(isCurrentPage("help")) echo "active"?>">Help</a></li>
+					<li><a href="<?php echo SITE_URL?>" target="new" data-placement="bottom" data-toggle="tooltip"  title="View the site in a new page">View site</a></li>
+					<li><a href="help" class="<?php if(isCurrentPage("help")) echo "active"?>" data-placement="bottom" data-toggle="tooltip" title="Read the technical help">Help</a></li>
 				</ul>
 			</nav>
 		</header>

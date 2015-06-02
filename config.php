@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////
 define("ADMIN_PASSWORD","password");
 define("DEBUG_MODE",true);
-define("DEVELOPMENT_MODE",false);
+define("DEVELOPMENT_MODE",true);
 /////////////////////////////////////////////////////////////////////////////
 define("SITE_URL","http://localhost/stupidCMS");
 define("PAGE_404","404");

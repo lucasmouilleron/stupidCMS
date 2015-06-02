@@ -269,12 +269,12 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function cleanPageNameFile($page) {
-        $page = $this->cleanContentName($page);
-        if(!endsWith($page, PAGES_EXTENSION)) {
-            $page = $page.PAGES_EXTENSION;
+    function cleanPageNameFile($pageName) {
+        $pageName = ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-\/]/"), array('-', '.', ''), $pageName),"/");
+        if(!endsWith($pageName, PAGES_EXTENSION)) {
+            $pageName = $pageName.PAGES_EXTENSION;
         }
-        return $page;
+        return $pageName;
     }
 
     /////////////////////////////////////////////////////////////////////////////

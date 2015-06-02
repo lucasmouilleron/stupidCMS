@@ -122,14 +122,18 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function savePageFullPath($page, $content) {
-        file_put_contents($page, $content);
-        return $page;
+    function savePageFullPath($pagePath, $content) {
+        $folder = dirname($pagePath);
+        @mkdir($folder,0777,true);
+        file_put_contents($pagePath, $content);
+        return $pagePath;
     }
 
     /////////////////////////////////////////////////////////////////////////////
     function savePage($pageName, $content) {
         $pagePath = PAGES_PATH."/".$this->stupid->cleanPageNameFile($pageName);
+        $folder = dirname($pagePath);
+        @mkdir($folder,0777,true);
         file_put_contents($pagePath, $content);
         return $pagePath;
     }
