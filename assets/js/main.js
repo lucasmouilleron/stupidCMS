@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////
 $(function() {
-    $("header nav li").each(function() {
+    $("header nav.js-nav li").each(function() {
         elt = $(this);
         linkElt = elt.find("a");
         if(endsWith(linkElt.attr("href"), location.pathname)) {

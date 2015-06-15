@@ -114,7 +114,7 @@ class StupidBackend
         $files = getDirContents(PAGES_PATH);
         $pages = array();
         foreach ($files as $file) {
-            if(endsWith($file, PAGES_EXTENSION) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
+            if((endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION)) && !startsWith($file,STUPID_PATH) &&  !startsWith($file,PAGE_TEMPLATES_PATH)) {
                 array_push($pages, $file);
             }
         }

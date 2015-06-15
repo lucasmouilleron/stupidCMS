@@ -41,7 +41,7 @@ header nav {
 }
 
 header nav a.active {
-    color:#000;
+    color:red;
     text-decoration: none;
 }
 

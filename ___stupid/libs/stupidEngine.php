@@ -271,7 +271,7 @@ class Stupid
     /////////////////////////////////////////////////////////////////////////////
     function cleanPageNameFile($pageName) {
         $pageName = ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-\/]/"), array('-', '.', ''), $pageName),"/");
-        if(!endsWith($pageName, PAGES_EXTENSION)) {
+        if(!endsWith($pageName, PAGES_EXTENSION) && !endsWith($pageName, DYNAMIC_PAGES_EXTENSION)) {
             $pageName = $pageName.PAGES_EXTENSION;
         }
         return $pageName;
