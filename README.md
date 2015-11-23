@@ -3,6 +3,8 @@ stupidCMS
 
 stupidCMS is a flat file stupid CMS with nice templating and caching engines.
 
+![Screenshot](http://grabs.lucasmouilleron.com/Screen%20Shot%202015-11-23%20at%2015.50.59.png)
+
 Install
 -------
 - Drop all files (including `.htaccess`) at the site root
