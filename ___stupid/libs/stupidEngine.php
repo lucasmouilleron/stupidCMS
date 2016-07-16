@@ -20,11 +20,12 @@ class Stupid
         session_start();
         date_default_timezone_set("Europe/Paris");
 
-        if(DEVELOPMENT_MODE) {
-            $this->cacheEngine = new StupidCache();
-            $this->setDegubInfo("cacheEngine","none, debug mode");   
-        }
-        else if(SMTE_CACHE_ENGINE == "redis") {
+        // if(DEVELOPMENT_MODE) {
+        //     $this->cacheEngine = new StupidCache();
+        //     $this->setDegubInfo("cacheEngine","none, debug mode");   
+        // }
+        // else 
+        if(SMTE_CACHE_ENGINE == "redis") {
             $this->cacheEngine = new StupidCacheRedis(SMTE_CACHE_REDIS_PORT);    
             $this->setDegubInfo("cacheEngine","redis");
         }
