@@ -1,1 +1,1 @@
-{"image1.jpg":["\/index"],"cv_fr.pdf":["\/index"],"image2.jpg":["\/index","\/sub\/test"]}
+{"image1.jpg":["\/dynamic.php","\/index.html"],"cv_fr.pdf":["\/index.html"],"image2.jpg":["*","\/sub\/test.html"]}

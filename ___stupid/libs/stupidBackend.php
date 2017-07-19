@@ -19,8 +19,10 @@ class StupidBackend
     ///////////////////////////////////////////////////////////////////////////////
     function scanFiles() {
 
-        function enrichiFoundFiles($content,$files,$page) {
-            preg_match_all("/\{\{".FILE_TAG."(.*)\}\}/U",$content, $matches);
+        $regexStd="/\{\{".FILE_TAG."(.*)\}\}/U";
+        $regexDynamic = "/__file\(\"(.*)\"\)/U";
+        function enrichiFoundFiles($content,$files,$page, $regex) {
+            preg_match_all($regex,$content, $matches);
             $results = $matches[1];
             foreach ($results as $result) {
                 if(!array_key_exists($result, $files)) {
@@ -37,9 +39,10 @@ class StupidBackend
         $files = array();
         $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
-            $content = file_get_contents($page.PAGES_EXTENSION);
+            $content = file_get_contents($page);
             $page = str_replace(PAGES_PATH, "", $page);
-            $files = enrichiFoundFiles($content,$files,$page);
+            $files = enrichiFoundFiles($content,$files,$page,$regexStd);
+            $files = enrichiFoundFiles($content,$files,$page,$regexDynamic);
         }
         $contents = json_decode(file_get_contents(CONTENTS_FILE));
         foreach ($contents as $contentName => $contentPages) {
@@ -50,7 +53,8 @@ class StupidBackend
                     $page = $contentPages[0];
                 }
                 $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
-                $files = enrichiFoundFiles($content,$files,$page);
+                $files = enrichiFoundFiles($content,$files,$page,$regexStd);
+                $files = enrichiFoundFiles($content,$files,$page,$regexDynamic);
             }
         }
 
@@ -61,8 +65,11 @@ class StupidBackend
     ///////////////////////////////////////////////////////////////////////////////
     function scanContents() {
 
-        function enrichiFoundContents($content,$contents,$page) {
-            preg_match_all("/\{\{".CONTENT_TAG."(.*)\}\}/U",$content, $matches);
+        $regexStd = "/\{\{".CONTENT_TAG."(.*)\}\}/U";
+        $regexDynamic = "/__cnt\(\"(.*)\"\)/U";
+
+        function enrichiFoundContents($content,$contents,$page,$regex) {
+            preg_match_all($regex, $content, $matches);
             $results = $matches[1];
             foreach ($results as $result) {
                 if(!array_key_exists($result, $contents)) {
@@ -79,9 +86,10 @@ class StupidBackend
         $contents = array();
         $pages = $this->listPagesFullPath();
         foreach ($pages as $page) {
-            $content = file_get_contents($page.PAGES_EXTENSION);
+            $content = file_get_contents($page);
             $page = str_replace(PAGES_PATH, "", $page);
-            $contents = enrichiFoundContents($content,$contents,$page);
+            $contents = enrichiFoundContents($content,$contents,$page,$regexStd);
+            $contents = enrichiFoundContents($content,$contents,$page,$regexDynamic);
         }
         foreach ($contents as $contentName => $contentPages) {
             $contentFile = $this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName));
@@ -91,7 +99,8 @@ class StupidBackend
                 if(count($contentPages) == 1) {
                     $page = $contentPages[0];
                 }
-                $contents = enrichiFoundContents($content,$contents,$page);
+                $contents = enrichiFoundContents($content,$contents,$page,$regexStd);
+                $contents = enrichiFoundContents($content,$contents,$page,$regexDynamic);
             }
         }
 
@@ -101,10 +110,11 @@ class StupidBackend
 
     /////////////////////////////////////////////////////////////////////////////
     function listPagesFullPath() {
-        $pages = $this->stupid->listPages();
+        // $pages = $this->stupid->listPages();
+        $pages = $this->listPagesWithExtensions();
         $pagesFullPath = array();
         foreach ($pages as $page) {
-            array_push($pagesFullPath, PAGES_PATH."/".$page);
+            array_push($pagesFullPath, $page);
         }
         return $pagesFullPath;
     }
