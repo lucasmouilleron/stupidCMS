@@ -9,36 +9,36 @@
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <header>
-            <h1>{{CNT:general-company}}</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{DEF:SITE_URL}}/index" {{IF:isCurrentPage("index")}}class="active"{{EIF}}>index</a></li>
-                    <li><a href="{{DEF:SITE_URL}}/other" {{IF:isCurrentPage("other")}}class="active"{{EIF}}>other page</a></li>
-                    <li><a href="{{DEF:SITE_URL}}/custom-menu" {{IF:isCurrentPage("custom-menu")}}class="active"{{EIF}}>Custom menu</a></li>
-                    <li><a href="{{DEF:SITE_URL}}/dynamic" {{IF:isCurrentPage("dynamic")}}class="active"{{EIF}}>dynamic page</a></li>
-                    <li><a href="{{DEF:SITE_URL}}/sub/test" {{IF:isCurrentPage("sub/test")}}class="active"{{EIF}}>sub page</a></li>
-                </ul>
-            </nav>
-        </header>
+    <header>
+        <h1>{{CNT:general-company}}</h1>
+        <nav>
+            <ul>
+                <li><a href="{{DEF:SITE_URL}}/index" {{IF:isCurrentPage("index")}}class="active"{{EIF}}>index</a></li>
+                <li><a href="{{DEF:SITE_URL}}/other" {{IF:isCurrentPage("other")}}class="active"{{EIF}}>other page</a></li>
+                <li><a href="{{DEF:SITE_URL}}/custom-menu" {{IF:isCurrentPage("custom-menu")}}class="active"{{EIF}}>Custom menu</a></li>
+                <li><a href="{{DEF:SITE_URL}}/dynamic" {{IF:isCurrentPage("dynamic")}}class="active"{{EIF}}>dynamic page</a></li>
+                <li><a href="{{DEF:SITE_URL}}/sub/test" {{IF:isCurrentPage("sub/test")}}class="active"{{EIF}}>sub page</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="hot">
-            {{CNT:other-about}}
-        </div>
-
-        <div>
-            {{CNT:other-more}}
-        </div>
-
-        <div>
-            {{CNT:other-more-more}}
-        </div>
-
-        {{INC:_footer}}
-
+    <div class="hot">
+        {{CNT:other-about}}
     </div>
-    
+
+    <div>
+        {{CNT:other-more}}
+    </div>
+
+    <div>
+        {{CNT:other-more-more}}
+    </div>
+
+    {{INC:_footer}}
+
+</div>
+
 </body>
 </html>

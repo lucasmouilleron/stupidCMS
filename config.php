@@ -1,15 +1,15 @@
 <?php
 
 /////////////////////////////////////////////////////////////////////////////
-define("ADMIN_PASSWORD","password");
-define("DEBUG_MODE",true);
-define("DEVELOPMENT_MODE",true);
+define("ADMIN_PASSWORD", "password");
+define("DEBUG_MODE", true);
+define("DEVELOPMENT_MODE", true);
 /////////////////////////////////////////////////////////////////////////////
-define("SITE_URL","http://localhost/stupidCMS");
-define("PAGE_404","404");
+define("SITE_URL", "http://localhost/stupidCMS");
+define("PAGE_404", "404");
 /////////////////////////////////////////////////////////////////////////////
-define("SMTE_CACHE_ENGINE","file");
+define("SMTE_CACHE_ENGINE", "file");
 /////////////////////////////////////////////////////////////////////////////
-define("GENERAL_COMPANY","sutpidCMS");
+define("GENERAL_COMPANY", "sutpidCMS");
 
 ?>

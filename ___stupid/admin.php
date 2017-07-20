@@ -1,1 +1,1 @@
-<?php header("Location: admin/admin-contents")?>
+<?php header("Location: admin/admin-contents") ?>

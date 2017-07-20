@@ -1,40 +1,45 @@
 <?php
 
 ///////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/helpers.php";
-require_once __DIR__."/StupidCache.php";
+require_once __DIR__ . "/helpers.php";
+require_once __DIR__ . "/StupidCache.php";
 
 ///////////////////////////////////////////////////////////////////////////////
 class StupidCacheFile extends StupidCache
 {
     ///////////////////////////////////////////////////////////////////////////////
-	public $cacheFolder;
+    public $cacheFolder;
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function __construct($cacheFolder) {
-		$this->cacheFolder = $cacheFolder;
-	}
-
-	///////////////////////////////////////////////////////////////////////////////
-	public function clearCache() {
-		@deleteDirectory($this->cacheFolder);
-	}
+    public function __construct($cacheFolder)
+    {
+        $this->cacheFolder = $cacheFolder;
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function isInCache($key) {
-		return file_exists($this->cacheFolder."/".$key);
-	}
+    public function clearCache()
+    {
+        @deleteDirectory($this->cacheFolder);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function getFromCache($key) {
-		return file_get_contents($this->cacheFolder."/".$key);
-	}
+    public function isInCache($key)
+    {
+        return file_exists($this->cacheFolder . "/" . $key);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function setToCache($key,$value) {
-		@mkdir(dirname($this->cacheFolder."/".$key),0777, true);
-		file_put_contents($this->cacheFolder."/".$key, $value);
-	}
+    public function getFromCache($key)
+    {
+        return file_get_contents($this->cacheFolder . "/" . $key);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    public function setToCache($key, $value)
+    {
+        @mkdir(dirname($this->cacheFolder . "/" . $key), 0777, true);
+        file_put_contents($this->cacheFolder . "/" . $key, $value);
+    }
 }
 
 ?>

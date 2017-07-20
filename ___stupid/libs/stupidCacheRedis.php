@@ -1,43 +1,48 @@
 <?php
 
 ///////////////////////////////////////////////////////////////////////////////
-require_once __DIR__."/helpers.php";
-require_once __DIR__."/StupidCache.php";
+require_once __DIR__ . "/helpers.php";
+require_once __DIR__ . "/StupidCache.php";
 
 ///////////////////////////////////////////////////////////////////////////////
 class StupidCacheRedis extends StupidCache
 {
     ///////////////////////////////////////////////////////////////////////////////
-	public $cachePort;
-	public $client;
+    public $cachePort;
+    public $client;
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function __construct($cachePort) {
-		$this->cachePort = $cachePort;
-		$this->client = $client = new Predis\Client([
-			"port"   => $this->cachePort
-			]);
-	}
-
-	///////////////////////////////////////////////////////////////////////////////
-	public function clearCache() {
-		$this->client->flushall();
-	}
+    public function __construct($cachePort)
+    {
+        $this->cachePort = $cachePort;
+        $this->client = $client = new Predis\Client([
+            "port" => $this->cachePort
+        ]);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function isInCache($key) {
-		return $this->client->exists($key);
-	}
+    public function clearCache()
+    {
+        $this->client->flushall();
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function getFromCache($key) {
-		return $this->client->get($key);
-	}
+    public function isInCache($key)
+    {
+        return $this->client->exists($key);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
-	public function setToCache($key,$value) {
-		$this->client->set($key,$value);
-	}
+    public function getFromCache($key)
+    {
+        return $this->client->get($key);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    public function setToCache($key, $value)
+    {
+        $this->client->set($key, $value);
+    }
 }
 
 ?>

@@ -4,24 +4,28 @@
 class StupidCache
 {
 
-	///////////////////////////////////////////////////////////////////////////////
-    public function clearCache() {
-    	return;
+    ///////////////////////////////////////////////////////////////////////////////
+    public function clearCache()
+    {
+        return;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    public function isInCache($key) {
-    	return false;
+    public function isInCache($key)
+    {
+        return false;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    public function getFromCache($key) {
-    	return;
+    public function getFromCache($key)
+    {
+        return;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    public function setToCache($key,$value) {
-    	return;
+    public function setToCache($key, $value)
+    {
+        return;
     }
 }
 
