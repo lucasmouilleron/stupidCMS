@@ -48,10 +48,12 @@ class Stupid
     {
         $this->cacheEngine->clearCache();
         $pages = $this->listPages();
+        ob_start();
         foreach($pages as $page)
         {
             $this->renderPage($page, true);
         }
+        ob_end_clean();
         $contents = $this->listContents();
         foreach($contents as $contentName)
         {
@@ -237,7 +239,7 @@ class Stupid
                 $process = true;
                 foreach($noScanFolders as $noScanFolder)
                 {
-                    if(startsWith($file, realpath(ROOT_PATH . "/" . $noScanFolder)))
+                    if(startsWith($file, realpath($noScanFolder)))
                     {
                         $process = false;
                         break;
@@ -246,6 +248,22 @@ class Stupid
                 if($process)
                 {
                     array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
+                }
+            }
+            if(endsWith($file, DYNAMIC_PAGES_EXTENSION))
+            {
+                $process = true;
+                foreach($noScanFolders as $noScanFolder)
+                {
+                    if(startsWith($file, realpath($noScanFolder)))
+                    {
+                        $process = false;
+                        break;
+                    }
+                }
+                if($process)
+                {
+                    array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(DYNAMIC_PAGES_EXTENSION, "", $file))));
                 }
             }
         }
