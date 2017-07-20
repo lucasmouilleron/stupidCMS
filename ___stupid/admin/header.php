@@ -11,7 +11,7 @@
 
 <div class="container">
     <header>
-        <h1>stupidCMS<sup><?php echo STUPID_VERSION ?></sup></h1>
+        <h1><?php echo STUPID_NAME ?><sup><?php echo STUPID_VERSION ?></sup></h1>
         <nav>
             <ul>
                 <li><a href="admin-contents" class="<?php if(isCurrentPage("admin-contents")) echo "active" ?>" data-placement="bottom" data-toggle="tooltip" title="Manage contents">Contents</a></li>
