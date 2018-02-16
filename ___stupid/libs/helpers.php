@@ -133,5 +133,14 @@ function setDefaultConstantValueIfMissing($constantName, $constantDefaultValue)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+function getOutput($functionName, $functionParams) {
+    ob_start();
+    call_user_func_array($functionName, $functionParams);
+    $out = ob_get_contents();
+    ob_end_clean();
+    return $out;
+}
+
 
 ?>
