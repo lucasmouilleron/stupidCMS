@@ -8,7 +8,7 @@ $stupidBackend->lockPage();
 
 <?php require_once __DIR__ . "/header.php"; ?>
 
-    <div class="container">
+    <div class="container help">
         <?php echo markdownToHTML(file_get_contents(README_FILE)) ?>
     </div>
 
