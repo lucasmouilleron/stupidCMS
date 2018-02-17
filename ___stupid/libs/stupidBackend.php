@@ -143,14 +143,13 @@ class StupidBackend
     /////////////////////////////////////////////////////////////////////////////
     function listPagesWithExtensions()
     {
-        $files = getDirContents(PAGES_PATH);
+        $t=array();
+        $forbiddenFolders = array_merge(array("___stupid", "__cache", "__contents", "__files", "__templates"), explode(",", PAGES_OMITED_FOLDERS_COMMA));
+        $files = getDirContents(PAGES_PATH, $t, $forbiddenFolders);
         $pages = array();
         foreach($files as $file)
         {
-            if((endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION)) && !startsWith($file, STUPID_PATH) && !startsWith($file, PAGE_TEMPLATES_PATH))
-            {
-                array_push($pages, $file);
-            }
+            if((endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION))) {array_push($pages, $file);}
         }
         return $pages;
     }

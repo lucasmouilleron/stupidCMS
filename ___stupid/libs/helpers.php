@@ -6,7 +6,7 @@ require_once __DIR__ . "/vendors/Michelf/php-markdown/Michelf/Markdown.inc.php";
 use \Michelf\Markdown;
 
 /////////////////////////////////////////////////////////////////////////////
-function getDirContents($dir, &$results = array())
+function getDirContents($dir, &$results = array(), $omittedFolders = array())
 {
     if(file_exists($dir))
     {
@@ -14,6 +14,7 @@ function getDirContents($dir, &$results = array())
         foreach($files as $key => $value)
         {
             $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+            if (in_array($value, $omittedFolders)) {continue;}
             if(!is_dir($path))
             {
                 $results[] = $path;
