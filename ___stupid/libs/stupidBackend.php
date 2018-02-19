@@ -127,31 +127,16 @@ class StupidBackend
         return $contents;
     }
 
-    /////////////////////////////////////////////////////////////////////////////
+   /////////////////////////////////////////////////////////////////////////////
     function listPagesFullPath()
     {
-        // $pages = $this->stupid->listPages();
-        $pages = $this->listPagesWithExtensions();
-        $pagesFullPath = array();
-        foreach($pages as $page)
-        {
-            array_push($pagesFullPath, $page);
-        }
-        return $pagesFullPath;
+        return $this->stupid->listPagesFullPath();
     }
 
     /////////////////////////////////////////////////////////////////////////////
     function listPagesWithExtensions()
     {
-        $t=array();
-        $forbiddenFolders = array_merge(array("___stupid", "__cache", "__contents", "__files", "__templates"), explode(",", PAGES_OMITED_FOLDERS_COMMA));
-        $files = getDirContents(PAGES_PATH, $t, $forbiddenFolders);
-        $pages = array();
-        foreach($files as $file)
-        {
-            if((endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION))) {array_push($pages, $file);}
-        }
-        return $pages;
+        return $this->stupid->listPagesFullPath();
     }
 
     /////////////////////////////////////////////////////////////////////////////

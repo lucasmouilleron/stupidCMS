@@ -4,7 +4,6 @@
 define("ADMIN_PASSWORD", "password");
 define("DEBUG_MODE", true);
 define("DEVELOPMENT_MODE", true);
-define("PAGES_OMITED_FOLDERS_COMMA", "assets");
 /////////////////////////////////////////////////////////////////////////////
 define("SITE_URL", "http://localhost/stupidCMS");
 define("PAGE_404", "404");

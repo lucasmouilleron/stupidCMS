@@ -14,14 +14,13 @@ function getDirContents($dir, &$results = array(), $omittedFolders = array())
         foreach($files as $key => $value)
         {
             $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
-            if (in_array($value, $omittedFolders)) {continue;}
             if(!is_dir($path))
             {
                 $results[] = $path;
             }
-            else if(is_dir($path) && $value != "." && $value != "..")
+            else if(is_dir($path) && $value != "." && $value != ".." && !in_array($value, $omittedFolders))
             {
-                getDirContents($path, $results);
+                getDirContents($path, $results, $omittedFolders);
                 $results[] = $path;
             }
         }

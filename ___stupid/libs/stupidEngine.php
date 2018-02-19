@@ -229,49 +229,33 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listPages()
-    {
+    function listPagesFullPath() {
         $noScanFolders = explode(";", NO_SCAN_FOLDERS);
-        array_push($noScanFolders, STUPID_PATH);
-        array_push($noScanFolders, PAGE_TEMPLATES_PATH);
-        array_push($noScanFolders, CONTENTS_PATH);
-        array_push($noScanFolders, FILES_PATH);
-        $files = getDirContents(PAGES_PATH);
+        array_push($noScanFolders, "___stupid");
+        array_push($noScanFolders, "__contents");
+        array_push($noScanFolders, "__files");
+        array_push($noScanFolders, "__cache");
+        array_push($noScanFolders, ".git");
+        $t = array();
+        $files = getDirContents(PAGES_PATH, $t, $noScanFolders);
         $pages = array();
         foreach($files as $file)
         {
-            if(endsWith($file, PAGES_EXTENSION))
-            {
-                $process = true;
-                foreach($noScanFolders as $noScanFolder)
-                {
-                    if(startsWith($file, realpath($noScanFolder)))
-                    {
-                        $process = false;
-                        break;
-                    }
-                }
-                if($process)
-                {
-                    array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(PAGES_EXTENSION, "", $file))));
-                }
+            if(endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION)){
+                array_push($pages, $file);
             }
-            if(endsWith($file, DYNAMIC_PAGES_EXTENSION))
-            {
-                $process = true;
-                foreach($noScanFolders as $noScanFolder)
-                {
-                    if(startsWith($file, realpath($noScanFolder)))
-                    {
-                        $process = false;
-                        break;
-                    }
-                }
-                if($process)
-                {
-                    array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace(DYNAMIC_PAGES_EXTENSION, "", $file))));
-                }
-            }
+        }
+        return $pages;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function listPages()
+    {
+        $rawPages = $this->listPagesFullPath();
+        $pages = array();
+        foreach($rawPages as $page)
+        {
+            array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace([PAGES_EXTENSION,DYNAMIC_PAGES_EXTENSION], ["",""], $page))));
         }
         return $pages;
     }

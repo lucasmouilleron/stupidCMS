@@ -8,7 +8,7 @@ setDefaultConstantValueIfMissing("DEVELOPMENT_MODE", false);
 setDefaultConstantValueIfMissing("ADMIN_PASSWORD", "password");
 setDefaultConstantValueIfMissing("SITE_URL", "http://localhost");
 setDefaultConstantValueIfMissing("PAGE_404", false);
-setDefaultConstantValueIfMissing("NO_SCAN_FOLDERS", "none;none2");
+setDefaultConstantValueIfMissing("NO_SCAN_FOLDERS", "assets;__trash");
 setDefaultConstantValueIfMissing("SMTE_CACHE_ENGINE", "file");
 setDefaultConstantValueIfMissing("PAGES_EDITABLE", true);
 
