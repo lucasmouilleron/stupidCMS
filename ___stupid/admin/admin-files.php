@@ -15,25 +15,32 @@ $filesByPages = $stupidBackend->listFilesByPages();
 // Form processing
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
+$deleted = false;
 $itemSaved = "";
+$itemDeleted = "";
 if(isset($_POST["item"]))
 {
-    foreach($files as $fileName => $fileFiles)
-    {
-        if($fileName == $_POST["item"])
+    if(array_key_exists("delete", $_POST)) {
+        $item = $_POST["item"];
+        $itemDeleted = $stupidBackend->deleteFile($item);
+        $deleted = true;
+    }
+    else {
+        foreach($files as $fileName => $fileFiles)
         {
-            $file = $_FILES["file"];
-            $item = $_POST["item"];
-            $itemSaved = $stupidBackend->saveFile($fileName, $file["tmp_name"]);
-            $saved = true;
-            break;
+            if($fileName == $_POST["item"])
+            {
+                $file = $_FILES["file"];
+                $item = $_POST["item"];
+                $itemSaved = $stupidBackend->saveFile($fileName, $file["tmp_name"]);
+                $saved = true;
+                break;
+            }
         }
     }
 }
-if($saved)
-{
-    $stupidBackend->stupid->clearCache();
-}
+if($saved) {$stupidBackend->stupid->clearCache();}
+if($deleted) {$stupidBackend->stupid->clearCache();}
 
 ?>
 
@@ -60,6 +67,10 @@ if($saved)
             <div class="alert alert-success" role="alert"><?php echo $itemSaved ?> <strong>saved</strong> !</div>
         <?php endif; ?>
 
+        <?php if($deleted): ?>
+            <div class="alert alert-success" role="alert"><?php echo $itemDeleted ?> <strong>delteted</strong> !</div>
+        <?php endif; ?>
+
         <?php ksort($filesByPages); ?>
 
         <nav>
@@ -77,19 +88,27 @@ if($saved)
             <h2><?php echo $filePage ?></h2>
 
             <?php foreach($fileNames as $fileName): ?>
+                <a name="<?php echo $fileName ?>"></a>
                 <h3><?php echo $fileName ?></h3>
                 <div class="file">
                     <form method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <?php if($stupidBackend->isFileAnImage($fileName)): ?>
-                                <img src="<?php $stupidBackend->stupid->__file($fileName) ?>?ck=<?php echo time() ?>" class="admin-file"/>
-                            <?php else: ?>
-                                <a href="<?php $stupidBackend->stupid->__file($fileName) ?>?ck=<?php echo time() ?>" target="_new"><?php $stupidBackend->stupid->__file($fileName) ?></a>
+                            <?php if ($stupidBackend->fileExists($fileName)):?>
+                                <?php if($stupidBackend->isFileAnImage($fileName)): ?>
+                                    <img src="<?php $stupidBackend->stupid->__file($fileName) ?>?ck=<?php echo time() ?>" class="admin-file"/>
+                                <?php else: ?>
+                                    <a href="<?php $stupidBackend->stupid->__file($fileName) ?>?ck=<?php echo time() ?>" target="_new"><?php $stupidBackend->stupid->__file($fileName) ?></a>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
-                        <span class="btn btn-default btn-file">Replace <input type="file" name="file" value="replace"/></span>
+                        <?php if ($stupidBackend->fileExists($fileName)):?>
+                            <span class="btn btn-warning btn-file">Replace <input type="file" name="file" value="replace"/></span>
+                        <?php else:?>
+                            <span class="btn btn-success btn-file">Add <input type="file" name="file" value="replace"/></span>
+                        <?php endif;?>
                         <input type="hidden" name="item" value="<?php echo $fileName ?>"/>
                         <input type="submit" name="<?php echo $fileName ?>" value="save" class="btn btn-primary submit"/>
+                        <?php if ($stupidBackend->fileExists($fileName)):?><button type="submit" name="delete" class="btn btn-danger">Delete</button><?php endif;?>
                     </form>
                 </div>
             <?php endforeach; ?>

@@ -127,7 +127,7 @@ class StupidBackend
         return $contents;
     }
 
-   /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
     function listPagesFullPath()
     {
         return $this->stupid->listPagesFullPath();
@@ -172,6 +172,15 @@ class StupidBackend
         $filePath = $this->stupid->getFilePath($fileName);
         move_uploaded_file($file, $filePath);
         return $filePath;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function deleteFile($fileName) {
+        $filePath = $this->stupid->getFilePath($fileName);
+        if(file_exists($filePath)) {
+            unlink($filePath);
+        }
+        return $fileName;
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -260,6 +269,11 @@ class StupidBackend
             array_push($filesByPage[$filePage], $fileName);
         }
         return $filesByPage;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function fileExists($file) {
+        return $this->stupid->fileExists($file);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

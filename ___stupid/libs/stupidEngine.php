@@ -199,6 +199,11 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
+    function fileExists($file) {
+        return file_exists($this->getFilePath($file));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
     function __inc($inclusionName)
     {
         eval($this->renderInclusion($inclusionName));
@@ -357,6 +362,12 @@ class Stupid
     function getFilePath($file)
     {
         return FILES_PATH . "/" . $this->cleanFileName($file);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    function getFileURL($file)
+    {
+        return FILES_URL. "/" . $this->cleanFileName($file);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
