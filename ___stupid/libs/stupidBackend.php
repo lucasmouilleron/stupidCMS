@@ -170,14 +170,17 @@ class StupidBackend
     function saveFile($fileName, $file)
     {
         $filePath = $this->stupid->getFilePath($fileName);
+        @mkdir(dirname($filePath), 0777, true);
         move_uploaded_file($file, $filePath);
         return $filePath;
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function deleteFile($fileName) {
+    function deleteFile($fileName)
+    {
         $filePath = $this->stupid->getFilePath($fileName);
-        if(file_exists($filePath)) {
+        if(file_exists($filePath))
+        {
             unlink($filePath);
         }
         return $fileName;
@@ -272,7 +275,8 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function fileExists($file) {
+    function fileExists($file)
+    {
         return $this->stupid->fileExists($file);
     }
 
@@ -305,7 +309,15 @@ class StupidBackend
         $filesFiles = getDirContents(FILES_PATH);
         foreach($filesFiles as $fileFile)
         {
-            if(!in_array($fileFile, $files))
+            if(is_dir($fileFile))
+            {
+                if(isDirectoryEmpty($fileFile))
+                {
+                    array_push($deletedFiles, $fileFile);
+                    deleteDirectory($fileFile);
+                }
+            }
+            else if(!in_array($fileFile, $files))
             {
                 array_push($deletedFiles, $fileFile);
                 unlink($fileFile);

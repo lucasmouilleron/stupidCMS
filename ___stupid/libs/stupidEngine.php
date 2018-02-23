@@ -199,7 +199,8 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function fileExists($file) {
+    function fileExists($file)
+    {
         return file_exists($this->getFilePath($file));
     }
 
@@ -234,7 +235,8 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listPagesFullPath() {
+    function listPagesFullPath()
+    {
         $noScanFolders = explode(";", NO_SCAN_FOLDERS);
         array_push($noScanFolders, "___stupid");
         array_push($noScanFolders, "__contents");
@@ -246,7 +248,8 @@ class Stupid
         $pages = array();
         foreach($files as $file)
         {
-            if(endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION)){
+            if(endsWith($file, PAGES_EXTENSION) || endsWith($file, DYNAMIC_PAGES_EXTENSION))
+            {
                 array_push($pages, $file);
             }
         }
@@ -260,7 +263,7 @@ class Stupid
         $pages = array();
         foreach($rawPages as $page)
         {
-            array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace([PAGES_EXTENSION,DYNAMIC_PAGES_EXTENSION], ["",""], $page))));
+            array_push($pages, $this->cleanPageName(str_replace(PAGES_PATH, "", str_replace([PAGES_EXTENSION, DYNAMIC_PAGES_EXTENSION], ["", ""], $page))));
         }
         return $pages;
     }
@@ -332,7 +335,7 @@ class Stupid
     /////////////////////////////////////////////////////////////////////////////
     function cleanFileName($fileName)
     {
-        return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('-', '.', ''), $fileName);
+        return preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-\/]/'), array('-', '.', ''), $fileName);
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -367,7 +370,7 @@ class Stupid
     /////////////////////////////////////////////////////////////////////////////
     function getFileURL($file)
     {
-        return FILES_URL. "/" . $this->cleanFileName($file);
+        return FILES_URL . "/" . $this->cleanFileName($file);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -394,8 +397,7 @@ class Stupid
     function renderSMTETemplate($content, $noCache = false)
     {
         $content = $this->cleanRenderString($content, '"');
-        $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches)
-        {
+        $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
             global $noCache;
             $result = $matches[1];
             if(startsWith($result, DEFINITION_TAG))

@@ -3,6 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////
 require_once __DIR__ . "/vendors/autoload.php";
 require_once __DIR__ . "/vendors/Michelf/php-markdown/Michelf/Markdown.inc.php";
+
 use \Michelf\Markdown;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -134,12 +135,24 @@ function setDefaultConstantValueIfMissing($constantName, $constantDefaultValue)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-function getOutput($functionName, $functionParams) {
+function getOutput($functionName, $functionParams)
+{
     ob_start();
     call_user_func_array($functionName, $functionParams);
     $out = ob_get_contents();
     ob_end_clean();
     return $out;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+function isDirectoryEmpty($dirname)
+{
+    if(!is_dir($dirname)) return false;
+    foreach(scandir($dirname) as $file)
+    {
+        if(!in_array($file, array(".", ".."))) return false;
+    }
+    return true;
 }
 
 
