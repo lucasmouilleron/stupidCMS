@@ -162,6 +162,7 @@ class StupidBackend
     function saveContent($contentName, $content)
     {
         $contentPath = $this->stupid->getContentFilePath($contentName);
+        @mkdir(dirname($contentPath), 0777, true);
         file_put_contents($contentPath, $content);
         return $contentPath;
     }
@@ -290,7 +291,15 @@ class StupidBackend
         $contentFiles = getDirContents(CONTENTS_PATH);
         foreach($contentFiles as $contentFile)
         {
-            if(!in_array($contentFile, $contents))
+            if(is_dir($contentFile))
+            {
+                if(isDirectoryEmpty($contentFile))
+                {
+                    array_push($deletedFiles, $contentFile);
+                    deleteDirectory($deletedContents);
+                }
+            }
+            else if(!in_array($contentFile, $contents))
             {
                 array_push($deletedContents, $contentFile);
                 unlink($contentFile);

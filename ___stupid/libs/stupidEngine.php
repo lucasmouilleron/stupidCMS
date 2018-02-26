@@ -21,11 +21,6 @@ class Stupid
         session_start();
         date_default_timezone_set("Europe/Paris");
 
-        // if(DEVELOPMENT_MODE) {
-        //     $this->cacheEngine = new StupidCache();
-        //     $this->setDegubInfo("cacheEngine","none, debug mode");   
-        // }
-        // else 
         if(SMTE_CACHE_ENGINE == "redis")
         {
             $this->cacheEngine = new StupidCacheRedis(SMTE_CACHE_REDIS_PORT);
@@ -36,6 +31,11 @@ class Stupid
             $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_FILE_PATH);
             $this->setDegubInfo("cacheEngine", "file");
         }
+//        else if(DEVELOPMENT_MODE)
+//        {
+//            $this->cacheEngine = new StupidCache();
+//            $this->setDegubInfo("cacheEngine", "none");
+//        }
         else
         {
             $this->cacheEngine = new StupidCache();
@@ -185,6 +185,7 @@ class Stupid
                     exit();
                 }
             }
+
             $pageRender = $this->renderSMTETemplate($content, $noCache);
             $this->cacheEngine->setToCache($page, $pageRender);
             $this->setDegubInfo("pageCacheGenerated", $page);
@@ -329,7 +330,7 @@ class Stupid
     /////////////////////////////////////////////////////////////////////////////
     function cleanContentName($contentName)
     {
-        return ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]/"), array('-', '.', ''), $contentName), "/");
+        return ltrim(preg_replace(array("/\s/", "/\.[\.]+/", "/[^\w_\.\-]\//"), array('-', '.', ''), $contentName), "/");
     }
 
     /////////////////////////////////////////////////////////////////////////////

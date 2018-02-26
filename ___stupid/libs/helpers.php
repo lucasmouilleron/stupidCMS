@@ -34,6 +34,7 @@ function createFileIfNotExists($filePath)
 {
     if(!file_exists($filePath))
     {
+        @mkdir(dirname($filePath), 0777, true);
         file_put_contents($filePath, '');
     }
 }
