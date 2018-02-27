@@ -73,7 +73,7 @@ if($deleted) {$stupidBackend->stupid->clearCache();}
 
         <?php ksort($filesByPages); ?>
 
-        <nav>
+        <nav class="contents">
             <ul>
                 <?php foreach($filesByPages as $filePage => $fileNames) : ?>
                     <li><a href="#<?php echo $filePage ?>"><?php echo $filePage ?><sup><?php echo count($fileNames) ?></sup></a></li>

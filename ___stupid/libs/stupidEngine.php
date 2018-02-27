@@ -163,6 +163,7 @@ class Stupid
     ///////////////////////////////////////////////////////////////////////////////
     function renderPage($page, $noCache = false)
     {
+
         if($noCache == false && $this->cacheEngine->isInCache($page))
         {
             $this->setDegubInfo("pageLoadedFromCache", $page);
@@ -174,15 +175,16 @@ class Stupid
             $content = @file_get_contents(PAGES_PATH . "/" . $page . PAGES_EXTENSION);
             if($content == "")
             {
+
                 header("HTTP/1.0 404 Not Found");
-                if(PAGE_404 !== false)
+                if(PAGE_404 !== false && $page !== PAGE_404)
                 {
                     return $this->processPage(PAGE_404);
                 }
                 else
                 {
                     echo "404";
-                    exit();
+                    return;
                 }
             }
 

@@ -64,7 +64,7 @@ if($saved)
 
         <?php ksort($contentsByPages); ?>
 
-        <nav>
+        <nav class="contents">
             <ul>
                 <?php foreach($contentsByPages as $contentPage => $contentNames) : ?>
                     <li><a href="#<?php echo $contentPage ?>"><?php echo $contentPage ?><sup><?php echo count($contentNames) ?></sup></a></li>

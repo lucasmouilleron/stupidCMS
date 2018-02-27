@@ -61,6 +61,16 @@ nav li:last-child {
     border: none;
 }
 
+nav.contents {
+    height:auto;
+}
+
+nav.contents li {
+    display: block;
+    text-align: left;
+    border:none;
+}
+
 footer {
     margin-top: 80px;
     border-top: 1px solid #ddd;
