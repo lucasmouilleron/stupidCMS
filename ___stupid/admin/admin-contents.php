@@ -66,30 +66,31 @@ if($saved)
 
         <nav class="contents">
             <ul>
-                <?php foreach($contentsByPages as $contentPage => $contentNames) : ?>
-                    <li><a href="#<?php echo $contentPage ?>"><?php echo $contentPage ?><sup><?php echo count($contentNames) ?></sup></a></li>
+                <?php foreach($contentsByPages as $contentPage => $contents) : ?>
+                    <li><a href="#<?php echo $contentPage ?>"><?php echo $contentPage ?><sup><?php echo count($contents) ?></sup></a></li>
                 <?php endforeach; ?>
             </ul>
         </nav>
         <hr/>
 
-        <?php foreach($contentsByPages as $contentPage => $contentNames) : ?>
+        <?php foreach($contentsByPages as $contentPage => $contents) : ?>
 
             <a name="<?php echo $contentPage ?>"></a>
             <h2><?php echo $contentPage ?></h2>
 
-            <?php foreach($contentNames as $contentName): ?>
-                <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($contentName); ?>
+            <?php foreach($contents as $content): ?>
+                <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($content["name"]); ?>
                 <?php createFileIfNotExists($contentFilePath) ?>
-                <h3><?php echo $contentName ?></h3>
                 <div class="content">
+                    <a name="<?php echo $contentPage . "/" . $content["name"] ?>"></a>
+                    <h3><?php echo $content["name"] ?><?php if($content["count"] > 1): ?><sup><?php echo $content["count"] ?></sup><?php endif; ?></h3>
                     <form method="post">
                         <div class="form-group">
                             <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath) ?></textarea>
                         </div>
                         <input type="button" class="btn btn-default preview-modal" value="preview"/>
-                        <input type="hidden" name="item" value="<?php echo $contentName ?>"/>
-                        <input type="submit" name="<?php echo $contentName ?>" value="save" class="btn btn-primary submit"/>
+                        <input type="hidden" name="item" value="<?php echo $content["name"] ?>"/>
+                        <input type="submit" name="<?php echo $content["name"] ?>" value="save" class="btn btn-primary submit"/>
                     </form>
                 </div>
             <?php endforeach; ?>

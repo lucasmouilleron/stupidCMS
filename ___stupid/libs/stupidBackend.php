@@ -21,8 +21,10 @@ class StupidBackend
     function scanFiles()
     {
 
-        $regexStd = "/\{\{" . FILE_TAG . "(.*)\}\}/U";
+        $regexStd = "/\{\{" . FILE_TAG . "([^\(\)]*)\}\}/U";
+        $regexMultipleStd = "/\{\{" . FILE_TAG . "(.*?)\((.*?)\)(.*?)\}\}/U";
         $regexDynamic = "/__file\(\"(.*)\"\)/U";
+
         function enrichiFoundFiles($content, $files, $page, $regex)
         {
             preg_match_all($regex, $content, $matches);
@@ -41,6 +43,30 @@ class StupidBackend
             return $files;
         }
 
+        function enrichiFoundFilesMultiple($content, $files, $page, $regex)
+        {
+            preg_match_all($regex, $content, $matches);
+            list($alls, $pres, $lists, $posts) = $matches;
+            for($i = 0; $i < count($alls); $i++)
+            {
+                $list = $lists[$i];
+                $listBits = explode(",", $list);
+                foreach($listBits as $lb)
+                {
+                    $result = $pres[$i] . $lb . $posts[$i];
+                    if(!array_key_exists($result, $files))
+                    {
+                        $files[$result] = array();
+                    }
+                    if(!in_array($page, $files[$result]))
+                    {
+                        array_push($files[$result], $page);
+                    }
+                }
+            }
+            return $files;
+        }
+
         @mkdir(FILES_PATH);
         $files = array();
         $pages = $this->listPagesFullPath();
@@ -49,6 +75,7 @@ class StupidBackend
             $content = file_get_contents($page);
             $page = str_replace(PAGES_PATH, "", $page);
             $files = enrichiFoundFiles($content, $files, $page, $regexStd);
+            $files = enrichiFoundFilesMultiple($content, $files, $page, $regexMultipleStd);
             $files = enrichiFoundFiles($content, $files, $page, $regexDynamic);
         }
         $contents = json_decode(file_get_contents(CONTENTS_FILE));
@@ -76,7 +103,8 @@ class StupidBackend
     function scanContents()
     {
 
-        $regexStd = "/\{\{" . CONTENT_TAG . "(.*)\}\}/U";
+        $regexStd = "/\{\{" . CONTENT_TAG . "([^\(\)]*)\}\}/U";
+        $regexMultipleStd = "/\{\{" . CONTENT_TAG . "(.*?)\((.*?)\)(.*?)\}\}/U";
         $regexDynamic = "/__cnt\(\"(.*)\"\)/U";
 
         function enrichiFoundContents($content, $contents, $page, $regex)
@@ -97,6 +125,30 @@ class StupidBackend
             return $contents;
         }
 
+        function enrichiFoundContentsMultiple($content, $contents, $page, $regex)
+        {
+            preg_match_all($regex, $content, $matches);
+            list($alls, $pres, $lists, $posts) = $matches;
+            for($i = 0; $i < count($alls); $i++)
+            {
+                $list = $lists[$i];
+                $listBits = explode(",", $list);
+                foreach($listBits as $lb)
+                {
+                    $result = $pres[$i] . $lb . $posts[$i];
+                    if(!array_key_exists($result, $contents))
+                    {
+                        $contents[$result] = array();
+                    }
+                    if(!in_array($page, $contents[$result]))
+                    {
+                        array_push($contents[$result], $page);
+                    }
+                }
+            }
+            return $contents;
+        }
+
         @mkdir(CONTENTS_PATH);
         $contents = array();
         $pages = $this->listPagesFullPath();
@@ -105,6 +157,7 @@ class StupidBackend
             $content = file_get_contents($page);
             $page = str_replace(PAGES_PATH, "", $page);
             $contents = enrichiFoundContents($content, $contents, $page, $regexStd);
+            $contents = enrichiFoundContentsMultiple($content, $contents, $page, $regexMultipleStd);
             $contents = enrichiFoundContents($content, $contents, $page, $regexDynamic);
         }
         foreach($contents as $contentName => $contentPages)
@@ -214,25 +267,42 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listContentsByPages()
+    function listContentsByPages($grouped = false)
     {
         $contents = $this->listContents();
         $contentsByPage = array();
         foreach($contents as $contentName => $contentPages)
         {
-            if(count($contentPages) > 1)
+            if($grouped)
             {
-                $contentPage = MULTIPLE_PAGE;
+                $nbs = count($contentPages);
+                if($nbs > 1)
+                {
+                    $contentPage = MULTIPLE_PAGE;
+                }
+                else
+                {
+                    $contentPage = $contentPages[0];
+                }
+                if(!array_key_exists($contentPage, $contentsByPage))
+                {
+                    $contentsByPage[$contentPage] = array();
+                }
+                array_push($contentsByPage[$contentPage], ["name" => $contentName, "count" => $nbs]);
             }
             else
             {
-                $contentPage = $contentPages[0];
+                $nbs = count($contentPages);
+                foreach($contentPages as $contentPage)
+                {
+                    if(!array_key_exists($contentPage, $contentsByPage))
+                    {
+                        $contentsByPage[$contentPage] = array();
+                    }
+                    array_push($contentsByPage[$contentPage], ["name" => $contentName, "count" => $nbs]);
+                }
             }
-            if(!array_key_exists($contentPage, $contentsByPage))
-            {
-                $contentsByPage[$contentPage] = array();
-            }
-            array_push($contentsByPage[$contentPage], $contentName);
+
         }
         return $contentsByPage;
     }

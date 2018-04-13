@@ -9,7 +9,7 @@ $(function () {
     /////////////////////////////////////////////////////////////////////////////
     // Help
     /////////////////////////////////////////////////////////////////////////////
-    $(".help a").each(function() {        
+    $(".help a").each(function () {
         $(this).attr("target", "_new");
     });
 
@@ -20,6 +20,9 @@ $(function () {
     $(".content textarea, .page textarea").on("change keyup paste", function () {
         $(this).parent().parent().find(".submit").show();
         $(this).css({"border-color": "red"});
+        var u = new Url;
+        u.hash = $(this).parent().parent().parent().find("a").attr("name");
+        window.location = u.toString();
     });
     $(".preview-modal").click(function () {
         $("#preview-modal-content").html();
