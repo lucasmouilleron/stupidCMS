@@ -84,14 +84,20 @@ class StupidBackend
             $contentFile = $this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName));
             if(file_exists($contentFile))
             {
-                $page = MULTIPLE_PAGE;
-                if(count($contentPages) == 1)
-                {
-                    $page = $contentPages[0];
-                }
                 $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
-                $files = enrichiFoundFiles($content, $files, $page, $regexStd);
-                $files = enrichiFoundFiles($content, $files, $page, $regexDynamic);
+//                $page = MULTIPLE_PAGE;
+//                if(count($contentPages) == 1)
+//                {
+//                    $page = $contentPages[0];
+//                }
+//                $files = enrichiFoundFiles($content, $files, $page, $regexStd);
+//                $files = enrichiFoundFiles($content, $files, $page, $regexDynamic);
+                foreach($contentPages as $contentPage)
+                {
+                    $files = enrichiFoundFiles($content, $files, $contentPage, $regexStd);
+                    $files = enrichiFoundFiles($content, $files, $contentPage, $regexDynamic);
+                    $files = enrichiFoundFilesMultiple($content, $files, $contentPage, $regexMultipleStd);
+                }
             }
         }
 
@@ -166,13 +172,20 @@ class StupidBackend
             if(file_exists($contentFile))
             {
                 $content = file_get_contents($this->stupid->getContentFilePath($this->stupid->cleanContentName($contentName)));
-                $page = MULTIPLE_PAGE;
-                if(count($contentPages) == 1)
+//                $page = MULTIPLE_PAGE;
+//                if(count($contentPages) == 1)
+//                {
+//                    $page = $contentPages[0];
+//                }
+//                $contents = enrichiFoundContents($content, $contents, $page, $regexStd);
+//                $contents = enrichiFoundContents($content, $contents, $page, $regexDynamic);
+                foreach($contentPages as $contentPage)
                 {
-                    $page = $contentPages[0];
+                    $contents = enrichiFoundContents($content, $contents, $contentPage, $regexStd);
+                    $contents = enrichiFoundContents($content, $contents, $contentPage, $regexDynamic);
+                    $contents = enrichiFoundContentsMultiple($content, $contents, $contentPage, $regexMultipleStd);
                 }
-                $contents = enrichiFoundContents($content, $contents, $page, $regexStd);
-                $contents = enrichiFoundContents($content, $contents, $page, $regexDynamic);
+
             }
         }
 
@@ -322,25 +335,41 @@ class StupidBackend
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function listFilesByPages()
+    function listFilesByPages($grouped = false)
     {
         $files = $this->listFiles();
         $filesByPage = array();
         foreach($files as $fileName => $filePages)
         {
-            if(count($filePages) > 1)
+            if($grouped)
             {
-                $filePage = MULTIPLE_PAGE;
+                $nbs = count($filePages);
+                if($nbs > 1)
+                {
+                    $filePage = MULTIPLE_PAGE;
+                }
+                else
+                {
+                    $filePage = $filePages[0];
+                }
+                if(!array_key_exists($filePage, $filesByPage))
+                {
+                    $filesByPage[$filePage] = array();
+                }
+                array_push($filesByPage[$filePage], ["name" => $fileName, "count" => $nbs]);
             }
             else
             {
-                $filePage = $filePages[0];
+                $nbs = count($filePages);
+                foreach($filePages as $filePage)
+                {
+                    if(!array_key_exists($filePage, $filesByPage))
+                    {
+                        $filesByPage[$filePage] = array();
+                    }
+                    array_push($filesByPage[$filePage], ["name" => $fileName, "count" => $nbs]);
+                }
             }
-            if(!array_key_exists($filePage, $filesByPage))
-            {
-                $filesByPage[$filePage] = array();
-            }
-            array_push($filesByPage[$filePage], $fileName);
         }
         return $filesByPage;
     }

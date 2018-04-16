@@ -20,8 +20,10 @@ $(function () {
     $(".content textarea, .page textarea").on("change keyup paste", function () {
         $(this).parent().parent().find(".submit").show();
         $(this).css({"border-color": "red"});
+    });
+    $(".content .btn").click(function () {
         var u = new Url;
-        u.hash = $(this).parent().parent().parent().find("a").attr("name");
+        u.hash = $(this).parent().parent().find("a").attr("name");
         window.location = u.toString();
     });
     $(".preview-modal").click(function () {
@@ -57,6 +59,11 @@ $(function () {
     // Files management
     /////////////////////////////////////////////////////////////////////////////
     $(".file .submit").hide();
+    $(".file button[type='submit'], .file input[type='submit']").click(function () {
+        var u = new Url;
+        u.hash = $(this).parent().parent().find("a").attr("name");
+        window.location = u.toString();
+    });
     $(".file input:file").change(function (e) {
         var $file = $(this).parent().parent().find("img");
         if (e.target.files && e.target.files[0]) {
