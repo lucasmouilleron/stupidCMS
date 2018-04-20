@@ -12,6 +12,7 @@
 <script src="./js/vendors/bootstrap.min.js"></script>
 <script src="./js/vendors/bootstrap.validator.min.js"></script>
 <script src="./js/vendors/autosize.js"></script>
+<script src="./js/vendors/toaster.js"></script>
 <script src="./js/vendors/Markdown.Converter.js"></script>
 <script src="./js/vendors/url.min.js"></script>
 <script src="./js/main.js"></script>

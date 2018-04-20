@@ -1,8 +1,9 @@
 /*///////////////////////////////////////////////////////////////////////*/
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700);
 /*///////////////////////////////////////////////////////////////////////*/
-@import "./bootstrap.min.css";
+@import "./vendors/bootstrap.min.css";
+@import "./vendors/toaster.css";
 
 /*///////////////////////////////////////////////////////////////////////*/
 html, body {
@@ -88,6 +89,10 @@ footer {
 }
 
 /*///////////////////////////////////////////////////////////////////////*/
+#scroll {
+    display: none;
+}
+
 textarea {
     font-family: courier;
 }

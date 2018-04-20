@@ -3,8 +3,34 @@ $(function () {
     /////////////////////////////////////////////////////////////////////////////
     // Miscs
     /////////////////////////////////////////////////////////////////////////////
+    $.fn.isInViewport = function () {
+        var elementTop = $(this).offset().top;
+        var elementBottom = elementTop + $(this).outerHeight();
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        return elementBottom > viewportTop && elementTop < viewportBottom;
+    };
+
     $("[data-toggle=\"tooltip\"]").tooltip();
     autosize($("textarea"));
+    $(window).load(function () {
+        if ($("#scroll").length) {
+            $(window).scrollTop($("#scroll").attr("data-scroll"));
+        }
+        if ($(".alert").length) {
+            $(".alert").each(function (index, value){
+                var elt = $(this);
+                var eltContent = elt.html();
+                if (!elt.isInViewport()) {
+                    if (elt.hasClass("alert-success")) {toastr.success(eltContent);}
+                    else if (elt.hasClass("alert-danger")) {toastr.error(eltContent);}
+                    else if (elt.hasClass("alert-warning")) {toastr.warning(eltContent);}
+                    else {toastr.info(eltContent);}
+                }
+            });
+        }
+    });
+
 
     /////////////////////////////////////////////////////////////////////////////
     // Help
@@ -20,6 +46,14 @@ $(function () {
     $(".content textarea, .page textarea").on("change keyup paste", function () {
         $(this).parent().parent().find(".submit").show();
         $(this).css({"border-color": "red"});
+    });
+    $(".content textarea, .page textarea").keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            var formElt = $(e.target).parent().parent();
+            formElt.find("input.scroll").val($(window).scrollTop());
+            formElt.find("input.submit").click();
+            e.preventDefault();
+        }
     });
     $(".content .btn").click(function () {
         var u = new Url;
