@@ -105,8 +105,14 @@ textarea {
     font-family: courier;
 }
 
+.form-control:focus {
+    box-shadow:0px 0px 10px #888;
+    border-color: #999;
+}
+
 .save-needed, .save-needed:focus {
     border-color:red;
+    box-shadow:0px 0px 12px red;
 }
 
 .btn-file {
