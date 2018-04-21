@@ -125,7 +125,7 @@ $(function () {
     });
     // save hooks
     $(".content textarea").keydown(function (e) {
-        if (e.ctrlKey && e.keyCode == 13) {
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 13) {
             saveContent($(e.target).parent().parent());
             e.preventDefault();
         }

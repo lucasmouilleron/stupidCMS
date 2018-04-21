@@ -92,7 +92,7 @@ Administration - Contents
 - [Scan](/admin/scan) : scan for new files referenced in pages
 - Go to [Contents](/admin/admin-contents)
 - Edit the relevant content
-- Edit one content at the time (the `Save` button (or ctrl+enter) save only the current content)
+- Edit one content at the time (the `Save` button (or ctrl+shift+enter) save only the current content)
 - To use [Markdown syntax](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), the first line of content must be `***`
 
 Administration - Files
