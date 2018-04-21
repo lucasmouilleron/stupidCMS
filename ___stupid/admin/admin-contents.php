@@ -61,6 +61,11 @@ if($saved)
     </div>
 </div>
 
+<div id="sidebar" style="display: none">
+    <div id="toc-toggle">&#x25BC;</div>
+    <div id="toc"></div>
+</div>
+
 <div class="container">
     <?php if($saved): ?>
         <div class="alert alert-success" role="alert"><?php echo $itemSaved ?> <strong>saved</strong> !</div>

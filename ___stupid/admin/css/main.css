@@ -1,10 +1,14 @@
 /*///////////////////////////////////////////////////////////////////////*/
+/* IMPORTS */
+/*///////////////////////////////////////////////////////////////////////*/
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700);
 /*///////////////////////////////////////////////////////////////////////*/
 @import "./vendors/bootstrap.min.css";
 @import "./vendors/toaster.css";
 
+/*///////////////////////////////////////////////////////////////////////*/
+/* MAIN */
 /*///////////////////////////////////////////////////////////////////////*/
 html, body {
     font-family: 'Open Sans', arial, sans-serif;
@@ -19,6 +23,8 @@ a, a:hover {
     color: blue;
 }
 
+/*///////////////////////////////////////////////////////////////////////*/
+/* NAV */
 /*///////////////////////////////////////////////////////////////////////*/
 header {
     width: 100%;
@@ -63,13 +69,13 @@ nav li:last-child {
 }
 
 nav.contents {
-    height:auto;
+    height: auto;
 }
 
 nav.contents li {
     display: block;
     text-align: left;
-    border:none;
+    border: none;
 }
 
 footer {
@@ -89,12 +95,18 @@ footer {
 }
 
 /*///////////////////////////////////////////////////////////////////////*/
+/* FORMS */
+/*///////////////////////////////////////////////////////////////////////*/
 #scroll {
     display: none;
 }
 
 textarea {
     font-family: courier;
+}
+
+.save-needed, .save-needed:focus {
+    border-color:red;
 }
 
 .btn-file {
@@ -120,4 +132,76 @@ textarea {
 
 .admin-file {
     max-height: 200px;
+}
+
+/*///////////////////////////////////////////////////////////////////////*/
+/* TOC */
+/*///////////////////////////////////////////////////////////////////////*/
+#sidebar {
+    background-color: #fff;
+    padding: 20px 20px;
+    border-radius: 0 10px 0 0;
+    box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+}
+
+.toc-anchor {
+    display: block;
+    position: relative;
+    top: -5px;
+    visibility: hidden;
+}
+
+#toc-toggle {
+    padding: 0;
+    color: #ccc;
+    cursor: pointer;
+    float: right;
+}
+
+#toc {
+    float: left;
+}
+
+#toc ul {
+    font-size: 0.85em;
+    list-style: none;
+    left: 0;
+    margin: 0;
+    margin-left: -40px;
+}
+
+#toc a {
+    color: #999;
+    text-decoration: none;
+    border: none;
+}
+
+#toc a:hover {
+    color: #333;
+
+}
+
+#toc .toc-active a {
+    color: #014690;
+}
+
+#toc li {
+    padding: 0;
+}
+
+#toc .toc-h2 {
+    /*font-weight: bold;*/
+    font-size:1.2em;
+    padding-left: 5px;
+}
+
+#toc .toc-h3 {
+    padding-left: 15px;
+}
+
+#toc .toc-h4 {
+    padding-left: 25px;
 }

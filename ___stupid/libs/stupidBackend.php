@@ -456,13 +456,23 @@ class StupidBackend
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function lockPage()
+    function lockPage($redirect = true)
     {
         if(!$this->isAuthentified())
         {
-            header("Location: login");
+            if($redirect)
+            {
+                header("Location: login");
+            }
+            else
+            {
+                header("HTTP/1.0 403 Forbidden");
+                echo 'You are forbidden!';
+                exit;
+            }
         }
     }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     function login($password)
