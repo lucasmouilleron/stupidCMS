@@ -77,6 +77,30 @@ Stupid Backend (SB)
     - In `DEVELOPMENT_MODE`, cache is disabled, therefore `Clear` is not needed
 - Clean : TODO
 
+Administration - Overview
+-------------------------
+- Pages are created from backend or manually in root folder (html or php)
+- Reference administrable contents of files with {{CNT:the-content-name}} or {{FILE:the-file-name.pdf}}
+- Scan contents in pages, then edit the contents in the backend
+- [Contents](/admin/admin-contents) : edit contents
+- [Files](/admin/admin-files) : edit files
+- [Scan](/admin/scan) : scan for new contents or files referenced in pages
+- [Pages](/admin/admin-pages) : add or edit pages
+
+Administration - Contents
+-------------------------
+- [Scan](/admin/scan) : scan for new files referenced in pages
+- Go to [Contents](/admin/admin-contents)
+- Edit the relevant content
+- Edit one content at the time (the `Save` button (or ctrl+enter) save only the current content)
+- To use [Markdown syntax](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), the first line of content must be `***`
+
+Administration - Files
+----------------------
+- [Scan](/admin/scan) : scan for new files referenced in pages
+- Go to [Files](/admin/admin-files)
+- Upload the relevant file with the `Replace` button
+
 Overridable configuration
 -------------------------
 - Defined in `___stupid/libs/stupidDefinitions.php`
