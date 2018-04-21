@@ -88,6 +88,7 @@ $(function () {
         var submitPrevValue = submitElt.val();
         submitElt.val("Saving ...");
         submitElt.addClass("disabled");
+        toastr.info("Saving content <b>" + contentName + "</b>");
         $.ajax({
             type: "POST",
             url: "/admin/admin-contents-save",
@@ -96,6 +97,7 @@ $(function () {
             success: function (data) {
                 var success = getFromDict(data, "success", false);
                 if (success) {
+                    toastr.remove();
                     toastr.success("Content <b>" + contentName + "</b> saved");
                     textAreaElt.removeClass("save-needed");
                     submitElt.val(submitPrevValue);
@@ -103,12 +105,14 @@ $(function () {
                     submitElt.removeClass("disabled");
                 }
                 else {
+                    toastr.remove();
                     toastr.error("Can't save content <b>" + contentName + "</b>: " + getFromDict(data, "hint", "No hint"));
                     submitElt.val(submitPrevValue);
                     submitElt.removeClass("disabled");
                 }
             },
             error: function (data) {
+                toastr.remove();
                 toastr.error("Can't save content <b>" + contentName + "</b>: " + getFromDict(data, "hint", "No hint"));
                 submitElt.val(submitPrevValue);
                 submitElt.removeClass("disabled");
