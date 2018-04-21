@@ -88,7 +88,7 @@ $(function () {
         var submitPrevValue = submitElt.val();
         submitElt.val("Saving ...");
         submitElt.addClass("disabled");
-        toastr.info("Saving content <b>" + contentName + "</b>");
+        $.LoadingOverlay("show", {image: "", fontawesome: "fa fa-circle-notch fa-spin", fontawesomeColor:"#ddd", fontawesomeResizeFactor:0.4});
         $.ajax({
             type: "POST",
             url: "/admin/admin-contents-save",
@@ -97,7 +97,7 @@ $(function () {
             success: function (data) {
                 var success = getFromDict(data, "success", false);
                 if (success) {
-                    toastr.remove();
+                    $.LoadingOverlay("hide");
                     toastr.success("Content <b>" + contentName + "</b> saved");
                     textAreaElt.removeClass("save-needed");
                     submitElt.val(submitPrevValue);
@@ -105,14 +105,14 @@ $(function () {
                     submitElt.removeClass("disabled");
                 }
                 else {
-                    toastr.remove();
+                    $.LoadingOverlay("hide");
                     toastr.error("Can't save content <b>" + contentName + "</b>: " + getFromDict(data, "hint", "No hint"));
                     submitElt.val(submitPrevValue);
                     submitElt.removeClass("disabled");
                 }
             },
             error: function (data) {
-                toastr.remove();
+                $.LoadingOverlay("hide");
                 toastr.error("Can't save content <b>" + contentName + "</b>: " + getFromDict(data, "hint", "No hint"));
                 submitElt.val(submitPrevValue);
                 submitElt.removeClass("disabled");

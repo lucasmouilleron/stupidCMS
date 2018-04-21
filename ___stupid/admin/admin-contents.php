@@ -12,23 +12,16 @@ $contents = $stupidBackend->listContents();
 $contentsByPages = $stupidBackend->listContentsByPages();
 
 /////////////////////////////////////////////////////////////////////////////
-// Form processing
+// Fallback form processing (default ajax)
 /////////////////////////////////////////////////////////////////////////////
 $saved = false;
 $itemSaved = "";
 $scroll = 0;
 if(isset($_POST["item"]))
 {
+    $itemSaved = $stupidBackend->saveContent($_POST["item"], $_POST["content"]);
     $scroll = $_POST["scroll"];
-    foreach($contents as $contentName => $contentFiles)
-    {
-        if($contentName == $_POST["item"])
-        {
-            $itemSaved = $stupidBackend->saveContent($contentName, $_POST["content"]);
-            $saved = true;
-            break;
-        }
-    }
+    $saved = true;
 }
 if($saved)
 {
@@ -43,7 +36,8 @@ if($saved)
 
 <?php require_once __DIR__ . "/header.php"; ?>
 
-<?php if($scroll != 0): ?><div id="scroll" data-scroll="<?php echo $scroll;?>"></div><?php endif; ?>
+<?php if($scroll != 0): ?>
+    <div id="scroll" data-scroll="<?php echo $scroll; ?>"></div><?php endif; ?>
 
 <div class="modal fade" role="dialog" aria-hidden="true" id="preview-modal">
     <div class="modal-dialog modal-lg">

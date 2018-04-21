@@ -12,26 +12,16 @@ $saved = false;
 $success = false;
 $hint = "Not saved";
 
-$contents = $stupidBackend->listContents();
 if(isset($_POST["item"]))
 {
-    foreach($contents as $contentName => $contentFiles)
-    {
-        if($contentName == $_POST["item"])
-        {
-            $itemSaved = $stupidBackend->saveContent($contentName, $_POST["content"]);
-            $saved = true;
-            break;
-        }
-    }
+    $itemSaved = $stupidBackend->saveContent($_POST["item"], $_POST["content"]);
+    $saved = true;
 }
 if($saved)
 {
     $stupidBackend->stupid->clearCache();
     $stupidBackend->scanContents();
     $stupidBackend->scanFiles();
-    $contents = $stupidBackend->listContents();
-    $contentsByPages = $stupidBackend->listContentsByPages();
     $success = true;
 }
 
