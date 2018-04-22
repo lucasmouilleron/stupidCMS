@@ -18,15 +18,8 @@ $saved = false;
 $itemSaved = "";
 if(isset($_POST["item"]))
 {
-    foreach($pages as $page)
-    {
-        if($page == $_POST["item"])
-        {
-            $itemSaved = $stupidBackend->savePageFullPath($page, $_POST["content"]);
-            $saved = true;
-            break;
-        }
-    }
+    $itemSaved = $stupidBackend->savePageFullPath($_POST["item"], $_POST["content"]);
+    $saved = true;
 }
 if(isset($_POST["addPage"]))
 {
@@ -49,11 +42,17 @@ ksort($templates);
 
 <?php require_once __DIR__ . "/header.php"; ?>
 
+    <div id="sidebar" style="display: none">
+        <div id="toc-toggle">&#x25BC;</div>
+        <div id="toc" data-headers="h3"></div>
+    </div>
+
     <div class="container">
 
         <?php if($saved): ?>
             <div class="alert alert-success" role="alert"><?php echo $itemSaved ?> <strong>saved</strong> !</div>
         <?php endif; ?>
+
 
         <h2>Add a page</h2>
         <div class="addPage">

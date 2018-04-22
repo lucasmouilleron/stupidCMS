@@ -28,24 +28,12 @@ if(isset($_POST["item"]))
     }
     else
     {
-        foreach($files as $fileName => $fileFiles)
-        {
-            if($fileName == $_POST["item"])
-            {
-                $file = $_FILES["file"];
-                $item = $_POST["item"];
-                $itemSaved = $stupidBackend->saveFile($fileName, $file["tmp_name"]);
-                $saved = true;
-                break;
-            }
-        }
+        $file = $_FILES["file"];
+        $itemSaved = $stupidBackend->saveFile($_POST["item"], $file["tmp_name"]);
+        $saved = true;
     }
 }
-if($saved)
-{
-    $stupidBackend->stupid->clearCache();
-}
-if($deleted)
+if($saved || $deleted)
 {
     $stupidBackend->stupid->clearCache();
 }
@@ -68,6 +56,11 @@ if($deleted)
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="sidebar" style="display: none">
+        <div id="toc-toggle">&#x25BC;</div>
+        <div id="toc" data-headers="h2"></div>
     </div>
 
     <div class="container">
@@ -108,17 +101,14 @@ if($deleted)
                                 <?php else: ?>
                                     <a href="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" target="_new"><?php $stupidBackend->stupid->__file($file["name"]) ?></a>
                                 <?php endif; ?>
+                            <?php else: ?>
+                                <img class="admin-file admin-file-empty"/>
                             <?php endif; ?>
                         </div>
-                        <?php if($stupidBackend->fileExists($file["name"])): ?>
-                            <span class="btn btn-warning btn-file">Replace <input type="file" name="file" value="replace"/></span>
-                        <?php else: ?>
-                            <span class="btn btn-success btn-file">Add <input type="file" name="file" value="replace"/></span>
-                        <?php endif; ?>
+                        <span class="btn btn-warning btn-file">Add / Replace <input type="file" name="file" value="replace"/></span>
                         <input type="hidden" name="item" value="<?php echo $file["name"] ?>"/>
                         <input type="submit" name="<?php echo $file["name"] ?>" value="save" class="btn btn-primary submit"/>
-                        <?php if($stupidBackend->fileExists($file["name"])): ?>
-                            <button type="submit" name="delete" class="btn btn-danger">Delete</button><?php endif; ?>
+                        <button type="submit" name="delete" class="btn btn-danger submit-delete">Delete</button>
                     </form>
                 </div>
             <?php endforeach; ?>

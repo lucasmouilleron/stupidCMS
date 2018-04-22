@@ -116,6 +116,12 @@ textarea {
     box-shadow:0px 0px 12px red;
 }
 
+.save-needed-file {
+    border-color:red;
+    box-shadow:0px 0px 12px red;
+    opacity: 0.3;
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -139,6 +145,10 @@ textarea {
 
 .admin-file {
     max-height: 200px;
+}
+
+.admin-file-empty {
+    display: none;
 }
 
 /*///////////////////////////////////////////////////////////////////////*/

@@ -37,7 +37,8 @@ if($saved)
 <?php require_once __DIR__ . "/header.php"; ?>
 
 <?php if($scroll != 0): ?>
-    <div id="scroll" data-scroll="<?php echo $scroll; ?>"></div><?php endif; ?>
+    <div id="scroll" data-scroll="<?php echo $scroll; ?>"></div>
+<?php endif; ?>
 
 <div class="modal fade" role="dialog" aria-hidden="true" id="preview-modal">
     <div class="modal-dialog modal-lg">
@@ -57,7 +58,7 @@ if($saved)
 
 <div id="sidebar" style="display: none">
     <div id="toc-toggle">&#x25BC;</div>
-    <div id="toc"></div>
+    <div id="toc" data-headers="h2"></div>
 </div>
 
 <div class="container">

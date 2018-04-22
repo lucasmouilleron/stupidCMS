@@ -9,15 +9,13 @@ $success = false;
 $hint = "Not saved";
 header("Content-Type: application/json");
 
-/////////////////////////////////////////////////////////////////////////////
 try
 {
     $stupidBackend = new stupidBackend();
     $stupidBackend->lockPage(false);
-
     if(isset($_POST["item"]))
     {
-        $itemSaved = $stupidBackend->saveContent($_POST["item"], $_POST["content"]);
+        $itemSaved = $stupidBackend->savePageFullPath($_POST["item"], $_POST["content"]);
         $saved = true;
     }
     if($saved)
@@ -27,7 +25,6 @@ try
         $stupidBackend->scanFiles();
         $success = true;
     }
-
 }
 catch(Exception $e)
 {

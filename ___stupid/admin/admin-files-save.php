@@ -14,11 +14,22 @@ try
 {
     $stupidBackend = new stupidBackend();
     $stupidBackend->lockPage(false);
-
+    $hint = $_POST["item"];
     if(isset($_POST["item"]))
     {
-        $itemSaved = $stupidBackend->saveContent($_POST["item"], $_POST["content"]);
-        $saved = true;
+        // delete
+        if(array_key_exists("delete", $_POST))
+        {
+            $itemDeleted = $stupidBackend->deleteFile($_POST["item"]);
+            $saved = true;
+        }
+        // save
+        else if(array_key_exists("file", $_FILES))
+        {
+            $file = $_FILES["file"];
+            $itemSaved = $stupidBackend->saveFile($_POST["item"], $file["tmp_name"]);
+            $saved = true;
+        }
     }
     if($saved)
     {
@@ -27,7 +38,6 @@ try
         $stupidBackend->scanFiles();
         $success = true;
     }
-
 }
 catch(Exception $e)
 {
