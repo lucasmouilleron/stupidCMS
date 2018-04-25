@@ -74,44 +74,41 @@ if($saved || $deleted)
 
         <?php ksort($filesByPages); ?>
 
-        <nav class="contents">
-            <ul>
-                <?php foreach($filesByPages as $filePage => $filess) : ?>
-                    <li><a href="#<?php echo $filePage ?>"><?php echo $filePage ?><sup><?php echo count($filess) ?></sup></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
-        <hr/>
-
         <?php foreach($filesByPages as $filePage => $filess) : ?>
 
-            <a name="<?php echo $filePage ?>"></a>
-            <h2><?php echo $filePage ?></h2>
+            <div class="file-page page-container">
+                <a name="<?php echo $filePage ?>"></a>
+                <h2><?php echo $filePage ?></h2>
 
-            <?php foreach($filess as $file): ?>
+                <?php foreach($filess as $file): ?>
 
-                <div class="file">
-                    <a name="<?php echo $filePage . "/" . $file["name"] ?>"></a>
-                    <h3><?php echo $file["name"] ?><?php if($file["count"] > 1): ?><sup><?php echo $file["count"] ?></sup><?php endif; ?></h3>
-                    <form method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <?php if($stupidBackend->fileExists($file["name"])): ?>
-                                <?php if($stupidBackend->isFileAnImage($file["name"])): ?>
-                                    <img src="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" class="admin-file"/>
+                    <div class="file">
+                        <a name="<?php echo $filePage . "/" . $file["name"] ?>"></a>
+                        <h3><?php echo $file["name"] ?><?php if($file["count"] > 1): ?><sup><?php echo $file["count"] ?></sup><?php endif; ?></h3>
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <?php if($stupidBackend->fileExists($file["name"])): ?>
+                                    <?php if($stupidBackend->isFileAnImage($file["name"])): ?>
+                                        <img src="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" class="admin-file"/>
+                                    <?php else: ?>
+                                        <a href="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" class="admin-file" data-url="<?php $stupidBackend->stupid->__file($file["name"]) ?>" target="_new"><?php $stupidBackend->stupid->__file($file["name"]) ?></a>
+                                    <?php endif; ?>
                                 <?php else: ?>
-                                    <a href="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" target="_new"><?php $stupidBackend->stupid->__file($file["name"]) ?></a>
+                                    <?php if($stupidBackend->isFileAnImage($file["name"])): ?>
+                                        <img class="admin-file admin-file-empty"/>
+                                    <?php else: ?>
+                                        <a href="<?php $stupidBackend->stupid->__file($file["name"]) ?>?ck=<?php echo time() ?>" data-url="<?php $stupidBackend->stupid->__file($file["name"]) ?>" class="admin-file" target="_new"></a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <?php else: ?>
-                                <img class="admin-file admin-file-empty"/>
-                            <?php endif; ?>
-                        </div>
-                        <span class="btn btn-warning btn-file">Add / Replace <input type="file" name="file" value="replace"/></span>
-                        <input type="hidden" name="item" value="<?php echo $file["name"] ?>"/>
-                        <input type="submit" name="<?php echo $file["name"] ?>" value="save" class="btn btn-primary submit"/>
-                        <button type="submit" name="delete" class="btn btn-danger submit-delete">Delete</button>
-                    </form>
-                </div>
-            <?php endforeach; ?>
+                            </div>
+                            <span class="btn btn-warning btn-file">Add / Replace <input type="file" name="file" value="replace"/></span>
+                            <input type="hidden" name="item" value="<?php echo $file["name"] ?>"/>
+                            <input type="submit" name="<?php echo $file["name"] ?>" value="save" class="btn btn-primary submit"/>
+                            <button type="submit" name="delete" class="btn btn-danger submit-delete">Delete</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         <?php endforeach; ?>
     </div>
 

@@ -49,6 +49,7 @@
         return r.highlightOnScroll && (e(window).bind("scroll", h), h()), this.each(function () {
             var t = e("<ul/>");
             s.each(function (n, i) {
+                if (!$(this).is(":visible")) {return;}
                 var s = e(i);
                 o.push(s.offset().top - r.highlightOffset);
                 var u = e("<span/>").attr("id", r.anchorName(n, i, r.prefix)).insertBefore(s),

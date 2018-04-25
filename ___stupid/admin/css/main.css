@@ -7,6 +7,7 @@
 /*///////////////////////////////////////////////////////////////////////*/
 @import "./vendors/bootstrap.min.css";
 @import "./vendors/toaster.css";
+@import "./vendors/jquery.highlighttextarea.min.css";
 
 /*///////////////////////////////////////////////////////////////////////*/
 /* MAIN */
@@ -98,6 +99,14 @@ footer {
 /*///////////////////////////////////////////////////////////////////////*/
 /* FORMS */
 /*///////////////////////////////////////////////////////////////////////*/
+.page-container {
+    border:1px solid #ddd;
+    padding:25px;
+    margin:0 auto 30px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
 #scroll {
     display: none;
 }
@@ -147,8 +156,24 @@ textarea {
     max-height: 200px;
 }
 
-.admin-file-empty {
+.admin-file-empty, img.admin-file-empty, .page-container .admin-file-empty {
     display: none;
+}
+
+.page-container img {
+    margin:0 auto;
+    max-width: 95%;
+    display: block;
+}
+
+/*///////////////////////////////////////////////////////////////////////*/
+/* FILTER */
+/*///////////////////////////////////////////////////////////////////////*/
+.filter {
+    z-index:999;
+    position:fixed;
+    top:20px;
+    right:20px;
 }
 
 /*///////////////////////////////////////////////////////////////////////*/

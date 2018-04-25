@@ -61,6 +61,10 @@ if($saved)
     <div id="toc" data-headers="h2"></div>
 </div>
 
+<div id="contents-filter" class="filter">
+    <input type="text" placeholder="search ..." class="form-control"/>
+</div>
+
 <div class="container">
     <?php if($saved): ?>
         <div class="alert alert-success" role="alert"><?php echo $itemSaved ?> <strong>saved</strong> !</div>
@@ -68,39 +72,31 @@ if($saved)
 
     <?php ksort($contentsByPages); ?>
 
-    <nav class="contents">
-        <ul>
-            <?php foreach($contentsByPages as $contentPage => $contents) : ?>
-                <li><a href="#<?php echo $contentPage ?>"><?php echo $contentPage ?><sup><?php echo count($contents) ?></sup></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
-    <hr/>
-
     <?php foreach($contentsByPages as $contentPage => $contents) : ?>
+        <div class="content-page page-container">
+            <a name="<?php echo $contentPage ?>"></a>
+            <h2><?php echo $contentPage ?><!--<sup><?php echo count($contents) ?></sup>--></h2>
 
-        <a name="<?php echo $contentPage ?>"></a>
-        <h2><?php echo $contentPage ?></h2>
+            <?php foreach($contents as $content): ?>
+                <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($content["name"]); ?>
+                <?php createFileIfNotExists($contentFilePath) ?>
+                <div class="content">
+                    <a name="<?php echo $contentPage . "/" . $content["name"] ?>"></a>
+                    <h3><?php echo $content["name"] ?><?php if($content["count"] > 1): ?><sup><?php echo $content["count"] ?></sup><?php endif; ?></h3>
+                    <form method="post">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath) ?></textarea>
+                        </div>
+                        <input type="button" class="btn btn-default preview-modal" value="preview"/>
+                        <input type="hidden" name="item" value="<?php echo $content["name"] ?>"/>
+                        <input type="hidden" class="scroll" name="scroll" value="0"/>
+                        <input type="submit" name="<?php echo $content["name"] ?>" value="save" class="btn btn-primary submit"/>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+<!--            <hr/>-->
+        </div>
 
-        <?php foreach($contents as $content): ?>
-            <?php $contentFilePath = $stupidBackend->stupid->getContentFilePath($content["name"]); ?>
-            <?php createFileIfNotExists($contentFilePath) ?>
-            <div class="content">
-                <a name="<?php echo $contentPage . "/" . $content["name"] ?>"></a>
-                <h3><?php echo $content["name"] ?><?php if($content["count"] > 1): ?><sup><?php echo $content["count"] ?></sup><?php endif; ?></h3>
-                <form method="post">
-                    <div class="form-group">
-                        <textarea class="form-control" rows="1" name="content"><?php echo file_get_contents($contentFilePath) ?></textarea>
-                    </div>
-                    <input type="button" class="btn btn-default preview-modal" value="preview"/>
-                    <input type="hidden" name="item" value="<?php echo $content["name"] ?>"/>
-                    <input type="hidden" class="scroll" name="scroll" value="0"/>
-                    <input type="submit" name="<?php echo $content["name"] ?>" value="save" class="btn btn-primary submit"/>
-                </form>
-            </div>
-        <?php endforeach; ?>
-
-        <hr/>
     <?php endforeach; ?>
 
 </div>
