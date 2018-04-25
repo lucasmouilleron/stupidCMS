@@ -15,7 +15,7 @@ setDefaultConstantValueIfMissing("PAGES_EDITABLE", true);
 /////////////////////////////////////////////////////////////////////////////
 // GENERAL
 /////////////////////////////////////////////////////////////////////////////
-define("STUPID_NAME", "EraamCMS");
+define("STUPID_NAME", "stupidCMS");
 define("STUPID_VERSION", "1.2");
 define("CONTACT_EMAIL", "lucas.mouiilleron@me.com");
 define("README_FILE", __DIR__ . "/../../README.md");
