@@ -162,7 +162,7 @@ $(function () {
     // show save needed
     $(".content .submit, .page .submit").hide();
     $(".content textarea").on("keydown paste", function (e) {
-        if (e.keyCode !== undefined && (e.ctrlKey || e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40)) {return;}
+        if (e.keyCode !== undefined && (e.ctrlKey || e.keyCode === 16 || e.keyCode === 18 || e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 91)) {return;}
         $(this).closest("form").find(".submit").show();
         $(this).addClass("save-needed");
     });
