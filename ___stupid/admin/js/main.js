@@ -313,11 +313,13 @@ $(function () {
         var fileName = formElt.find("input[name='item']").val();
         var submitElt = formElt.find(".submit");
         var submitPrevValue = submitElt.val();
+        var fileElt = formElt.find("input[name='file']");
         $.LoadingOverlay("show", {image: "", fontawesome: "fa fa-circle-notch fa-spin", fontawesomeColor: "#ddd", fontawesomeResizeFactor: 0.4});
         var fd = new FormData();
-        fd.append("file", formElt.find("input[name='file']")[0].files[0]);
+        fd.append("file", fileElt[0].files[0]);
         fd.append("item", fileName);
         submitElt.val("Saving ...");
+        fileElt.val("");
         $.ajax({
             type: "POST",
             url: "/admin/admin-files-save",
@@ -355,7 +357,6 @@ $(function () {
     // show save needed
     $(".file .submit").hide();
     $(".file input:file").change(function (e) {
-
         if (e.target.files && e.target.files[0]) {
             var imgElt = $(this).closest("form").find("img");
             var linkElt = $(this).closest("form").find("a");
