@@ -1,9 +1,9 @@
 stupidCMS
 =========
 
-stupidCMS is a flat file stupid CMS with nice templating and caching engines.
+![Screenshot](http://grabs.lucasmouilleron.com/grab%202021-03-13%20at%2009.34.41.png)
 
-![Screenshot](http://grabs.lucasmouilleron.com/Screen%20Shot%202015-11-23%20at%2015.50.59.png)
+stupidCMS is a flat file stupid CMS with nice templating and caching engines.
 
 Install
 -------
