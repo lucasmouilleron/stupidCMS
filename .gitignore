@@ -1,4 +1,7 @@
 .DS_Store
 /__cache
 .idea
-*.iml.DS_Store
+*.iml
+.DS_Store
+
+.DS_Store
