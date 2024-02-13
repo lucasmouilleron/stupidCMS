@@ -102,7 +102,7 @@ $(function () {
         $.LoadingOverlay("show", {image: "", fontawesome: "fa fa-circle-notch fa-spin", fontawesomeColor: "#ddd", fontawesomeResizeFactor: 0.4});
         $.ajax({
             type: "POST",
-            url: "/admin/admin-contents-save",
+            url: "../admin/admin-contents-save",
             data: {item: contentName, content: textAreaElt.val()},
             dataType: "json",
             success: function (data) {
@@ -198,7 +198,7 @@ $(function () {
         $.LoadingOverlay("show", {image: "", fontawesome: "fa fa-circle-notch fa-spin", fontawesomeColor: "#ddd", fontawesomeResizeFactor: 0.4});
         $.ajax({
             type: "POST",
-            url: "/admin/admin-pages-save",
+            url: "../admin/admin-pages-save",
             data: {item: pageName, content: textAreaElt.val()},
             dataType: "json",
             success: function (data) {
@@ -276,7 +276,7 @@ $(function () {
         submitElt.val("Deleting ...");
         $.ajax({
             type: "POST",
-            url: "/admin/admin-files-save",
+            url: "../admin/admin-files-save",
             data: {item: fileName, delete: true},
             dataType: "json",
             success: function (data) {
@@ -322,7 +322,7 @@ $(function () {
         fileElt.val("");
         $.ajax({
             type: "POST",
-            url: "/admin/admin-files-save",
+            url: "../admin/admin-files-save",
             data: fd,
             dataType: "json",
             processData: false,
