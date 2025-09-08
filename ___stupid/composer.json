@@ -1,5 +1,5 @@
 {
-    "name": "stupidCMS",
+    "name": "haveidols/stupidcms",
     "require": {
         "michelf/php-markdown": "1.5.0",
         "predis/predis": "1.1.*@dev"
