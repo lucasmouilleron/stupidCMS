@@ -4,7 +4,18 @@
 require_once __DIR__ . "/vendors/autoload.php";
 require_once __DIR__ . "/vendors/Michelf/php-markdown/Michelf/Markdown.inc.php";
 
+/////////////////////////////////////////////////////////////////////////////
 use \Michelf\Markdown;
+use \Michelf\MarkdownExtra;
+
+///////////////////////////////////////////////////////////////////////////////
+class MyMarkdownExtra extends Michelf\MarkdownExtra
+{
+    protected function encodeEntityObfuscatedAttribute($text, &$tail = null, $head_length = 0)
+    {
+        return $text;
+    }
+}
 
 /////////////////////////////////////////////////////////////////////////////
 function getDirContents($dir, &$results = array(), $omittedFolders = array())
@@ -58,10 +69,13 @@ function endsWith($haystack, $needle)
     return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 function markdownToHTML($content)
 {
-    return Markdown::defaultTransform($content);
+//    return MarkdownExtra::defaultTransform($content);
+    $markdown = new MyMarkdownExtra();
+    return $markdown->transform($content);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -31,16 +31,18 @@ class Stupid
             $this->cacheEngine = new StupidCacheFile(SMTE_CACHE_FILE_PATH);
             $this->setDegubInfo("cacheEngine", "file");
         }
-//        else if(DEVELOPMENT_MODE)
-//        {
-//            $this->cacheEngine = new StupidCache();
-//            $this->setDegubInfo("cacheEngine", "none");
-//        }
         else
         {
             $this->cacheEngine = new StupidCache();
             $this->setDegubInfo("cacheEngine", "none");
         }
+        if(DEVELOPMENT_MODE)
+        {
+            $this->cacheEngine = new StupidCache();
+            $this->setDegubInfo("cacheEngine", "none");
+        }
+
+        $this->setDegubInfo("devMode", DEVELOPMENT_MODE);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -96,7 +98,7 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderDefinition($def)
+    function renderDefinition($def, $echo = true)
     {
         if(!defined($def))
         {
@@ -105,12 +107,12 @@ class Stupid
         }
         else
         {
-            return BEGIN_ECHO . $this->cleanRenderString(constant($def)) . END_ECHO;
+            return $this->wrapEcho($this->cleanRenderString(constant($def)), $echo);
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderInclusion($inclusionName, $noCache = false)
+    function renderInclusion($inclusionName, $renderTemplate = true, $noCache = false, $echo = true)
     {
         $inclusionPath = PAGES_PATH . "/" . $inclusionName . PAGES_EXTENSION;
         if(!file_exists($inclusionPath))
@@ -120,12 +122,15 @@ class Stupid
         }
         else
         {
-            return $this->renderSMTETemplate(file_get_contents($inclusionPath));
+            $c = file_get_contents($inclusionPath);
+            if($renderTemplate) $c = $this->renderSMTETemplate($c);
+            else $c = $this->renderNoTemplate($c, $echo);
+            return $c;
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderContent($contentName, $noCache = false)
+    function renderContent($contentName, $noCache = false, $echo = true)
     {
         if($noCache == false && $this->cacheEngine->isInCache(SMTE_CACHE_CONTENT_PREFIX . $contentName))
         {
@@ -152,7 +157,7 @@ class Stupid
                 {
                     $content = $this->defaultContentProcessing($content);
                 }
-                $contentRender = $this->renderSMTETemplate($content);
+                $contentRender = $this->renderSMTETemplate($content, $noCache, $echo);
                 $this->cacheEngine->setToCache(SMTE_CACHE_CONTENT_PREFIX . $contentName, $contentRender);
                 $this->setDegubInfo("contentCacheGenerated", $contentName);
                 return $contentRender;
@@ -161,7 +166,7 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function renderPage($page, $noCache = false)
+    function renderPage($page, $noCache = false, $echo = true)
     {
 
         if($noCache == false && $this->cacheEngine->isInCache($page))
@@ -188,7 +193,7 @@ class Stupid
                 }
             }
 
-            $pageRender = $this->renderSMTETemplate($content, $noCache);
+            $pageRender = $this->renderSMTETemplate($content, $noCache, $echo);
             $this->cacheEngine->setToCache($page, $pageRender);
             $this->setDegubInfo("pageCacheGenerated", $page);
             return $pageRender;
@@ -196,9 +201,9 @@ class Stupid
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    function renderFile($file)
+    function renderFile($file, $echo = true)
     {
-        return BEGIN_ECHO . $this->cleanRenderString(FILES_URL . "/" . $this->cleanFileName($file)) . END_ECHO;
+        return $this->wrapEcho($this->cleanRenderString(FILES_URL . "/" . $this->cleanFileName($file)), $echo);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -208,9 +213,9 @@ class Stupid
     }
 
     ///////////////////////////////////////////////////////////////////////////////
-    function __inc($inclusionName)
+    function __inc($inclusionName, $renderTemplate = true)
     {
-        eval($this->renderInclusion($inclusionName));
+        eval($this->renderInclusion($inclusionName, $renderTemplate));
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -395,41 +400,66 @@ class Stupid
         return nl2br($content);
     }
 
-
     ///////////////////////////////////////////////////////////////////////////////
-    function renderSMTETemplate($content, $noCache = false)
+    function renderNoTemplate($content, $echo = true)
     {
         $content = $this->cleanRenderString($content, '"');
-        $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) {
-            global $noCache;
+        return $this->wrapEcho($content, $echo);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function wrapEcho($str, $echoFlag)
+    {
+        return $echoFlag ? BEGIN_ECHO . $str . END_ECHO : $str;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function wrapEchoReversed($str, $echoFlag)
+    {
+        return $echoFlag ? END_ECHO . $str . BEGIN_ECHO : $str;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    function renderSMTETemplate($content, $noCache = false, $echo = true)
+    {
+        if($echo) $content = $this->cleanRenderString($content, '"');
+        $content = preg_replace_callback("/\{\{(.*)\}\}/U", function($matches) use ($noCache, $echo) {
             $result = $matches[1];
+
             if(startsWith($result, DEFINITION_TAG))
             {
-                $result = END_ECHO . $this->renderDefinition(substr($result, strlen(DEFINITION_TAG))) . BEGIN_ECHO;
+                $result = $this->wrapEchoReversed($this->renderDefinition(substr($result, strlen(DEFINITION_TAG)), $echo), $echo);
             }
-            if(startsWith($result, INCLUDE_TAG))
+            else if(startsWith($result, INCLUDE_TAG_NO_TEMPLATE))
             {
-                $result = END_ECHO . $this->renderInclusion(substr($result, strlen(INCLUDE_TAG)), $noCache) . BEGIN_ECHO;
+                $result = $this->wrapEchoReversed($this->renderInclusion(substr($result, strlen(INCLUDE_TAG_NO_TEMPLATE)), false, $noCache, $echo), $echo);
             }
-            if(startsWith($result, CONTENT_TAG))
+            else if(startsWith($result, INCLUDE_TAG))
             {
-                $result = END_ECHO . $this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache) . BEGIN_ECHO;
+                $result = $this->wrapEchoReversed($this->renderInclusion(substr($result, strlen(INCLUDE_TAG)), true, $noCache, $echo), $echo);
             }
-            if(startsWith($result, FILE_TAG))
+            else if(startsWith($result, CONTENT_TAG))
             {
-                $result = END_ECHO . $this->renderFile(substr($result, strlen(FILE_TAG))) . BEGIN_ECHO;
+                $result = $this->wrapEchoReversed($this->renderContent(substr($result, strlen(CONTENT_TAG)), $noCache, $echo), $echo);
             }
-            if(startsWith($result, IF_TAG))
+            else if(startsWith($result, FILE_TAG))
             {
-                $result = END_ECHO . "if (" . ($this->decleanRenderString(substr($result, strlen(IF_TAG)))) . "){" . BEGIN_ECHO;
+                $result = $this->wrapEchoReversed($this->renderFile(substr($result, strlen(FILE_TAG)), $echo), $echo);
             }
-            if(startsWith($result, END_IF_TAG))
+            else if(startsWith($result, IF_TAG))
             {
-                $result = END_ECHO . "};" . BEGIN_ECHO;
+                $code = "if (" . $this->decleanRenderString(substr($result, strlen(IF_TAG))) . "){";
+                $result = $this->wrapEchoReversed($code, $echo);
             }
+            else if(startsWith($result, END_IF_TAG))
+            {
+                $result = $this->wrapEchoReversed("};", $echo);
+            }
+
             return $result;
         }, $content);
-        return BEGIN_ECHO . $content . END_ECHO;
+
+        return $this->wrapEcho($content, $echo);
     }
 
 
